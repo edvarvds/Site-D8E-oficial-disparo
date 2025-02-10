@@ -79,6 +79,7 @@ export function DonationModal({ amount, onClose }: DonationModalProps) {
               expiresAt={paymentDetails.expiresAt}
               onSuccess={onClose}
               onError={handleError}
+              amount={amount}
             />
           )
         )}
