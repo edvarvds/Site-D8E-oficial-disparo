@@ -1,14 +1,15 @@
 import { useState } from "react";
+import { useLocation } from "wouter";
 import { Dialog } from "@/components/ui/dialog";
 import { DonationModal } from "@/components/donation-modal";
 
 export default function Home() {
+  const [_, navigate] = useLocation();
   const [selectedAmount, setSelectedAmount] = useState<number | null>(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   const handleDonate = (amount: number) => {
-    setSelectedAmount(amount);
-    setIsModalOpen(true);
+    navigate(`/checkout?amount=${amount}`);
   };
 
   const formatCurrency = (value: number) => {
@@ -244,13 +245,6 @@ export default function Home() {
           </div>
         </footer>
       </div>
-
-      <Dialog open={isModalOpen} onOpenChange={setIsModalOpen}>
-        <DonationModal 
-          amount={selectedAmount || 0}
-          onClose={() => setIsModalOpen(false)}
-        />
-      </Dialog>
     </>
   );
 }

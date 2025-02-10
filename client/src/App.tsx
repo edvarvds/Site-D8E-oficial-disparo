@@ -5,12 +5,14 @@ import { Toaster } from "@/components/ui/toaster";
 import NotFound from "@/pages/not-found";
 import Home from "@/pages/home";
 import ThankYou from "@/pages/thank-you";
+import Checkout from "@/pages/checkout";
 import Facebook from "@/components/Facebook";
 
 function Router() {
   return (
     <Switch>
       <Route path="/" component={Home} />
+      <Route path="/checkout" component={Checkout} />
       <Route path="/thank-you" component={ThankYou} />
       <Route component={NotFound} />
     </Switch>
