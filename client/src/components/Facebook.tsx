@@ -3,14 +3,8 @@ import { SHA256 } from "crypto-js";
 
 declare global {
   interface Window {
-    fbq: Function & {
-      callMethod?: Function;
-      queue?: any[];
-      loaded?: boolean;
-      version?: string;
-      push?: Function;
-    };
-    _fbq: Window['fbq'];
+    fbq: any; // Mantendo any para evitar problemas com a tipagem do Facebook
+    _fbq: any;
   }
 }
 
@@ -40,75 +34,86 @@ const hashData = (data: string): string => {
 
 // Initialize Facebook Pixel
 const initializeFacebookPixel = () => {
-  const f = window;
-  f.fbq = function(...args: any[]) {
-    if (f.fbq.callMethod) {
-      f.fbq.callMethod.apply(f.fbq, args);
-    } else {
-      f.fbq.queue.push(args);
+  try {
+    const f = window;
+    f.fbq = function() {
+      f.fbq.callMethod ? f.fbq.callMethod.apply(f.fbq, arguments) : f.fbq.queue.push(arguments);
+    };
+    if (!f._fbq) f._fbq = f.fbq;
+    f.fbq.push = f.fbq;
+    f.fbq.loaded = true;
+    f.fbq.version = '2.0';
+    f.fbq.queue = [];
+
+    const t = document.createElement('script');
+    t.async = true;
+    t.src = 'https://connect.facebook.net/en_US/fbevents.js';
+    const s = document.getElementsByTagName('script')[0];
+    if (s.parentNode) {
+      s.parentNode.insertBefore(t, s);
+      console.log("Facebook Pixel script adicionado.");
     }
-  };
-
-  if (!f._fbq) f._fbq = f.fbq;
-  f.fbq.push = f.fbq;
-  f.fbq.loaded = true;
-  f.fbq.version = '2.0';
-  f.fbq.queue = [];
-
-  const t = document.createElement('script');
-  t.async = true;
-  t.src = 'https://connect.facebook.net/en_US/fbevents.js';
-  const s = document.getElementsByTagName('script')[0];
-  s.parentNode?.insertBefore(t, s);
-  console.log("Facebook Pixel script adicionado.");
+  } catch (error) {
+    console.error("Erro ao inicializar Facebook Pixel:", error);
+  }
 };
 
 const Facebook: React.FC<FacebookProps> = ({ event, params }) => {
   useEffect(() => {
-    // Initialize Facebook Pixel
-    if (typeof window !== 'undefined' && !window.fbq) {
-      console.log("Inicializando Facebook Pixel...");
-      initializeFacebookPixel();
-      const pixelId = import.meta.env.VITE_FACEBOOK_PIXEL_ID || "";
-      console.log("Pixel ID: ", pixelId);
-      window.fbq("init", pixelId);
-      window.fbq("track", "PageView");
-      console.log("Evento PageView enviado.");
-    }
+    // Garantir que estamos no navegador
+    if (typeof window === 'undefined') return;
 
-    if (event && window.fbq) {
-      // Prepare tracking parameters
-      const trackingParams = {
-        ...params,
-        value: typeof params?.value === 'number' ? params.value : undefined,
-        currency: params?.currency || 'BRL',
-        content_type: params?.content_type || 'product',
-        content_ids: Array.isArray(params?.content_ids) ? params.content_ids : undefined,
-        transaction_id: params?.transaction_id
-      };
-
-      // Add user data if provided
-      if (params?.user_data) {
-        const { email, phone, name } = params.user_data;
-
-        // Add hashed user data parameters
-        Object.assign(trackingParams, {
-          external_id: email ? hashData(email) : undefined,
-          em: email ? hashData(email) : undefined,
-          ph: phone ? hashData(phone.replace(/\D/g, '')) : undefined,
-          fn: name ? hashData(name.split(' ')[0]) : undefined,
-          ln: name ? hashData(name.split(' ').slice(1).join(' ')) : undefined,
-          client_user_agent: navigator.userAgent,
-        });
+    try {
+      // Initialize Facebook Pixel
+      if (!window.fbq) {
+        console.log("Inicializando Facebook Pixel...");
+        initializeFacebookPixel();
+        const pixelId = import.meta.env.VITE_FACEBOOK_PIXEL_ID;
+        if (!pixelId) {
+          console.warn("Facebook Pixel ID não encontrado");
+          return;
+        }
+        window.fbq("init", pixelId);
+        window.fbq("track", "PageView");
+        console.log("Evento PageView enviado.");
       }
 
-      // Remove undefined values
-      const cleanParams = Object.fromEntries(
-        Object.entries(trackingParams).filter(([_, v]) => v !== undefined)
-      );
+      if (event && window.fbq) {
+        // Prepare tracking parameters
+        const trackingParams = {
+          ...params,
+          value: typeof params?.value === 'number' ? params.value : undefined,
+          currency: params?.currency || 'BRL',
+          content_type: params?.content_type || 'product',
+          content_ids: Array.isArray(params?.content_ids) ? params.content_ids : undefined,
+          transaction_id: params?.transaction_id
+        };
 
-      console.log("Enviando evento:", event, "com parâmetros:", cleanParams);
-      window.fbq("track", event, cleanParams);
+        // Add user data if provided
+        if (params?.user_data) {
+          const { email, phone, name } = params.user_data;
+
+          // Add hashed user data parameters
+          Object.assign(trackingParams, {
+            external_id: email ? hashData(email) : undefined,
+            em: email ? hashData(email) : undefined,
+            ph: phone ? hashData(phone.replace(/\D/g, '')) : undefined,
+            fn: name ? hashData(name.split(' ')[0]) : undefined,
+            ln: name ? hashData(name.split(' ').slice(1).join(' ')) : undefined,
+            client_user_agent: navigator.userAgent,
+          });
+        }
+
+        // Remove undefined values
+        const cleanParams = Object.fromEntries(
+          Object.entries(trackingParams).filter(([_, v]) => v !== undefined)
+        );
+
+        console.log("Enviando evento:", event, "com parâmetros:", cleanParams);
+        window.fbq("track", event, cleanParams);
+      }
+    } catch (error) {
+      console.error("Erro ao executar Facebook Pixel:", error);
     }
   }, [event, params]);
 
