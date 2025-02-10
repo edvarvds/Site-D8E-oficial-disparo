@@ -5,6 +5,13 @@ import { Progress } from "@/components/ui/progress";
 import { useEffect, useState } from "react";
 import Facebook from "@/components/Facebook";
 
+const formatCurrency = (value: number) => {
+  return value.toLocaleString('pt-BR', {
+    style: 'currency',
+    currency: 'BRL'
+  }).replace('R$', 'R$ ');
+};
+
 export default function ThankYou() {
   const [location] = useLocation();
   const searchParams = new URLSearchParams(window.location.search);
@@ -72,7 +79,7 @@ export default function ThankYou() {
             Que Gesto Incrível! 💚
           </h1>
           <p className="text-gray-600">
-            Sua doação de <span className="font-bold text-green-600">R$ {donationAmount.toFixed(2)}</span> já está fazendo a diferença
+            Sua doação de <span className="font-bold text-green-600">{formatCurrency(donationAmount)}</span> já está fazendo a diferença
           </p>
         </div>
 
@@ -80,12 +87,12 @@ export default function ThankYou() {
         <div className="bg-white p-4 rounded-lg shadow-sm border mb-6">
           <div className="flex justify-between text-sm text-gray-600 mb-2">
             <span>Progresso da campanha</span>
-            <span>Meta: R$ {goal.toLocaleString('pt-BR')}</span>
+            <span>Meta: {formatCurrency(goal)}</span>
           </div>
           <Progress value={percentageComplete} className="h-4 mb-2" />
           <div className="flex justify-between items-center">
             <div className="text-sm font-medium text-gray-900">
-              R$ {currentTotal.toLocaleString('pt-BR')}
+              {formatCurrency(currentTotal)}
             </div>
             <div className="text-sm font-medium text-green-600">
               {percentageComplete.toFixed(1)}%
