@@ -3,8 +3,14 @@ import { SHA256 } from "crypto-js";
 
 declare global {
   interface Window {
-    fbq: any;
-    _fbq: any;
+    fbq: Function & {
+      callMethod?: Function;
+      queue?: any[];
+      loaded?: boolean;
+      version?: string;
+      push?: Function;
+    };
+    _fbq: Window['fbq'];
   }
 }
 
@@ -35,14 +41,20 @@ const hashData = (data: string): string => {
 // Initialize Facebook Pixel
 const initializeFacebookPixel = () => {
   const f = window;
-  const n = f.fbq = function() {
-    n.callMethod ? n.callMethod.apply(n, arguments) : n.queue.push(arguments);
+  f.fbq = function(...args: any[]) {
+    if (f.fbq.callMethod) {
+      f.fbq.callMethod.apply(f.fbq, args);
+    } else {
+      f.fbq.queue.push(args);
+    }
   };
-  if (!f._fbq) f._fbq = n;
-  n.push = n;
-  n.loaded = true;
-  n.version = '2.0';
-  n.queue = [];
+
+  if (!f._fbq) f._fbq = f.fbq;
+  f.fbq.push = f.fbq;
+  f.fbq.loaded = true;
+  f.fbq.version = '2.0';
+  f.fbq.queue = [];
+
   const t = document.createElement('script');
   t.async = true;
   t.src = 'https://connect.facebook.net/en_US/fbevents.js';
