@@ -38,17 +38,17 @@ export function DonationModal({ amount, onClose }: DonationModalProps) {
   };
 
   return (
-    <DialogContent className="sm:max-w-[500px]">
-      <DialogHeader>
-        <div className="flex items-center justify-center mb-4">
-          <Heart className="w-8 h-8 text-red-500 animate-pulse" />
+    <DialogContent className="sm:max-w-[500px] max-h-[90vh] overflow-y-auto">
+      <DialogHeader className="space-y-2 pb-2">
+        <div className="flex items-center justify-center">
+          <Heart className="w-6 h-6 text-red-500 animate-pulse" />
         </div>
-        <DialogTitle className="text-center text-xl">
+        <DialogTitle className="text-center text-lg">
           {step === "form" 
             ? "Sua Doação Vai Mudar Vidas" 
             : "Transforme Esperança em Realidade"}
         </DialogTitle>
-        <p className="text-center text-gray-600 mt-2">
+        <p className="text-center text-sm text-gray-600">
           {step === "form"
             ? `R$ ${amount.toFixed(2)} podem garantir ${amount >= 300 
                 ? "2 semanas de alimentação" 
@@ -59,30 +59,30 @@ export function DonationModal({ amount, onClose }: DonationModalProps) {
         </p>
       </DialogHeader>
 
-      <div className="bg-green-50 p-4 rounded-lg mb-4">
-        <p className="text-sm text-green-800 text-center">
-          100% do valor será destinado para alimentação da família.
-        </p>
+      <div className="bg-green-50 p-2 rounded-lg text-xs text-green-800 text-center">
+        100% do valor será destinado para alimentação da família.
       </div>
 
-      {step === "form" ? (
-        <CheckoutForm
-          amount={amount}
-          onSuccess={handlePaymentCreated}
-          onError={handleError}
-        />
-      ) : (
-        paymentDetails && (
-          <PixDisplay
-            donationId={paymentDetails.donationId}
-            pixCode={paymentDetails.pixCode}
-            pixQrCode={paymentDetails.pixQrCode}
-            expiresAt={paymentDetails.expiresAt}
-            onSuccess={onClose}
+      <div className="py-2">
+        {step === "form" ? (
+          <CheckoutForm
+            amount={amount}
+            onSuccess={handlePaymentCreated}
             onError={handleError}
           />
-        )
-      )}
+        ) : (
+          paymentDetails && (
+            <PixDisplay
+              donationId={paymentDetails.donationId}
+              pixCode={paymentDetails.pixCode}
+              pixQrCode={paymentDetails.pixQrCode}
+              expiresAt={paymentDetails.expiresAt}
+              onSuccess={onClose}
+              onError={handleError}
+            />
+          )
+        )}
+      </div>
     </DialogContent>
   );
 }
