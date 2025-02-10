@@ -1,5 +1,4 @@
 import { useLocation } from "wouter";
-import { DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { CheckoutForm } from "@/components/checkout-form";
 import { PixDisplay } from "@/components/pix-display";
 import { useToast } from "@/hooks/use-toast";
@@ -65,15 +64,15 @@ export default function Checkout() {
       />
 
       <div className="max-w-md mx-auto bg-white min-h-screen p-6">
-        <DialogHeader className="space-y-2 pb-2">
+        <div className="space-y-2 pb-2">
           <div className="flex items-center justify-center">
             <Heart className="w-6 h-6 text-red-500 animate-pulse" />
           </div>
-          <DialogTitle className="text-center text-lg">
+          <h1 className="text-center text-lg font-semibold">
             {step === "form" 
               ? "Sua Doação Vai Mudar Vidas" 
               : "Transforme Esperança em Realidade"}
-          </DialogTitle>
+          </h1>
           <p className="text-center text-sm text-gray-600">
             {step === "form"
               ? `${formatCurrency(amount)} podem garantir ${amount >= 300 
@@ -83,7 +82,7 @@ export default function Checkout() {
                     : "refeições nutritivas"} para a família.`
               : "Estamos quase lá! Complete sua doação para ajudar imediatamente."}
           </p>
-        </DialogHeader>
+        </div>
 
         <div className="bg-green-50 p-2 rounded-lg text-xs text-green-800 text-center mt-4">
           100% do valor será destinado para alimentação da família.
