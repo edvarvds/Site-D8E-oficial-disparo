@@ -15,6 +15,10 @@ interface PixDisplayProps {
   onError: (message: string) => void;
 }
 
+interface PaymentStatus {
+  status: string;
+}
+
 export function PixDisplay({
   donationId,
   pixCode,
@@ -27,7 +31,7 @@ export function PixDisplay({
   const [timeLeft, setTimeLeft] = useState("");
   const { toast } = useToast();
 
-  const { data } = useQuery({
+  const { data } = useQuery<PaymentStatus>({
     queryKey: [`/api/donations/${donationId}/status`],
     refetchInterval: 5000
   });
