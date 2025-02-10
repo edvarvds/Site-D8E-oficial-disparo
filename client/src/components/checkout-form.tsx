@@ -37,7 +37,7 @@ export function CheckoutForm({ amount, onSuccess, onError }: CheckoutFormProps) 
 
   return (
     <Form {...form}>
-      <form onSubmit={form.handleSubmit((data) => mutate(data))} className="space-y-3">
+      <form onSubmit={form.handleSubmit((data) => mutate(data))} className="space-y-3 px-1">
         <FormField
           control={form.control}
           name="name"
@@ -47,8 +47,9 @@ export function CheckoutForm({ amount, onSuccess, onError }: CheckoutFormProps) 
               <FormControl>
                 <Input 
                   {...field} 
-                  className="h-9 border-gray-300 focus:border-green-500 focus:ring-green-500"
+                  className="h-10 border-gray-300 focus:border-green-500 focus:ring-green-500"
                   placeholder="Digite seu nome completo"
+                  autoComplete="name"
                 />
               </FormControl>
               <FormMessage className="text-xs" />
@@ -66,8 +67,9 @@ export function CheckoutForm({ amount, onSuccess, onError }: CheckoutFormProps) 
                 <Input 
                   type="email" 
                   {...field} 
-                  className="h-9 border-gray-300 focus:border-green-500 focus:ring-green-500"
+                  className="h-10 border-gray-300 focus:border-green-500 focus:ring-green-500"
                   placeholder="seu@email.com"
+                  autoComplete="email"
                 />
               </FormControl>
               <FormMessage className="text-xs" />
@@ -85,8 +87,9 @@ export function CheckoutForm({ amount, onSuccess, onError }: CheckoutFormProps) 
                 <FormControl>
                   <Input 
                     {...field} 
-                    className="h-9 border-gray-300 focus:border-green-500 focus:ring-green-500"
+                    className="h-10 border-gray-300 focus:border-green-500 focus:ring-green-500"
                     placeholder="000.000.000-00"
+                    inputMode="numeric"
                   />
                 </FormControl>
                 <FormMessage className="text-xs" />
@@ -103,8 +106,10 @@ export function CheckoutForm({ amount, onSuccess, onError }: CheckoutFormProps) 
                 <FormControl>
                   <Input 
                     {...field} 
-                    className="h-9 border-gray-300 focus:border-green-500 focus:ring-green-500"
+                    className="h-10 border-gray-300 focus:border-green-500 focus:ring-green-500"
                     placeholder="(00) 00000-0000"
+                    inputMode="tel"
+                    autoComplete="tel"
                   />
                 </FormControl>
                 <FormMessage className="text-xs" />
@@ -119,7 +124,7 @@ export function CheckoutForm({ amount, onSuccess, onError }: CheckoutFormProps) 
 
         <Button 
           type="submit" 
-          className="w-full bg-green-600 hover:bg-green-700 text-white font-semibold h-9"
+          className="w-full bg-green-600 hover:bg-green-700 text-white font-semibold h-10"
           disabled={isPending}
         >
           {isPending ? (
