@@ -13,7 +13,7 @@ interface PixDisplayProps {
   expiresAt: string;
   onSuccess: () => void;
   onError: (message: string) => void;
-  amount: number; // Adicionar prop amount
+  amount: number;
 }
 
 interface PaymentStatus {
@@ -46,17 +46,19 @@ export function PixDisplay({
         description: "Sua doação foi confirmada. Obrigado por ajudar esta família!",
         duration: 5000
       });
-      // Redirecionar para a página de agradecimento com o valor doado
       window.location.href = `/thank-you?amount=${amount}`;
       onSuccess();
     }
   }, [data?.status, onSuccess, toast, amount]);
 
   useEffect(() => {
-    const expiry = new Date(expiresAt);
+    // Forçar expiração em 10 minutos independente do expiresAt recebido
+    const now = new Date();
+    const tenMinutesFromNow = new Date(now.getTime() + 10 * 60 * 1000);
+
     const interval = setInterval(() => {
-      const now = new Date();
-      const diff = expiry.getTime() - now.getTime();
+      const currentTime = new Date();
+      const diff = tenMinutesFromNow.getTime() - currentTime.getTime();
 
       if (diff <= 0) {
         setTimeLeft("Expirado");
@@ -70,7 +72,7 @@ export function PixDisplay({
     }, 1000);
 
     return () => clearInterval(interval);
-  }, [expiresAt]);
+  }, []); // Removida dependência do expiresAt
 
   const handleCopy = async () => {
     try {
