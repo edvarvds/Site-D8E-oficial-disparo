@@ -3,6 +3,7 @@ import { Share2, Heart, Calendar, Package } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Progress } from "@/components/ui/progress";
 import { useEffect, useState } from "react";
+import Facebook from "@/components/Facebook";
 
 export default function ThankYou() {
   const [location] = useLocation();
@@ -51,6 +52,16 @@ export default function ThankYou() {
 
   return (
     <div className="min-h-screen bg-gray-50">
+      <Facebook 
+        event="Purchase"
+        params={{
+          content_category: "donation",
+          value: donationAmount,
+          currency: "BRL",
+          content_type: "donation",
+          transaction_id: searchParams.get("txid") || undefined
+        }}
+      />
       <div className="max-w-md mx-auto bg-white min-h-screen p-6">
         {/* Header com ícone de coração */}
         <div className="text-center mb-8">

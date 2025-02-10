@@ -5,6 +5,7 @@ import { Toaster } from "@/components/ui/toaster";
 import NotFound from "@/pages/not-found";
 import Home from "@/pages/home";
 import ThankYou from "@/pages/thank-you";
+import Facebook from "@/components/Facebook";
 
 function Router() {
   return (
@@ -19,6 +20,7 @@ function Router() {
 function App() {
   return (
     <QueryClientProvider client={queryClient}>
+      <Facebook /> {/* Adiciona o Facebook Pixel em todas as páginas */}
       <Router />
       <Toaster />
     </QueryClientProvider>
