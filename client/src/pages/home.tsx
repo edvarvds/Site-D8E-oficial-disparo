@@ -141,13 +141,13 @@ export default function Home() {
             <div className="space-y-4">
               {[
                 {
-                  name: "Maria Silva",
+                  name: "Pedro Santos",
                   avatar: "https://engenharia360.com/wp-content/uploads/2019/05/esta-pessoa-nao-existe-engenharia360-4.png.webp",
                   message: "Ninguém deveria passar fome. Estou doando o que posso para ajudar Francivaldo e seus filhos. Que Deus abençoe esta família!",
                   time: "2 min atrás"
                 },
                 {
-                  name: "Carlos Oliveira",
+                  name: "Patricia Garcia",
                   avatar: "https://newr7-r7-prod.web.arc-cdn.net/resizer/v2/ULBLSUYTUBJKJDD6LWYKCLLJAI.jpg?auth=6a31d59dc3e4b40f45d3da37623eefe4f5e811f94132e9fa5a106965cb2bae59&width=1024&height=1024",
                   message: "Como pai, isso parte meu coração. Francivaldo é um homem de valor. Doei e compartilhei. Vamos ajudar esta família! Juntos somos mais fortes.",
                   time: "15 min atrás"
@@ -159,7 +159,7 @@ export default function Home() {
                   time: "30 min atrás"
                 },
                 {
-                  name: "Pedro Santos",
+                  name: "Benedita Oliveira",
                   avatar: "https://newr7-r7-prod.web.arc-cdn.net/resizer/v2/3PEEVMRB75K53F3ADUTK25NDLA.jpg?auth=78d9120a6ae79cc9562dea70f18fb60dc1be47c75806f01abfcb20c105ea9477&width=1024&height=1024",
                   message: "É triste ver uma situação assim. Doei e espero que mais pessoas ajudem. Força, Francivaldo! Não desista, estamos com você nesta luta.",
                   time: "45 min atrás"
