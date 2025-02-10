@@ -77,14 +77,9 @@ export default function Home() {
           </p>
           <ul className="list-disc list-inside text-gray-700 mb-6">
             <li>R$ 30 = Café da manhã nutritivo e almoço para toda família</li>
-            <li>R$ 50 = Cesta básica emergencial com itens essenciais</li>
-            <li>R$ 70 = 3 dias de alimentação completa e nutritiva</li>
             <li>R$ 100 = Uma semana de refeições balanceadas e esperança renovada</li>
-            <li>R$ 150 = 10 dias de alimentação + produtos de higiene básica</li>
-            <li>R$ 200 = Abastecimento completo da despensa por 12 dias</li>
             <li>R$ 300 = 2 semanas de dignidade e segurança alimentar garantida</li>
             <li>R$ 500 = 3 semanas de tranquilidade e força para recomeçar</li>
-            <li>R$ 750 = 1 mês de alimentação completa e chance de transformação</li>
             <li>R$ 950 = Suporte alimentar integral por 40 dias + oportunidade de mudança</li>
           </ul>
 
@@ -111,11 +106,13 @@ export default function Home() {
             Escolha Seu Nível de Impacto - Cada Doação é Um Milagre!
           </p>
           <div className="grid grid-cols-2 gap-4 mb-6">
-            {[30, 40, 50, 70, 100, 150, 200, 300, 500, 750, 950].map((amount) => (
+            {[30, 100, 300, 500, 950].map((amount) => (
               <button
                 key={amount}
                 onClick={() => handleDonate(amount)}
-                className="bg-green-500 text-white py-3 rounded-lg text-lg font-bold hover:bg-green-600 transition duration-300 transform hover:scale-105 text-center"
+                className={`bg-green-500 text-white py-3 rounded-lg text-lg font-bold hover:bg-green-600 transition duration-300 transform hover:scale-105 text-center ${
+                  amount === 950 ? 'col-span-2' : ''
+                }`}
               >
                 R$ {amount.toFixed(2)}
               </button>
