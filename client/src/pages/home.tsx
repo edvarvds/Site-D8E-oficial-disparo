@@ -149,7 +149,7 @@ export default function Home() {
                 {
                   name: "Patricia Garcia",
                   avatar: "https://newr7-r7-prod.web.arc-cdn.net/resizer/v2/ULBLSUYTUBJKJDD6LWYKCLLJAI.jpg?auth=6a31d59dc3e4b40f45d3da37623eefe4f5e811f94132e9fa5a106965cb2bae59&width=1024&height=1024",
-                  message: "Como pai, isso parte meu coração. Francivaldo é um homem de valor. Doei e compartilhei. Vamos ajudar esta família! Juntos somos mais fortes.",
+                  message: "Isso parte meu coração. Francivaldo é um homem de valor. Doei e compartilhei. Vamos ajudar esta família! Juntos somos mais fortes.",
                   time: "15 min atrás"
                 },
                 {
