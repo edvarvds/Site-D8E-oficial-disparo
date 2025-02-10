@@ -52,7 +52,6 @@ export function PixDisplay({
   }, [data?.status, onSuccess, toast, amount]);
 
   useEffect(() => {
-    // Forçar expiração em 10 minutos independente do expiresAt recebido
     const now = new Date();
     const tenMinutesFromNow = new Date(now.getTime() + 10 * 60 * 1000);
 
@@ -72,7 +71,7 @@ export function PixDisplay({
     }, 1000);
 
     return () => clearInterval(interval);
-  }, []); // Removida dependência do expiresAt
+  }, []);
 
   const handleCopy = async () => {
     try {
@@ -89,69 +88,85 @@ export function PixDisplay({
   };
 
   return (
-    <div className="space-y-3">
-      <div className="flex items-center justify-center gap-2 text-xs font-medium bg-yellow-50 text-yellow-800 px-3 py-1.5 rounded">
+    <div className="space-y-4">
+      {/* Timer */}
+      <div className="flex items-center justify-center gap-2 text-sm font-medium bg-yellow-50 text-yellow-800 px-4 py-2 rounded">
         <Timer className="h-4 w-4" />
         <span>Tempo restante: {timeLeft}</span>
       </div>
 
-      <div className="bg-gray-50 p-4 rounded flex flex-col items-center">
-        <div className="mb-2 text-center">
-          <Heart className="h-5 w-5 text-red-500 mb-1 mx-auto" />
-          <p className="text-xs text-gray-600">
-            Escaneie o QR Code ou copie o código PIX
+      {/* QR Code Section */}
+      <div className="bg-gray-50 p-6 rounded-lg flex flex-col items-center">
+        <div className="mb-3 text-center">
+          <Heart className="h-6 w-6 text-red-500 mb-2 mx-auto" />
+          <p className="text-sm text-gray-600">
+            Escaneie o QR Code ou use o código PIX abaixo
           </p>
         </div>
 
         {!qrError ? (
           <QRCodeSVG
             value={pixCode}
-            size={160}
+            size={200}
             onError={() => setQrError(true)}
             level="M"
-            className="border-4 border-white shadow rounded"
+            className="border-8 border-white shadow-lg rounded-lg mb-4"
           />
         ) : (
-          <div className="text-xs text-red-500 bg-red-50 p-3 rounded">
+          <div className="text-sm text-red-500 bg-red-50 p-4 rounded-lg">
             Erro ao gerar QR Code. Use o código PIX abaixo.
           </div>
         )}
       </div>
 
-      <div className="relative">
-        <Input
-          value={pixCode}
-          readOnly
-          className="pr-16 font-mono text-xs h-8 bg-gray-50"
-        />
-        <Button
-          size="sm"
-          variant="ghost"
-          className="absolute right-1 top-1 h-6 hover:bg-green-50"
-          onClick={handleCopy}
-        >
-          {copied ? (
-            <Check className="h-3 w-3 text-green-600" />
-          ) : (
-            <Copy className="h-3 w-3 text-gray-600" />
-          )}
-        </Button>
+      {/* PIX Code Section */}
+      <div className="bg-white border rounded-lg p-4">
+        <div className="mb-2">
+          <label className="text-sm font-medium text-gray-700">
+            Código PIX
+          </label>
+        </div>
+        <div className="space-y-2">
+          <Input
+            value={pixCode}
+            readOnly
+            className="font-mono text-sm bg-gray-50 cursor-text"
+          />
+          <Button
+            onClick={handleCopy}
+            className="w-full bg-green-600 hover:bg-green-700 text-white"
+            size="lg"
+          >
+            {copied ? (
+              <>
+                <Check className="h-5 w-5 mr-2" />
+                Copiado!
+              </>
+            ) : (
+              <>
+                <Copy className="h-5 w-5 mr-2" />
+                Copiar Código PIX
+              </>
+            )}
+          </Button>
+        </div>
       </div>
 
-      <div className="bg-green-50 p-3 rounded text-xs">
-        <h3 className="font-semibold text-green-800 mb-1.5">Como doar:</h3>
-        <ol className="text-green-700 space-y-1">
-          <li className="flex items-start gap-1.5">
+      {/* Instructions */}
+      <div className="bg-green-50 p-4 rounded-lg">
+        <h3 className="font-semibold text-green-800 mb-2 text-sm">Como doar:</h3>
+        <ol className="text-sm text-green-700 space-y-2">
+          <li className="flex items-start gap-2">
             <span className="font-bold">1.</span>
             <span>Abra o app do seu banco</span>
           </li>
-          <li className="flex items-start gap-1.5">
+          <li className="flex items-start gap-2">
             <span className="font-bold">2.</span>
-            <span>Escaneie o QR Code ou copie e cole o código PIX</span>
+            <span>Escolha a opção "PIX" e selecione "Copia e Cola"</span>
           </li>
-          <li className="flex items-start gap-1.5">
+          <li className="flex items-start gap-2">
             <span className="font-bold">3.</span>
-            <span>Confirme os dados e finalize a doação</span>
+            <span>Cole o código PIX que você copiou e confirme a doação</span>
           </li>
         </ol>
       </div>
