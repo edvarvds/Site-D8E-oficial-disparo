@@ -142,31 +142,35 @@ export default function Home() {
               {[
                 {
                   name: "Maria Silva",
-                  avatar: "https://replicate.delivery/xezq/6fMV49qTDBSei0xIsfaEJ9t3NBL2INsjwlwZPtDgeeX3s6nhC/out-0.png",
+                  avatar: "https://engenharia360.com/wp-content/uploads/2019/05/esta-pessoa-nao-existe-engenharia360-4.png.webp",
                   message: "Ninguém deveria passar fome. Estou doando o que posso para ajudar Francivaldo e seus filhos. Que Deus abençoe esta família!",
                   time: "2 min atrás"
                 },
                 {
                   name: "Carlos Oliveira",
-                  avatar: "https://replicate.delivery/xezq/D56zWbq2tk5eGqkBLi3zdG90UHPQLZfyXP2URqf2JWWMrezQB/out-0.png",
+                  avatar: "https://newr7-r7-prod.web.arc-cdn.net/resizer/v2/ULBLSUYTUBJKJDD6LWYKCLLJAI.jpg?auth=6a31d59dc3e4b40f45d3da37623eefe4f5e811f94132e9fa5a106965cb2bae59&width=1024&height=1024",
                   message: "Como pai, isso parte meu coração. Francivaldo é um homem de valor. Doei e compartilhei. Vamos ajudar esta família! Juntos somos mais fortes.",
                   time: "15 min atrás"
                 },
                 {
                   name: "Ana Beatriz",
-                  avatar: "https://replicate.delivery/xezq/fezb185f3BUJ1oN690ewHWObY8pKkUDUK6rEbbCnmTkbW9zQB/out-0.png",
+                  avatar: "https://newr7-r7-prod.web.arc-cdn.net/resizer/v2/ZVZDZNC3OZO53LGDQ5PGI537UA.jpg?auth=7dd70ca49702d2c1c667781a8635d728994029ccdf29fb263b50d86d504f0c60&width=1024&height=1024",
                   message: "Que Deus abençoe Francivaldo e seus filhos. Acabei de fazer minha doação. Juntos podemos fazer a diferença! Não podemos ficar indiferentes a esta situação.",
                   time: "30 min atrás"
                 },
                 {
                   name: "Pedro Santos",
-                  avatar: "https://replicate.delivery/xezq/xt57uEiPeNTYd6GAfDvGm1dkBEVBMaNhXin9ixmf9VuNrezQB/out-0.png",
+                  avatar: "https://newr7-r7-prod.web.arc-cdn.net/resizer/v2/3PEEVMRB75K53F3ADUTK25NDLA.jpg?auth=78d9120a6ae79cc9562dea70f18fb60dc1be47c75806f01abfcb20c105ea9477&width=1024&height=1024",
                   message: "É triste ver uma situação assim. Doei e espero que mais pessoas ajudem. Força, Francivaldo! Não desista, estamos com você nesta luta.",
                   time: "45 min atrás"
                 }
               ].map((comment, index) => (
                 <div key={index} className="flex items-start space-x-3 bg-gray-50 p-4 rounded-lg">
-                  <img src={comment.avatar} alt={`Profile picture of ${comment.name}`} className="w-12 h-12 rounded-full" />
+                  <img 
+                    src={comment.avatar} 
+                    alt={`Profile picture of ${comment.name}`} 
+                    className="w-12 h-12 rounded-full object-cover"
+                  />
                   <div>
                     <p className="font-bold text-blue-600">{comment.name}</p>
                     <p className="text-gray-700 mt-1">{comment.message}</p>
