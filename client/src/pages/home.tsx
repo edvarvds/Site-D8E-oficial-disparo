@@ -76,9 +76,16 @@ export default function Home() {
             Sua doação não é apenas dinheiro - é esperança, é vida, é um futuro para estas crianças inocentes. Cada centavo conta nesta batalha contra a fome:
           </p>
           <ul className="list-disc list-inside text-gray-700 mb-6">
-            <li>R$30 = Alimentos nutritivos para 1 dia</li>
-            <li>R$100 = Uma semana de refeições balanceadas</li>
-            <li>R$300 = Garantia de alimentação por 2 semanas inteiras</li>
+            <li>R$ 30 = Café da manhã nutritivo e almoço para toda família</li>
+            <li>R$ 50 = Cesta básica emergencial com itens essenciais</li>
+            <li>R$ 70 = 3 dias de alimentação completa e nutritiva</li>
+            <li>R$ 100 = Uma semana de refeições balanceadas e esperança renovada</li>
+            <li>R$ 150 = 10 dias de alimentação + produtos de higiene básica</li>
+            <li>R$ 200 = Abastecimento completo da despensa por 12 dias</li>
+            <li>R$ 300 = 2 semanas de dignidade e segurança alimentar garantida</li>
+            <li>R$ 500 = 3 semanas de tranquilidade e força para recomeçar</li>
+            <li>R$ 750 = 1 mês de alimentação completa e chance de transformação</li>
+            <li>R$ 950 = Suporte alimentar integral por 40 dias + oportunidade de mudança</li>
           </ul>
 
           {/* Progress Bar */}
