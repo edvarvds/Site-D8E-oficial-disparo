@@ -1,4 +1,6 @@
 import { donations, type Donation, type InsertDonation } from "@shared/schema";
+import { db } from "./db";
+import { eq } from "drizzle-orm";
 
 export interface IStorage {
   createDonation(donation: InsertDonation): Promise<Donation>;
@@ -6,47 +8,36 @@ export interface IStorage {
   getDonation(id: number): Promise<Donation | undefined>;
 }
 
-export class MemStorage implements IStorage {
-  private donations: Map<number, Donation>;
-  private currentId: number;
-
-  constructor() {
-    this.donations = new Map();
-    this.currentId = 1;
-  }
-
+export class DatabaseStorage implements IStorage {
   async createDonation(insertDonation: InsertDonation): Promise<Donation> {
-    const id = this.currentId++;
-    const donation: Donation = {
-      ...insertDonation,
-      id,
-      status: "pending",
-      paymentId: null,
-      createdAt: new Date()
-    };
-    this.donations.set(id, donation);
+    const [donation] = await db
+      .insert(donations)
+      .values(insertDonation)
+      .returning();
     return donation;
   }
 
   async updateDonationStatus(id: number, status: string, paymentId?: string): Promise<Donation> {
-    const donation = await this.getDonation(id);
+    const [donation] = await db
+      .update(donations)
+      .set({ status, paymentId })
+      .where(eq(donations.id, id))
+      .returning();
+
     if (!donation) {
       throw new Error("Donation not found");
     }
-    
-    const updatedDonation = {
-      ...donation,
-      status,
-      paymentId: paymentId || donation.paymentId
-    };
-    
-    this.donations.set(id, updatedDonation);
-    return updatedDonation;
+
+    return donation;
   }
 
   async getDonation(id: number): Promise<Donation | undefined> {
-    return this.donations.get(id);
+    const [donation] = await db
+      .select()
+      .from(donations)
+      .where(eq(donations.id, id));
+    return donation;
   }
 }
 
-export const storage = new MemStorage();
+export const storage = new DatabaseStorage();

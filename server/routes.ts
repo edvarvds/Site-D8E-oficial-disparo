@@ -2,9 +2,9 @@ import type { Express } from "express";
 import { createServer, type Server } from "http";
 import { storage } from "./storage";
 import { insertDonationSchema } from "@shared/schema";
-import { For4PaymentsAPI } from "./for4payments";
+import { create_payment_api } from "@shared/for4payments";
 
-const paymentApi = new For4PaymentsAPI(process.env.FOR4PAYMENTS_SECRET_KEY || "");
+const paymentApi = create_payment_api();
 
 export function registerRoutes(app: Express): Server {
   app.post("/api/donations", async (req, res) => {
