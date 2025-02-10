@@ -147,7 +147,7 @@ export function PixDisplay({
           </li>
           <li className="flex items-start gap-1.5">
             <span className="font-bold">2.</span>
-            <span>Escaneie o QR Code ou copie o código PIX</span>
+            <span>Escaneie o QR Code ou copie e cole o código PIX</span>
           </li>
           <li className="flex items-start gap-1.5">
             <span className="font-bold">3.</span>
