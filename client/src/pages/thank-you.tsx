@@ -2,17 +2,44 @@ import { useLocation } from "wouter";
 import { Share2, Heart, Calendar, Package } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Progress } from "@/components/ui/progress";
+import { useEffect, useState } from "react";
 
 export default function ThankYou() {
   const [location] = useLocation();
-  const searchParams = new URLSearchParams(location.split('?')[1]);
+  const searchParams = new URLSearchParams(window.location.search);
   const donationAmount = Number(searchParams.get("amount") || 0);
 
   // Valores fixos da campanha (podem ser dinâmicos via API no futuro)
   const previousTotal = 3105;
   const goal = 11500;
-  const newTotal = previousTotal + donationAmount;
-  const percentageComplete = Math.min((newTotal / goal) * 100, 100);
+  const [currentTotal, setCurrentTotal] = useState(previousTotal);
+  const [percentageComplete, setPercentageComplete] = useState((previousTotal / goal) * 100);
+
+  useEffect(() => {
+    // Animar o progresso após o componente montar
+    const timer = setTimeout(() => {
+      const newTotal = previousTotal + donationAmount;
+      const duration = 1000; // 1 segundo
+      const steps = 60; // 60 frames para a animação
+      const increment = (newTotal - previousTotal) / steps;
+      let current = previousTotal;
+      let frame = 0;
+
+      const animate = () => {
+        if (frame < steps) {
+          current += increment;
+          setCurrentTotal(current);
+          setPercentageComplete((current / goal) * 100);
+          frame++;
+          requestAnimationFrame(animate);
+        }
+      };
+
+      animate();
+    }, 500); // Pequeno delay para o efeito visual
+
+    return () => clearTimeout(timer);
+  }, [donationAmount]);
 
   const handleShare = () => {
     const message = encodeURIComponent(
@@ -34,7 +61,7 @@ export default function ThankYou() {
             Que Gesto Incrível! 💚
           </h1>
           <p className="text-gray-600">
-            Sua doação de R$ {donationAmount.toFixed(2)} já está fazendo a diferença
+            Sua doação de <span className="font-bold text-green-600">R$ {donationAmount.toFixed(2)}</span> já está fazendo a diferença
           </p>
         </div>
 
@@ -47,7 +74,7 @@ export default function ThankYou() {
           <Progress value={percentageComplete} className="h-4 mb-2" />
           <div className="flex justify-between items-center">
             <div className="text-sm font-medium text-gray-900">
-              R$ {newTotal.toLocaleString('pt-BR')}
+              R$ {currentTotal.toLocaleString('pt-BR')}
             </div>
             <div className="text-sm font-medium text-green-600">
               {percentageComplete.toFixed(1)}%
