@@ -29,6 +29,7 @@ export function PixDisplay({
 }: PixDisplayProps) {
   const [copied, setCopied] = useState(false);
   const [timeLeft, setTimeLeft] = useState("");
+  const [qrError, setQrError] = useState(false);
   const { toast } = useToast();
 
   const { data } = useQuery<PaymentStatus>({
@@ -86,7 +87,18 @@ export function PixDisplay({
         </div>
 
         <div className="bg-gray-50 p-4 rounded-lg flex justify-center mb-4">
-          <QRCodeSVG value={pixQrCode} size={200} />
+          {!qrError ? (
+            <QRCodeSVG 
+              value={pixCode} 
+              size={200}
+              onError={() => setQrError(true)}
+              level="M"
+            />
+          ) : (
+            <div className="text-sm text-red-500">
+              Erro ao gerar QR Code. Use o código PIX abaixo.
+            </div>
+          )}
         </div>
 
         <div className="relative">
