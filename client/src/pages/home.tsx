@@ -84,7 +84,7 @@ export default function Home() {
             Sua doação não é apenas dinheiro - é esperança, é vida, é um futuro para estas crianças inocentes. Cada centavo conta nesta batalha contra a fome:
           </p>
           <ul className="list-disc list-inside text-gray-700 mb-6">
-            <li>R$ 30 = Café da manhã nutritivo e almoço para toda família</li>
+            <li>R$ 30 = Café da manhã nutritivo e almoço para uma pessoa</li>
             <li>R$ 100 = Uma semana de refeições balanceadas e esperança renovada</li>
             <li>R$ 300 = 2 semanas de dignidade e segurança alimentar garantida</li>
             <li>R$ 500 = 3 semanas de tranquilidade e força para recomeçar</li>

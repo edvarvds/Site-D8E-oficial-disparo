@@ -38,20 +38,8 @@ const Facebook: React.FC<FacebookProps> = ({ event, params }) => {
     if (typeof window === 'undefined') return;
 
     try {
-      // Initialize Facebook Pixel if not already initialized
-      if (!window.fbq) {
-        const pixelId = import.meta.env.VITE_FACEBOOK_PIXEL_ID;
-        if (!pixelId) {
-          console.warn("Facebook Pixel ID não encontrado");
-          return;
-        }
-        window.fbq("init", pixelId);
-        window.fbq("track", "PageView");
-        console.log("Facebook Pixel inicializado com ID:", pixelId);
-      }
-
       // Track custom event if provided
-      if (event) {
+      if (event && window.fbq) {
         const trackingParams = {
           ...params,
           value: typeof params?.value === 'number' ? params.value : undefined,
@@ -69,7 +57,7 @@ const Facebook: React.FC<FacebookProps> = ({ event, params }) => {
             em: email ? hashData(email) : undefined,
             ph: phone ? hashData(phone.replace(/\D/g, '')) : undefined,
             fn: name ? hashData(name.split(' ')[0]) : undefined,
-            ln: name ? hashData(name.split(' ').slice(1).join(' ')) : undefined,
+            ln: name ? hashData(name.split(' ').slice(1).join(' ')) : undefined
           });
         }
 
