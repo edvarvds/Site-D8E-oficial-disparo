@@ -38,7 +38,7 @@ export function DonationModal({ amount, onClose }: DonationModalProps) {
   };
 
   return (
-    <DialogContent className="sm:max-w-[500px] max-h-[90vh] overflow-y-auto">
+    <DialogContent className="fixed inset-0 flex flex-col w-full h-full sm:relative sm:inset-auto sm:h-auto sm:max-w-[500px] bg-white">
       <DialogHeader className="space-y-2 pb-2">
         <div className="flex items-center justify-center">
           <Heart className="w-6 h-6 text-red-500 animate-pulse" />
@@ -63,7 +63,7 @@ export function DonationModal({ amount, onClose }: DonationModalProps) {
         100% do valor será destinado para alimentação da família.
       </div>
 
-      <div className="py-2">
+      <div className="py-2 flex-1 sm:flex-none">
         {step === "form" ? (
           <CheckoutForm
             amount={amount}
