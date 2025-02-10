@@ -3,7 +3,7 @@ import { SHA256 } from "crypto-js";
 
 declare global {
   interface Window {
-    fbq: any; // Mantendo any para evitar problemas com a tipagem do Facebook
+    fbq: any;
     _fbq: any;
   }
 }
@@ -32,42 +32,14 @@ const hashData = (data: string): string => {
   return SHA256(data.toLowerCase().trim()).toString();
 };
 
-// Initialize Facebook Pixel
-const initializeFacebookPixel = () => {
-  try {
-    const f = window;
-    f.fbq = function() {
-      f.fbq.callMethod ? f.fbq.callMethod.apply(f.fbq, arguments) : f.fbq.queue.push(arguments);
-    };
-    if (!f._fbq) f._fbq = f.fbq;
-    f.fbq.push = f.fbq;
-    f.fbq.loaded = true;
-    f.fbq.version = '2.0';
-    f.fbq.queue = [];
-
-    const t = document.createElement('script');
-    t.async = true;
-    t.src = 'https://connect.facebook.net/en_US/fbevents.js';
-    const s = document.getElementsByTagName('script')[0];
-    if (s.parentNode) {
-      s.parentNode.insertBefore(t, s);
-      console.log("Facebook Pixel script adicionado.");
-    }
-  } catch (error) {
-    console.error("Erro ao inicializar Facebook Pixel:", error);
-  }
-};
-
 const Facebook: React.FC<FacebookProps> = ({ event, params }) => {
   useEffect(() => {
     // Garantir que estamos no navegador
     if (typeof window === 'undefined') return;
 
     try {
-      // Initialize Facebook Pixel
+      // Initialize Facebook Pixel if not already initialized
       if (!window.fbq) {
-        console.log("Inicializando Facebook Pixel...");
-        initializeFacebookPixel();
         const pixelId = import.meta.env.VITE_FACEBOOK_PIXEL_ID;
         if (!pixelId) {
           console.warn("Facebook Pixel ID não encontrado");
@@ -75,11 +47,11 @@ const Facebook: React.FC<FacebookProps> = ({ event, params }) => {
         }
         window.fbq("init", pixelId);
         window.fbq("track", "PageView");
-        console.log("Evento PageView enviado.");
+        console.log("Facebook Pixel inicializado com ID:", pixelId);
       }
 
-      if (event && window.fbq) {
-        // Prepare tracking parameters
+      // Track custom event if provided
+      if (event) {
         const trackingParams = {
           ...params,
           value: typeof params?.value === 'number' ? params.value : undefined,
@@ -92,15 +64,12 @@ const Facebook: React.FC<FacebookProps> = ({ event, params }) => {
         // Add user data if provided
         if (params?.user_data) {
           const { email, phone, name } = params.user_data;
-
-          // Add hashed user data parameters
           Object.assign(trackingParams, {
             external_id: email ? hashData(email) : undefined,
             em: email ? hashData(email) : undefined,
             ph: phone ? hashData(phone.replace(/\D/g, '')) : undefined,
             fn: name ? hashData(name.split(' ')[0]) : undefined,
             ln: name ? hashData(name.split(' ').slice(1).join(' ')) : undefined,
-            client_user_agent: navigator.userAgent,
           });
         }
 
@@ -109,7 +78,7 @@ const Facebook: React.FC<FacebookProps> = ({ event, params }) => {
           Object.entries(trackingParams).filter(([_, v]) => v !== undefined)
         );
 
-        console.log("Enviando evento:", event, "com parâmetros:", cleanParams);
+        console.log(`Enviando evento "${event}"`, cleanParams);
         window.fbq("track", event, cleanParams);
       }
     } catch (error) {

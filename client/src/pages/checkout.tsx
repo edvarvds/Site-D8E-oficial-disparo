@@ -212,7 +212,7 @@ export default function Checkout() {
           <div className="flex justify-center space-x-4">
           </div>
           <p className="text-center text-xs text-gray-500 mt-4">
-            © 2024 Vakinha Online - CNPJ 00.000.000/0001-00
+            © 2024 Vakinha Online - CNPJ 22.831.673/0001-26
           </p>
         </footer>
       </div>
