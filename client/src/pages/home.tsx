@@ -11,6 +11,13 @@ export default function Home() {
     setIsModalOpen(true);
   };
 
+  const formatCurrency = (value: number) => {
+    return value.toLocaleString('pt-BR', {
+      style: 'currency',
+      currency: 'BRL'
+    }).replace('R$', 'R$ ');
+  };
+
   return (
     <>
       <div className="max-w-md mx-auto bg-white min-h-screen">
@@ -90,13 +97,13 @@ export default function Home() {
                 Progresso: <span className="text-green-600">27%</span>
               </span>
               <span className="text-sm font-semibold text-gray-700">
-                Meta: <span className="text-green-600">R$ 11.500,00</span>
+                Meta: <span className="text-green-600">{formatCurrency(11500)}</span>
               </span>
             </div>
             <div className="relative bg-gray-200 h-4 rounded-full overflow-hidden">
               <div className="absolute top-0 left-0 h-full bg-green-600" style={{ width: "27%" }}></div>
               <span className="absolute top-0 left-2 text-xs font-semibold text-white h-full flex items-center">
-                R$ 3.105,00
+                {formatCurrency(3105)}
               </span>
             </div>
           </div>
@@ -114,7 +121,7 @@ export default function Home() {
                   amount === 950 ? 'col-span-2' : ''
                 }`}
               >
-                R$ {amount.toFixed(2)}
+                {formatCurrency(amount)}
               </button>
             ))}
           </div>

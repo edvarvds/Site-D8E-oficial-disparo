@@ -20,6 +20,13 @@ interface PaymentDetails {
   expiresAt: string;
 }
 
+const formatCurrency = (value: number) => {
+  return value.toLocaleString('pt-BR', {
+    style: 'currency',
+    currency: 'BRL'
+  }).replace('R$', 'R$ ');
+};
+
 export function DonationModal({ amount, onClose }: DonationModalProps) {
   const [step, setStep] = useState<ModalStep>("form");
   const [paymentDetails, setPaymentDetails] = useState<PaymentDetails | null>(null);
@@ -60,7 +67,7 @@ export function DonationModal({ amount, onClose }: DonationModalProps) {
         </DialogTitle>
         <p className="text-center text-sm text-gray-600">
           {step === "form"
-            ? `R$ ${amount.toFixed(2)} podem garantir ${amount >= 300 
+            ? `${formatCurrency(amount)} podem garantir ${amount >= 300 
                 ? "2 semanas de alimentação" 
                 : amount >= 100 
                   ? "uma semana de refeições" 
