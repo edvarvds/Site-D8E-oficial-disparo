@@ -6,6 +6,7 @@ import { Button } from "@/components/ui/button";
 import { insertDonationSchema, type InsertDonation } from "@shared/schema";
 import { useMutation } from "@tanstack/react-query";
 import { apiRequest } from "@/lib/queryClient";
+import { Loader2 } from "lucide-react";
 
 interface CheckoutFormProps {
   amount: number;
@@ -31,7 +32,7 @@ export function CheckoutForm({ amount, onSuccess, onError }: CheckoutFormProps) 
       return res.json();
     },
     onSuccess,
-    onError: () => onError("Falha ao processar doação. Tente novamente.")
+    onError: () => onError("Não foi possível processar sua doação. Por favor, tente novamente.")
   });
 
   return (
@@ -42,9 +43,13 @@ export function CheckoutForm({ amount, onSuccess, onError }: CheckoutFormProps) 
           name="name"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Nome Completo</FormLabel>
+              <FormLabel className="text-gray-700">Nome Completo</FormLabel>
               <FormControl>
-                <Input {...field} />
+                <Input 
+                  {...field} 
+                  className="border-gray-300 focus:border-green-500 focus:ring-green-500"
+                  placeholder="Digite seu nome completo"
+                />
               </FormControl>
               <FormMessage />
             </FormItem>
@@ -56,9 +61,14 @@ export function CheckoutForm({ amount, onSuccess, onError }: CheckoutFormProps) 
           name="email"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Email</FormLabel>
+              <FormLabel className="text-gray-700">Email</FormLabel>
               <FormControl>
-                <Input type="email" {...field} />
+                <Input 
+                  type="email" 
+                  {...field} 
+                  className="border-gray-300 focus:border-green-500 focus:ring-green-500"
+                  placeholder="seu@email.com"
+                />
               </FormControl>
               <FormMessage />
             </FormItem>
@@ -70,9 +80,13 @@ export function CheckoutForm({ amount, onSuccess, onError }: CheckoutFormProps) 
           name="cpf"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>CPF</FormLabel>
+              <FormLabel className="text-gray-700">CPF</FormLabel>
               <FormControl>
-                <Input {...field} />
+                <Input 
+                  {...field} 
+                  className="border-gray-300 focus:border-green-500 focus:ring-green-500"
+                  placeholder="000.000.000-00"
+                />
               </FormControl>
               <FormMessage />
             </FormItem>
@@ -84,17 +98,36 @@ export function CheckoutForm({ amount, onSuccess, onError }: CheckoutFormProps) 
           name="phone"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Telefone</FormLabel>
+              <FormLabel className="text-gray-700">Telefone</FormLabel>
               <FormControl>
-                <Input {...field} />
+                <Input 
+                  {...field} 
+                  className="border-gray-300 focus:border-green-500 focus:ring-green-500"
+                  placeholder="(00) 00000-0000"
+                />
               </FormControl>
               <FormMessage />
             </FormItem>
           )}
         />
 
-        <Button type="submit" className="w-full" disabled={isPending}>
-          {isPending ? "Processando..." : "Continuar"}
+        <div className="bg-yellow-50 p-4 rounded-lg text-sm text-yellow-800">
+          <p>💡 Suas informações são necessárias para garantir a segurança e transparência da doação.</p>
+        </div>
+
+        <Button 
+          type="submit" 
+          className="w-full bg-green-600 hover:bg-green-700 text-white font-semibold py-3"
+          disabled={isPending}
+        >
+          {isPending ? (
+            <>
+              <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+              Processando...
+            </>
+          ) : (
+            "Continuar com a Doação"
+          )}
         </Button>
       </form>
     </Form>
