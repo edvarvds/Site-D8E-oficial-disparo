@@ -50,6 +50,37 @@ export default function Home() {
             </button>
           </div>
 
+          {/* Problem Statement */}
+          <h2 className="text-2xl font-bold mb-4 text-gray-800">
+            A Realidade Cruel de Uma Família à Beira do Colapso
+          </h2>
+          <p className="text-gray-700 mb-6">
+            Imagine o som devastador do choro de uma criança faminta ecoando em uma casa vazia. Para Francivaldo, este não é um pesadelo - é sua realidade diária. Com quatro filhos pequenos e nenhuma renda, ele enfrenta o desafio mais doloroso que um pai pode enfrentar: ver seus filhos definharem de fome diante de seus olhos.
+          </p>
+
+          {/* Emotional Appeal */}
+          <div className="bg-yellow-100 border-l-4 border-yellow-500 p-4 mb-6">
+            <p className="text-sm text-yellow-700">
+              <strong>A situação é crítica:</strong><br/>
+              • A geladeira está vazia há semanas<br/>
+              • As crianças não têm uma refeição completa há dias<br/>
+              • Francivaldo sacrifica suas próprias refeições, mas não é suficiente
+            </p>
+          </div>
+
+          {/* Solution and Call to Action */}
+          <h2 className="text-2xl font-bold mb-4 text-green-600">
+            Você Pode Ser o Herói Que Esta Família Precisa!
+          </h2>
+          <p className="text-gray-700 mb-6">
+            Sua doação não é apenas dinheiro - é esperança, é vida, é um futuro para estas crianças inocentes. Cada centavo conta nesta batalha contra a fome:
+          </p>
+          <ul className="list-disc list-inside text-gray-700 mb-6">
+            <li>R$30 = Alimentos nutritivos para 1 dia</li>
+            <li>R$100 = Uma semana de refeições balanceadas</li>
+            <li>R$300 = Garantia de alimentação por 2 semanas inteiras</li>
+          </ul>
+
           {/* Progress Bar */}
           <div className="mb-6">
             <div className="flex justify-between items-center mb-2">
@@ -83,7 +114,120 @@ export default function Home() {
               </button>
             ))}
           </div>
+
+          {/* Testimonial */}
+          <div className="bg-gray-100 p-4 rounded-lg mb-6">
+            <p className="text-gray-700 italic mb-2">
+              "Nunca pensei que chegaria a este ponto. Ver meus filhos dormirem com fome parte meu coração em mil pedaços. Sua ajuda não é apenas comida, é esperança para continuarmos lutando."
+            </p>
+            <p className="text-right text-gray-600 font-bold">
+              - Francivaldo, pai lutador
+            </p>
+          </div>
+
+          {/* Social Proof */}
+          <h2 className="text-xl font-bold mb-4 text-gray-800">
+            Junte-se a Centenas de Heróis Anônimos
+          </h2>
+          <p className="text-gray-700 mb-6">
+            Mais de 150 pessoas já se uniram a esta causa. Cada doação, não importa o tamanho, está fazendo a diferença. Seja parte desta onda de solidariedade e ajude a escrever um final feliz para esta história.
+          </p>
+
+          {/* Comments Section */}
+          <div className="mt-8">
+            <h2 className="text-2xl font-bold mb-4 text-gray-800">
+              Mensagens de Apoio (4 recentes)
+            </h2>
+            <div className="space-y-4">
+              {[
+                {
+                  name: "Maria Silva",
+                  avatar: "https://replicate.delivery/xezq/6fMV49qTDBSei0xIsfaEJ9t3NBL2INsjwlwZPtDgeeX3s6nhC/out-0.png",
+                  message: "Ninguém deveria passar fome. Estou doando o que posso para ajudar Francivaldo e seus filhos. Que Deus abençoe esta família!",
+                  time: "2 min atrás"
+                },
+                {
+                  name: "Carlos Oliveira",
+                  avatar: "https://replicate.delivery/xezq/D56zWbq2tk5eGqkBLi3zdG90UHPQLZfyXP2URqf2JWWMrezQB/out-0.png",
+                  message: "Como pai, isso parte meu coração. Francivaldo é um homem de valor. Doei e compartilhei. Vamos ajudar esta família! Juntos somos mais fortes.",
+                  time: "15 min atrás"
+                },
+                {
+                  name: "Ana Beatriz",
+                  avatar: "https://replicate.delivery/xezq/fezb185f3BUJ1oN690ewHWObY8pKkUDUK6rEbbCnmTkbW9zQB/out-0.png",
+                  message: "Que Deus abençoe Francivaldo e seus filhos. Acabei de fazer minha doação. Juntos podemos fazer a diferença! Não podemos ficar indiferentes a esta situação.",
+                  time: "30 min atrás"
+                },
+                {
+                  name: "Pedro Santos",
+                  avatar: "https://replicate.delivery/xezq/xt57uEiPeNTYd6GAfDvGm1dkBEVBMaNhXin9ixmf9VuNrezQB/out-0.png",
+                  message: "É triste ver uma situação assim. Doei e espero que mais pessoas ajudem. Força, Francivaldo! Não desista, estamos com você nesta luta.",
+                  time: "45 min atrás"
+                }
+              ].map((comment, index) => (
+                <div key={index} className="flex items-start space-x-3 bg-gray-50 p-4 rounded-lg">
+                  <img src={comment.avatar} alt={`Profile picture of ${comment.name}`} className="w-12 h-12 rounded-full" />
+                  <div>
+                    <p className="font-bold text-blue-600">{comment.name}</p>
+                    <p className="text-gray-700 mt-1">{comment.message}</p>
+                    <div className="flex items-center text-sm text-gray-500 mt-2">
+                      <button className="mr-4 hover:text-blue-600">Responder</button>
+                      <button className="mr-4 hover:text-red-600">
+                        <i className="far fa-heart mr-1"></i>Curtir
+                      </button>
+                      <span>{comment.time}</span>
+                    </div>
+                  </div>
+                </div>
+              ))}
+            </div>
+            <p className="text-center text-gray-600 mt-6 font-semibold">
+              Faça login para deixar uma mensagem de apoio e se juntar a esta corrente do bem.
+            </p>
+          </div>
         </main>
+
+        {/* Footer */}
+        <footer className="bg-gray-900 text-white p-6">
+          <div className="mb-6">
+            <img src="https://i.postimg.cc/TP138NvP/Design-sem-nome-3.png" alt="Vakinha Online Logo" className="h-8" />
+          </div>
+          <div className="mb-6">
+            <h3 className="text-green-500 mb-2 font-bold">Links Rápidos</h3>
+            <ul className="space-y-2 text-sm">
+              {[
+                "Quem somos", "Vaquinhas", "Criar vaquinhas", "Login",
+                "Vaquinhas mais amadas", "Política de privacidade", "Termos de uso",
+                "Dúvidas frequentes", "Taxas e prazos", "Fale conosco",
+                "Loja da Vakinha", "Vakinha Premiada", "Blog da Vakinha"
+              ].map((link, index) => (
+                <li key={index}>
+                  <a href="#" className="hover:text-green-400">{link}</a>
+                </li>
+              ))}
+            </ul>
+          </div>
+          <div className="mb-6">
+            <h3 className="text-green-500 mb-2 font-bold">Fale conosco</h3>
+            <p className="text-sm">51 3000-0099</p>
+            <p className="text-sm">De Segunda - Sexta</p>
+            <p className="text-sm">Das 9h30 às 17h</p>
+          </div>
+          <div>
+            <h3 className="text-green-500 mb-2 font-bold">Baixe nosso App</h3>
+            <div className="space-y-2">
+              <a href="#" className="flex items-center bg-gray-800 text-white px-4 py-2 rounded hover:bg-gray-700 transition duration-300">
+                <i className="fab fa-google-play mr-2"></i>Google Play
+              </a>
+              <a href="#" className="flex items-center bg-gray-800 text-white px-4 py-2 rounded hover:bg-gray-700 transition duration-300">
+                <i className="fab fa-apple mr-2"></i>App Store
+              </a>
+            </div>
+          </div>
+          <div className="mt-8 text-sm text-gray-400 border-t border-gray-700 pt-6">
+            © 2024 Vakinha Online - Todos direitos reservados
+          </div>
+        </footer>
       </div>
 
       <Dialog open={isModalOpen} onOpenChange={setIsModalOpen}>
