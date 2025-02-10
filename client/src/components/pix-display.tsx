@@ -13,6 +13,7 @@ interface PixDisplayProps {
   expiresAt: string;
   onSuccess: () => void;
   onError: (message: string) => void;
+  amount: number; // Adicionar prop amount
 }
 
 interface PaymentStatus {
@@ -25,7 +26,8 @@ export function PixDisplay({
   pixQrCode,
   expiresAt,
   onSuccess,
-  onError
+  onError,
+  amount
 }: PixDisplayProps) {
   const [copied, setCopied] = useState(false);
   const [timeLeft, setTimeLeft] = useState("");
@@ -44,9 +46,11 @@ export function PixDisplay({
         description: "Sua doação foi confirmada. Obrigado por ajudar esta família!",
         duration: 5000
       });
+      // Redirecionar para a página de agradecimento com o valor doado
+      window.location.href = `/thank-you?amount=${amount}`;
       onSuccess();
     }
-  }, [data?.status, onSuccess, toast]);
+  }, [data?.status, onSuccess, toast, amount]);
 
   useEffect(() => {
     const expiry = new Date(expiresAt);
@@ -98,8 +102,8 @@ export function PixDisplay({
         </div>
 
         {!qrError ? (
-          <QRCodeSVG 
-            value={pixCode} 
+          <QRCodeSVG
+            value={pixCode}
             size={160}
             onError={() => setQrError(true)}
             level="M"
