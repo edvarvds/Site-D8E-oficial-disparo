@@ -37,21 +37,21 @@ export function CheckoutForm({ amount, onSuccess, onError }: CheckoutFormProps) 
 
   return (
     <Form {...form}>
-      <form onSubmit={form.handleSubmit((data) => mutate(data))} className="space-y-4">
+      <form onSubmit={form.handleSubmit((data) => mutate(data))} className="space-y-3">
         <FormField
           control={form.control}
           name="name"
           render={({ field }) => (
             <FormItem>
-              <FormLabel className="text-gray-700">Nome Completo</FormLabel>
+              <FormLabel className="text-sm text-gray-700">Nome Completo</FormLabel>
               <FormControl>
                 <Input 
                   {...field} 
-                  className="border-gray-300 focus:border-green-500 focus:ring-green-500"
+                  className="h-9 border-gray-300 focus:border-green-500 focus:ring-green-500"
                   placeholder="Digite seu nome completo"
                 />
               </FormControl>
-              <FormMessage />
+              <FormMessage className="text-xs" />
             </FormItem>
           )}
         />
@@ -61,63 +61,65 @@ export function CheckoutForm({ amount, onSuccess, onError }: CheckoutFormProps) 
           name="email"
           render={({ field }) => (
             <FormItem>
-              <FormLabel className="text-gray-700">Email</FormLabel>
+              <FormLabel className="text-sm text-gray-700">Email</FormLabel>
               <FormControl>
                 <Input 
                   type="email" 
                   {...field} 
-                  className="border-gray-300 focus:border-green-500 focus:ring-green-500"
+                  className="h-9 border-gray-300 focus:border-green-500 focus:ring-green-500"
                   placeholder="seu@email.com"
                 />
               </FormControl>
-              <FormMessage />
+              <FormMessage className="text-xs" />
             </FormItem>
           )}
         />
 
-        <FormField
-          control={form.control}
-          name="cpf"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel className="text-gray-700">CPF</FormLabel>
-              <FormControl>
-                <Input 
-                  {...field} 
-                  className="border-gray-300 focus:border-green-500 focus:ring-green-500"
-                  placeholder="000.000.000-00"
-                />
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
+        <div className="grid grid-cols-2 gap-3">
+          <FormField
+            control={form.control}
+            name="cpf"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel className="text-sm text-gray-700">CPF</FormLabel>
+                <FormControl>
+                  <Input 
+                    {...field} 
+                    className="h-9 border-gray-300 focus:border-green-500 focus:ring-green-500"
+                    placeholder="000.000.000-00"
+                  />
+                </FormControl>
+                <FormMessage className="text-xs" />
+              </FormItem>
+            )}
+          />
 
-        <FormField
-          control={form.control}
-          name="phone"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel className="text-gray-700">Telefone</FormLabel>
-              <FormControl>
-                <Input 
-                  {...field} 
-                  className="border-gray-300 focus:border-green-500 focus:ring-green-500"
-                  placeholder="(00) 00000-0000"
-                />
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
+          <FormField
+            control={form.control}
+            name="phone"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel className="text-sm text-gray-700">Telefone</FormLabel>
+                <FormControl>
+                  <Input 
+                    {...field} 
+                    className="h-9 border-gray-300 focus:border-green-500 focus:ring-green-500"
+                    placeholder="(00) 00000-0000"
+                  />
+                </FormControl>
+                <FormMessage className="text-xs" />
+              </FormItem>
+            )}
+          />
+        </div>
 
-        <div className="bg-yellow-50 p-4 rounded-lg text-sm text-yellow-800">
-          <p>💡 Suas informações são necessárias para garantir a segurança e transparência da doação.</p>
+        <div className="bg-yellow-50 p-2 rounded text-xs text-yellow-800">
+          💡 Suas informações são necessárias para garantir a segurança e transparência da doação.
         </div>
 
         <Button 
           type="submit" 
-          className="w-full bg-green-600 hover:bg-green-700 text-white font-semibold py-3"
+          className="w-full bg-green-600 hover:bg-green-700 text-white font-semibold h-9"
           disabled={isPending}
         >
           {isPending ? (
