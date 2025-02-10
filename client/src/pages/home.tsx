@@ -106,7 +106,7 @@ export default function Home() {
             Escolha Seu Nível de Impacto - Cada Doação é Um Milagre!
           </p>
           <div className="grid grid-cols-2 gap-4 mb-6">
-            {[30, 100, 300, 500, 950].map((amount) => (
+            {[30, 40, 50, 70, 100, 150, 200, 300, 500, 750, 950].map((amount) => (
               <button
                 key={amount}
                 onClick={() => handleDonate(amount)}
