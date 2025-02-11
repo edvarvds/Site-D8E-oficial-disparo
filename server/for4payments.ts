@@ -20,11 +20,14 @@ export class For4PaymentsAPI {
 
   constructor(secretKey: string) {
     this.secretKey = secretKey;
+    if (!secretKey) {
+      console.error("[For4Payments] Chave da API não configurada!");
+    }
   }
 
   private getHeaders(): Record<string, string> {
     return {
-      'Authorization': this.secretKey,
+      'Authorization': `Bearer ${this.secretKey}`,
       'Content-Type': 'application/json',
       'Accept': 'application/json'
     };
@@ -32,11 +35,17 @@ export class For4PaymentsAPI {
 
   async create_pix_payment(data: PaymentData): Promise<PaymentResponse> {
     try {
+      console.log("[For4Payments] Iniciando criação de pagamento PIX");
+
+      if (!this.secretKey) {
+        throw new Error("API de pagamento não configurada corretamente");
+      }
+
       const amountInCents = Math.round(data.amount * 100);
       const cleanPhone = data.phone.replace(/\D/g, '');
 
       if (!data.name || !data.email || !data.cpf || !data.phone) {
-        console.error("[For4Payments] Missing required fields:", { data });
+        console.error("[For4Payments] Campos obrigatórios faltando:", { data });
         throw new Error("Campos obrigatórios faltando");
       }
 
@@ -55,7 +64,7 @@ export class For4PaymentsAPI {
         }]
       };
 
-      console.log("[For4Payments] Sending payment request:", JSON.stringify(paymentData, null, 2));
+      console.log("[For4Payments] Enviando requisição:", JSON.stringify(paymentData, null, 2));
 
       const response = await fetch(`${this.API_URL}/transaction.purchase`, {
         method: 'POST',
@@ -63,13 +72,25 @@ export class For4PaymentsAPI {
         body: JSON.stringify(paymentData)
       });
 
+      const responseText = await response.text();
+      console.log("[For4Payments] Resposta bruta da API:", responseText);
+
       if (!response.ok) {
-        const errorText = await response.text();
-        console.error("[For4Payments] Error response:", errorText);
+        console.error("[For4Payments] Erro na resposta:", {
+          status: response.status,
+          statusText: response.statusText,
+          response: responseText
+        });
         throw new Error(`Erro na API de pagamento (${response.status}): ${response.statusText}`);
       }
 
-      const responseData = await response.json();
+      const responseData = JSON.parse(responseText);
+      console.log("[For4Payments] Resposta processada:", responseData);
+
+      if (!responseData.pixCode) {
+        throw new Error("API de pagamento retornou resposta inválida");
+      }
+
       return {
         id: responseData.id,
         pixCode: responseData.pixCode,
@@ -78,13 +99,15 @@ export class For4PaymentsAPI {
         status: responseData.status || 'pending'
       };
     } catch (error) {
-      console.error("[For4Payments] Error:", error);
+      console.error("[For4Payments] Erro detalhado:", error);
       throw error;
     }
   }
 
   async check_payment_status(payment_id: string): Promise<{ status: string }> {
     try {
+      console.log("[For4Payments] Verificando status do pagamento:", payment_id);
+
       const url = new URL(`${this.API_URL}/transaction.getPayment`);
       url.searchParams.append('id', payment_id);
 
@@ -93,9 +116,12 @@ export class For4PaymentsAPI {
         headers: this.getHeaders()
       });
 
+      const responseText = await response.text();
+      console.log("[For4Payments] Resposta da verificação:", responseText);
+
       if (response.ok) {
-        const payment_data = await response.json();
-        
+        const payment_data = JSON.parse(responseText);
+
         const status_mapping: Record<string, string> = {
           'PENDING': 'pending',
           'PROCESSING': 'pending',
@@ -109,13 +135,24 @@ export class For4PaymentsAPI {
         };
 
         const current_status = payment_data.status || 'PENDING';
-        return { status: status_mapping[current_status] || 'pending' };
+        const mapped_status = status_mapping[current_status] || 'pending';
+
+        console.log("[For4Payments] Status mapeado:", {
+          original: current_status,
+          mapped: mapped_status
+        });
+
+        return { status: mapped_status };
       } else {
-        console.error("[For4Payments] Error checking status:", response.statusText);
+        console.error("[For4Payments] Erro ao verificar status:", {
+          status: response.status,
+          statusText: response.statusText,
+          response: responseText
+        });
         return { status: 'pending' };
       }
     } catch (error) {
-      console.error("[For4Payments] Error checking payment status:", error);
+      console.error("[For4Payments] Erro ao verificar status do pagamento:", error);
       return { status: 'pending' };
     }
   }
@@ -123,5 +160,8 @@ export class For4PaymentsAPI {
 
 export function create_payment_api(): For4PaymentsAPI {
   const secret_key = process.env.FOR4PAYMENTS_SECRET_KEY || "";
+  if (!secret_key) {
+    console.warn("[For4Payments] Atenção: FOR4PAYMENTS_SECRET_KEY não está definida!");
+  }
   return new For4PaymentsAPI(secret_key);
 }
