@@ -62,6 +62,15 @@ export default function Checkout() {
         }}
       />
 
+      {/* Banner Message */}
+      <div className="bg-blue-50 border-b border-blue-100">
+        <div className="max-w-3xl mx-auto py-3 px-4 text-center">
+          <p className="text-blue-800 font-medium text-sm">
+            Você foi um escolhido(a) de Deus para ajudar na missão de cuidar desta Família
+          </p>
+        </div>
+      </div>
+
       {/* Header com Logo */}
       <header className="border-b bg-white shadow-sm">
         <div className="max-w-md mx-auto p-4">
@@ -81,7 +90,7 @@ export default function Checkout() {
           </div>
           <h1 className="text-center text-xl font-bold text-gray-900">
             {step === "form" 
-              ? "Sua Doação Vai Mudar Vidas" 
+              ? "Sua doação transformará vidas" 
               : "Transforme Esperança em Realidade"}
           </h1>
           <p className="text-center text-sm text-gray-600">
@@ -90,7 +99,7 @@ export default function Checkout() {
                   ? "2 semanas de alimentação" 
                   : amount >= 100 
                     ? "uma semana de refeições" 
-                    : "refeições nutritivas"} para a família.`
+                    : "refeições nutritivas"} para eles.`
               : "Estamos quase lá! Complete sua doação para ajudar imediatamente."}
           </p>
         </div>
