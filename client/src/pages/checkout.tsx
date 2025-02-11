@@ -112,10 +112,10 @@ export default function Checkout() {
           <p className="text-center text-sm text-gray-600">
             {step === "form"
               ? `${formatCurrency(amount)} podem garantir ${amount >= 300 
-                  ? "2 semanas de alimentação" 
+                  ? "alimentação por 2 semanas inteiras" 
                   : amount >= 100 
-                    ? "uma semana de refeições" 
-                    : "refeições nutritivas"} para a família.`
+                    ? "uma semana de refeições balanceadas" 
+                    : "alimentos nutritivos para 1 dia"} para a família.`
               : "Estamos quase lá! Complete sua doação para ajudar imediatamente."}
           </p>
         </div>
