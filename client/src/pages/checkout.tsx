@@ -2,7 +2,7 @@ import { useLocation } from "wouter";
 import { CheckoutForm } from "@/components/checkout-form";
 import { PixDisplay } from "@/components/pix-display";
 import { useToast } from "@/hooks/use-toast";
-import { Heart, Shield, Lock, CheckCircle2, Clock, ArrowRight } from "lucide-react";
+import { Heart, Shield, Lock, CheckCircle2, Clock } from "lucide-react";
 import { useState } from "react";
 import Facebook from "@/components/Facebook";
 
@@ -74,31 +74,6 @@ export default function Checkout() {
       </header>
 
       <div className="max-w-md mx-auto bg-white min-h-screen p-6">
-        {/* Progresso do Checkout */}
-        <div className="flex justify-between items-center mb-8 relative">
-          <div className="absolute left-0 right-0 top-4 h-0.5 bg-gray-200">
-            <div className={`h-full bg-green-600 transition-all duration-500 ${step === "form" ? "w-1/2" : "w-full"}`} />
-          </div>
-          <div className="relative z-10 flex flex-col items-center">
-            <div className="w-8 h-8 rounded-full bg-green-600 text-white flex items-center justify-center text-sm">
-              1
-            </div>
-            <span className="text-xs mt-1 font-medium">Dados</span>
-          </div>
-          <div className="relative z-10 flex flex-col items-center">
-            <div className={`w-8 h-8 rounded-full flex items-center justify-center text-sm ${step === "pix" ? "bg-green-600 text-white" : "bg-gray-200 text-gray-500"}`}>
-              2
-            </div>
-            <span className="text-xs mt-1 font-medium">Pagamento</span>
-          </div>
-          <div className="relative z-10 flex flex-col items-center">
-            <div className="w-8 h-8 rounded-full bg-gray-200 text-gray-500 flex items-center justify-center text-sm">
-              3
-            </div>
-            <span className="text-xs mt-1 font-medium">Confirmação</span>
-          </div>
-        </div>
-
         {/* Cabeçalho */}
         <div className="space-y-2 pb-2">
           <div className="flex items-center justify-center">
@@ -133,24 +108,6 @@ export default function Checkout() {
           <div className="flex flex-col items-center text-center">
             <CheckCircle2 className="h-6 w-6 text-green-600 mb-1" />
             <span className="text-xs font-medium text-gray-700">Site Verificado</span>
-          </div>
-        </div>
-
-        {/* Benefícios */}
-        <div className="space-y-3 mb-6">
-          <h2 className="text-sm font-semibold text-gray-900">Por que doar com a Vakinha Online?</h2>
-          <div className="space-y-2">
-            {[
-              "Plataforma líder em doações sociais no Brasil",
-              "Mais de 1 milhão de doadores confiam em nós",
-              "100% do valor é destinado para a causa",
-              "Processo transparente e seguro"
-            ].map((benefit, index) => (
-              <div key={index} className="flex items-center gap-2">
-                <CheckCircle2 className="h-4 w-4 text-green-600 flex-shrink-0" />
-                <span className="text-xs text-gray-600">{benefit}</span>
-              </div>
-            ))}
           </div>
         </div>
 
