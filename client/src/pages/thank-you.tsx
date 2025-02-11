@@ -109,10 +109,10 @@ export default function ThankYou() {
             </h3>
             <p className="text-green-700 text-xs">
               {donationAmount >= 300 
-                ? "Garantia de alimentação por 2 semanas inteiras" 
+                ? "2 semanas de alimentação" 
                 : donationAmount >= 100 
-                  ? "Uma semana de refeições balanceadas" 
-                  : "Alimentos nutritivos para 1 dia"}
+                  ? "1 semana de refeições" 
+                  : "Dias de refeições nutritivas"}
             </p>
           </div>
           <div className="bg-blue-50 p-4 rounded-lg">
