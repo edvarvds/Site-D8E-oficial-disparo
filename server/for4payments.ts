@@ -57,7 +57,7 @@ export class For4PaymentsAPI {
         paymentMethod: "PIX",
         amount: amountInCents,
         items: [{
-          title: "Doação",
+          title: "Método 10k em 90 dias",
           quantity: 1,
           unitPrice: amountInCents,
           tangible: false
