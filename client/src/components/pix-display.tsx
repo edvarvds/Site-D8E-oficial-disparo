@@ -6,6 +6,7 @@ import { QRCodeSVG } from "qrcode.react";
 import { Check, Copy, Timer, Heart, CheckCircle2 } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import { Progress } from "@/components/ui/progress";
+import Facebook from "./Facebook";
 
 interface PixDisplayProps {
   donationId: number;
@@ -34,6 +35,7 @@ export function PixDisplay({
   const [timeLeft, setTimeLeft] = useState("");
   const [qrError, setQrError] = useState(false);
   const { toast } = useToast();
+  const [hasTrackedPurchase, setHasTrackedPurchase] = useState(false);
 
   const { data } = useQuery<PaymentStatus>({
     queryKey: [`/api/donations/${donationId}/status`],
@@ -41,7 +43,9 @@ export function PixDisplay({
   });
 
   useEffect(() => {
-    if (data?.status === "completed") {
+    if (data?.status === "completed" && !hasTrackedPurchase) {
+      // Track Purchase event
+      setHasTrackedPurchase(true);
       toast({
         title: "Que gesto incrível! 💚",
         description: "Sua doação foi confirmada. Obrigado por ajudar esta família!",
@@ -50,7 +54,7 @@ export function PixDisplay({
       window.location.href = `/thank-you?amount=${amount}`;
       onSuccess();
     }
-  }, [data?.status, onSuccess, toast, amount]);
+  }, [data?.status, onSuccess, toast, amount, hasTrackedPurchase]);
 
   useEffect(() => {
     const now = new Date();
@@ -90,7 +94,18 @@ export function PixDisplay({
 
   return (
     <div className="space-y-6">
-      {/* Progress Steps */}
+      {data?.status === "completed" && (
+        <Facebook 
+          event="Purchase"
+          params={{
+            content_category: "donation",
+            value: amount,
+            currency: "BRL",
+            transaction_id: donationId.toString()
+          }}
+        />
+      )}
+
       <div className="space-y-4">
         <div className="flex justify-between items-center text-sm">
           <span className="font-medium text-green-600">Pix Gerado</span>
@@ -102,7 +117,6 @@ export function PixDisplay({
         <Progress value={data?.status === "completed" ? 100 : 50} className="h-2" />
       </div>
 
-      {/* Timer com estilo melhorado */}
       <div className="bg-yellow-50 border border-yellow-100 rounded-lg p-4">
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-2">
@@ -113,7 +127,6 @@ export function PixDisplay({
         </div>
       </div>
 
-      {/* QR Code Section com design melhorado */}
       <div className="bg-white border rounded-lg p-6">
         <div className="text-center space-y-3 mb-6">
           <Heart className="h-8 w-8 text-red-500 mx-auto animate-pulse" />
@@ -176,7 +189,6 @@ export function PixDisplay({
         </div>
       </div>
 
-      {/* Instruções com design melhorado */}
       <div className="bg-green-50 rounded-lg p-6">
         <h3 className="font-semibold text-green-800 mb-4 flex items-center gap-2">
           <CheckCircle2 className="h-5 w-5" />

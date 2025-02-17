@@ -4,7 +4,6 @@ import { CheckoutForm } from "./checkout-form";
 import { PixDisplay } from "./pix-display";
 import { useToast } from "@/hooks/use-toast";
 import { Heart } from "lucide-react";
-import Facebook from "./Facebook";
 
 interface DonationModalProps {
   amount: number;
@@ -47,15 +46,6 @@ export function DonationModal({ amount, onClose }: DonationModalProps) {
 
   return (
     <DialogContent className="bg-white rounded-lg max-w-md mx-auto p-4 overflow-y-auto max-h-[90vh] sm:max-h-[600px]">
-      {/* Adiciona o evento InitiateCheckout quando o modal é aberto */}
-      <Facebook 
-        event="InitiateCheckout"
-        params={{
-          content_category: "donation",
-          value: amount,
-          currency: "BRL"
-        }}
-      />
       <DialogHeader className="space-y-2 pb-2">
         <div className="flex items-center justify-center">
           <Heart className="w-6 h-6 text-red-500 animate-pulse" />
