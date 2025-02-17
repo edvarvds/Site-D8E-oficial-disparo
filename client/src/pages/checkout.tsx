@@ -73,32 +73,16 @@ export default function Checkout() {
         </div>
       </header>
 
-      <div className="max-w-md mx-auto bg-white p-6">
-        {/* Resumo da Doação */}
-        <div className="bg-white rounded-lg shadow-sm border p-4 mb-4">
-          <div className="flex items-start space-x-4">
-            <img
-              src="https://i.postimg.cc/HLPbwDPf/foto-da-familia.png"
-              alt="Família beneficiária"
-              className="w-20 h-20 rounded-md object-cover"
-            />
-            <div className="flex-1">
-              <h2 className="font-semibold text-gray-900">Resumo da Doação</h2>
-              <div className="mt-1 space-y-1">
-                <p className="text-sm text-gray-600">Família beneficiária: Francivaldo e seus 4 filhos</p>
-                <p className="text-sm font-medium text-green-600">{formatCurrency(amount)}</p>
-                <p className="text-xs text-gray-500">
-                  {amount >= 300 
-                    ? "Garante 2 semanas de alimentação" 
-                    : amount >= 100 
-                      ? "Garante 7 dias de alimentação"
-                      : "Garante refeições nutritivas"}
-                </p>
-              </div>
-            </div>
-          </div>
+      {/* Banner Message */}
+      <div className="bg-blue-50 border-y border-blue-100">
+        <div className="max-w-3xl mx-auto py-3 px-4 text-center">
+          <p className="text-blue-800 font-medium text-sm">
+            Você foi um escolhido(a) de Deus para ajudar na missão de cuidar desta Família
+          </p>
         </div>
+      </div>
 
+      <div className="max-w-md mx-auto bg-white min-h-screen p-6">
         {/* Cabeçalho */}
         <div className="space-y-2 mb-4">
           <div className="flex items-center justify-center">
@@ -111,7 +95,12 @@ export default function Checkout() {
           </h1>
           <p className="text-center text-sm text-gray-600">
             {step === "form"
-              ? "Ajude a família Francivaldo!"
+              ? `${formatCurrency(amount)} = ${
+                  amount >= 300 
+                    ? "2 semanas de esperança" 
+                    : amount >= 100 
+                      ? "7 dias de alimento"
+                      : "Refeições urgentes"}`
               : "Estamos quase lá! Complete sua doação."}
           </p>
         </div>
