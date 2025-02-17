@@ -93,7 +93,7 @@ export function PixDisplay({
       {/* Progress Steps */}
       <div className="space-y-4">
         <div className="flex justify-between items-center text-sm">
-          <span className="font-medium text-green-600">Gerando PIX</span>
+          <span className="font-medium text-green-600">Pix Gerado</span>
           <span className="text-gray-400">→</span>
           <span className={data?.status === "completed" ? "font-medium text-green-600" : "text-gray-500"}>
             Confirmação
