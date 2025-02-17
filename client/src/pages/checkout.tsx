@@ -73,61 +73,60 @@ export default function Checkout() {
         </div>
       </header>
 
-      {/* Banner Message */}
-      <div className="bg-blue-50 border-y border-blue-100">
-        <div className="max-w-3xl mx-auto py-3 px-4 text-center">
-          <p className="text-blue-800 font-medium text-sm">
-            Você foi um escolhido(a) de Deus para ajudar na missão de cuidar desta Família
-          </p>
-        </div>
-      </div>
-
-      <div className="max-w-md mx-auto bg-white p-4"> {/* Reduced padding here */}
-        {/* Resumo da Doação */}
-        <div className="bg-white rounded-lg shadow-md border border-red-100 p-3">
-          <div className="flex flex-col sm:flex-row sm:items-start gap-3">
-            <div className="relative shrink-0">
-              <img
-                src="https://i.postimg.cc/HLPbwDPf/foto-da-familia.png"
-                alt="Família beneficiária"
-                className="w-full h-48 sm:w-52 sm:h-52 object-cover rounded-lg"
-              />
-              <div className="absolute -top-2 -right-2 bg-red-500 text-white p-1 rounded-full animate-pulse">
-                <Heart className="w-4 h-4" />
-              </div>
-            </div>
-            <div className="flex-1 min-w-0">
-              <div className="flex items-center gap-2 flex-wrap">
-                <h2 className="font-bold text-red-600 text-sm sm:text-base">Sua Doação Salvará Vidas</h2>
-                <Clock className="w-4 h-4 text-yellow-500 shrink-0" />
-              </div>
-              <div className="mt-1 space-y-1.5">
-                <div className="flex items-baseline gap-2 flex-wrap">
-                  <span className="text-xl sm:text-2xl font-bold text-green-600 shrink-0">{formatCurrency(amount)}</span>
-                  <span className="text-xs sm:text-sm text-gray-500">podem mudar tudo</span>
-                </div>
-                <div className="bg-yellow-50 rounded-md p-2">
-                  <p className="text-xs sm:text-sm font-medium text-yellow-800">
-                    Família de Francivaldo:
-                    <span className="font-normal"> 4 crianças aguardam sua ajuda</span>
-                  </p>
-                  <p className="text-xs sm:text-sm font-medium text-green-700 mt-1">
-                    {amount >= 300 
-                      ? "💚 2 semanas de esperança e alimento" 
-                      : amount >= 100 
-                        ? "💚 7 dias de refeições garantidas"
-                        : "💚 Refeições nutritivas para as crianças"}
-                  </p>
-                </div>
-              </div>
+      {step === "form" ? (
+        <>
+          {/* Banner Message */}
+          <div className="bg-blue-50 border-y border-blue-100">
+            <div className="max-w-3xl mx-auto py-3 px-4 text-center">
+              <p className="text-blue-800 font-medium text-sm">
+                Você foi um escolhido(a) de Deus para ajudar na missão de cuidar desta Família
+              </p>
             </div>
           </div>
-        </div>
 
-        {/* Formulário ou PIX */}
-        <div className="py-4">
-          {step === "form" ? (
-            <>
+          <div className="max-w-md mx-auto bg-white p-4">
+            {/* Resumo da Doação */}
+            <div className="bg-white rounded-lg shadow-md border border-red-100 p-3">
+              <div className="flex flex-col sm:flex-row sm:items-start gap-3">
+                <div className="relative shrink-0">
+                  <img
+                    src="https://i.postimg.cc/HLPbwDPf/foto-da-familia.png"
+                    alt="Família beneficiária"
+                    className="w-full h-48 sm:w-52 sm:h-52 object-cover rounded-lg"
+                  />
+                  <div className="absolute -top-2 -right-2 bg-red-500 text-white p-1 rounded-full animate-pulse">
+                    <Heart className="w-4 h-4" />
+                  </div>
+                </div>
+                <div className="flex-1 min-w-0">
+                  <div className="flex items-center gap-2 flex-wrap">
+                    <h2 className="font-bold text-red-600 text-sm sm:text-base">Sua Doação Salvará Vidas</h2>
+                    <Clock className="w-4 h-4 text-yellow-500 shrink-0" />
+                  </div>
+                  <div className="mt-1 space-y-1.5">
+                    <div className="flex items-baseline gap-2 flex-wrap">
+                      <span className="text-xl sm:text-2xl font-bold text-green-600 shrink-0">{formatCurrency(amount)}</span>
+                      <span className="text-xs sm:text-sm text-gray-500">podem mudar tudo</span>
+                    </div>
+                    <div className="bg-yellow-50 rounded-md p-2">
+                      <p className="text-xs sm:text-sm font-medium text-yellow-800">
+                        Família de Francivaldo:
+                        <span className="font-normal"> 4 crianças aguardam sua ajuda</span>
+                      </p>
+                      <p className="text-xs sm:text-sm font-medium text-green-700 mt-1">
+                        {amount >= 300 
+                          ? "💚 2 semanas de esperança e alimento" 
+                          : amount >= 100 
+                            ? "💚 7 dias de refeições garantidas"
+                            : "💚 Refeições nutritivas para as crianças"}
+                      </p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div className="py-4">
               <div className="bg-blue-50 border-l-4 border-blue-500 p-3 rounded-r mb-4">
                 <div className="flex">
                   <div className="flex-shrink-0">
@@ -145,43 +144,45 @@ export default function Checkout() {
                 onSuccess={handlePaymentCreated}
                 onError={handleError}
               />
-            </>
-          ) : (
-            paymentDetails && (
-              <>
-                <div className="bg-yellow-50 border-l-4 border-yellow-400 p-3 rounded-r mb-4">
-                  <div className="flex">
-                    <div className="flex-shrink-0">
-                      <Clock className="h-5 w-5 text-yellow-400" />
-                    </div>
-                    <div className="ml-3">
-                      <p className="text-xs text-yellow-800">
-                        O código PIX expira em 10 minutos.
-                      </p>
-                    </div>
+            </div>
+          </div>
+        </>
+      ) : (
+        <div className="max-w-md mx-auto bg-white p-4">
+          {paymentDetails && (
+            <>
+              <div className="bg-yellow-50 border-l-4 border-yellow-400 p-3 rounded-r mb-4">
+                <div className="flex">
+                  <div className="flex-shrink-0">
+                    <Clock className="h-5 w-5 text-yellow-400" />
+                  </div>
+                  <div className="ml-3">
+                    <p className="text-xs text-yellow-800">
+                      O código PIX expira em 10 minutos.
+                    </p>
                   </div>
                 </div>
-                <PixDisplay
-                  donationId={paymentDetails.donationId}
-                  pixCode={paymentDetails.pixCode}
-                  pixQrCode={paymentDetails.pixQrCode}
-                  expiresAt={paymentDetails.expiresAt}
-                  onSuccess={() => navigate(`/thank-you?amount=${amount}`)}
-                  onError={handleError}
-                  amount={amount}
-                />
-              </>
-            )
+              </div>
+              <PixDisplay
+                donationId={paymentDetails.donationId}
+                pixCode={paymentDetails.pixCode}
+                pixQrCode={paymentDetails.pixQrCode}
+                expiresAt={paymentDetails.expiresAt}
+                onSuccess={() => navigate(`/thank-you?amount=${amount}`)}
+                onError={handleError}
+                amount={amount}
+              />
+            </>
           )}
         </div>
+      )}
 
-        {/* Footer com Selos */}
-        <footer className="mt-4 pt-4 border-t">
-          <p className="text-center text-xs text-gray-500">
-            © 2024 Vakinha Online - CNPJ 22.831.673/0001-26
-          </p>
-        </footer>
-      </div>
+      {/* Footer com Selos */}
+      <footer className="mt-4 pt-4 border-t">
+        <p className="text-center text-xs text-gray-500">
+          © 2024 Vakinha Online - CNPJ 22.831.673/0001-26
+        </p>
+      </footer>
     </div>
   );
 }
