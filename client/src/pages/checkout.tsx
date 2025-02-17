@@ -84,34 +84,34 @@ export default function Checkout() {
 
       <div className="max-w-md mx-auto bg-white p-6">
         {/* Resumo da Doação */}
-        <div className="bg-white rounded-lg shadow-md border border-red-100 p-4 mb-4">
-          <div className="flex items-start space-x-4">
-            <div className="relative">
+        <div className="bg-white rounded-lg shadow-md border border-red-100 p-3">
+          <div className="flex flex-col sm:flex-row sm:items-start gap-3">
+            <div className="relative shrink-0">
               <img
                 src="https://i.postimg.cc/HLPbwDPf/foto-da-familia.png"
                 alt="Família beneficiária"
-                className="w-24 h-24 rounded-md object-cover border-2 border-red-200"
+                className="w-20 h-20 sm:w-24 sm:h-24 rounded-md object-cover border-2 border-red-200"
               />
               <div className="absolute -top-2 -right-2 bg-red-500 text-white p-1 rounded-full animate-pulse">
                 <Heart className="w-4 h-4" />
               </div>
             </div>
-            <div className="flex-1">
-              <div className="flex items-center gap-2">
-                <h2 className="font-bold text-red-600">Sua Doação Salvará Vidas</h2>
-                <Clock className="w-4 h-4 text-yellow-500" />
+            <div className="flex-1 min-w-0">
+              <div className="flex items-center gap-2 flex-wrap">
+                <h2 className="font-bold text-red-600 text-sm sm:text-base">Sua Doação Salvará Vidas</h2>
+                <Clock className="w-4 h-4 text-yellow-500 shrink-0" />
               </div>
-              <div className="mt-2 space-y-2">
-                <div className="flex items-baseline gap-2">
-                  <span className="text-2xl font-bold text-green-600">{formatCurrency(amount)}</span>
-                  <span className="text-sm text-gray-500">podem mudar tudo</span>
+              <div className="mt-1 space-y-1.5">
+                <div className="flex items-baseline gap-2 flex-wrap">
+                  <span className="text-xl sm:text-2xl font-bold text-green-600 shrink-0">{formatCurrency(amount)}</span>
+                  <span className="text-xs sm:text-sm text-gray-500">podem mudar tudo</span>
                 </div>
                 <div className="bg-yellow-50 rounded-md p-2">
-                  <p className="text-sm font-medium text-yellow-800">
+                  <p className="text-xs sm:text-sm font-medium text-yellow-800">
                     Família de Francivaldo:
                     <span className="font-normal"> 4 crianças aguardam sua ajuda</span>
                   </p>
-                  <p className="text-sm font-medium text-green-700 mt-1">
+                  <p className="text-xs sm:text-sm font-medium text-green-700 mt-1">
                     {amount >= 300 
                       ? "💚 2 semanas de esperança e alimento" 
                       : amount >= 100 
