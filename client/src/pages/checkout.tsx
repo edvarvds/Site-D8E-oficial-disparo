@@ -2,6 +2,7 @@ import { useLocation } from "wouter";
 import { CheckoutForm } from "@/components/checkout-form";
 import { PixDisplay } from "@/components/pix-display";
 import { useToast } from "@/hooks/use-toast";
+import { Shield, Lock } from "lucide-react";
 import Facebook from "@/components/Facebook";
 import { useState } from "react";
 
@@ -13,13 +14,6 @@ interface PaymentDetails {
   pixQrCode: string;
   expiresAt: string;
 }
-
-const formatCurrency = (value: number) => {
-  return value.toLocaleString('pt-BR', {
-    style: 'currency',
-    currency: 'BRL'
-  }).replace('R$', 'R$ ');
-};
 
 export default function Checkout() {
   const [step, setStep] = useState<CheckoutStep>("form");
@@ -61,6 +55,17 @@ export default function Checkout() {
         }}
       />
 
+      {/* Header com Logo */}
+      <header className="border-b bg-white shadow-sm">
+        <div className="max-w-md mx-auto p-4">
+          <img 
+            src="https://www.vaquinhaonline.com.br/wp-content/uploads/2023/12/cropped-logotipo-vakinha-online.png" 
+            alt="Vakinha Online" 
+            className="h-8"
+          />
+        </div>
+      </header>
+
       {/* Banner Message */}
       <div className="bg-blue-50 border-y border-blue-100">
         <div className="max-w-3xl mx-auto py-3 px-4 text-center">
@@ -71,6 +76,18 @@ export default function Checkout() {
       </div>
 
       <div className="max-w-md mx-auto bg-white min-h-screen p-6">
+        {/* Selos de Segurança */}
+        <div className="flex justify-center gap-6 py-4 mb-6 border-b">
+          <div className="flex items-center gap-2">
+            <Shield className="h-5 w-5 text-green-600" />
+            <span className="text-sm font-medium text-gray-700">Compra Protegida</span>
+          </div>
+          <div className="flex items-center gap-2">
+            <Lock className="h-5 w-5 text-green-600" />
+            <span className="text-sm font-medium text-gray-700">Dados Criptografados</span>
+          </div>
+        </div>
+
         {/* Formulário ou PIX */}
         <div className="py-4">
           {step === "form" ? (
