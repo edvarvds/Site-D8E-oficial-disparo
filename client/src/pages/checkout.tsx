@@ -90,34 +90,21 @@ export default function Checkout() {
           </div>
           <h1 className="text-center text-xl font-bold text-gray-900">
             {step === "form" 
-              ? "Sua doação transformará vidas" 
+              ? "Você Está a Poucos Passos de Alimentar Uma Família" 
               : "Transforme Esperança em Realidade"}
           </h1>
           <p className="text-center text-sm text-gray-600">
             {step === "form"
-              ? `${formatCurrency(amount)} podem garantir ${amount >= 300 
-                  ? "2 semanas de alimentação" 
-                  : amount >= 100 
-                    ? "uma semana de refeições" 
-                    : "refeições nutritivas"} para eles.`
+              ? `Sua doação de ${formatCurrency(amount)} é urgente e vital! ${
+                  amount >= 300 
+                    ? "Com este valor, você garantirá 2 semanas de alimentação, dando a esta família tempo para se reerguer." 
+                    : amount >= 100 
+                      ? "Sua generosidade proporcionará uma semana de refeições nutritivas, aliviando o sofrimento imediato desta família."
+                      : "Cada centavo do seu apoio será transformado em alimento para estas crianças que tanto precisam."
+                }`
               : "Estamos quase lá! Complete sua doação para ajudar imediatamente."}
           </p>
-        </div>
 
-        {/* Selos de Segurança */}
-        <div className="grid grid-cols-3 gap-4 py-4 mb-6 border-y">
-          <div className="flex flex-col items-center text-center">
-            <Shield className="h-6 w-6 text-green-600 mb-1" />
-            <span className="text-xs font-medium text-gray-700">Doação Segura</span>
-          </div>
-          <div className="flex flex-col items-center text-center">
-            <Lock className="h-6 w-6 text-green-600 mb-1" />
-            <span className="text-xs font-medium text-gray-700">Dados Protegidos</span>
-          </div>
-          <div className="flex flex-col items-center text-center">
-            <CheckCircle2 className="h-6 w-6 text-green-600 mb-1" />
-            <span className="text-xs font-medium text-gray-700">Site Verificado</span>
-          </div>
         </div>
 
         {/* Formulário ou PIX */}
