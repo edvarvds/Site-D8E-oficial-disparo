@@ -37,13 +37,13 @@ export function FixedDonationButton() {
       </div>
 
       <Dialog open={isModalOpen} onOpenChange={setIsModalOpen}>
-        <DialogContent className="bg-white rounded-lg max-w-2xl w-full p-6">
+        <DialogContent className="bg-white rounded-lg max-w-lg w-full p-6">
           {/* Header com mensagem de urgência */}
           <div className="text-center space-y-3 mb-4">
             <div className="flex justify-center">
               <Heart className="w-8 h-8 text-red-500 animate-pulse" />
             </div>
-            <h3 className="text-xl font-bold text-red-600">
+            <h3 className="text-lg font-bold text-red-600">
               Ajuda Urgente para Família em Necessidade
             </h3>
           </div>
@@ -74,7 +74,8 @@ export function FixedDonationButton() {
                   ${amount === 100 
                     ? 'bg-green-600 hover:bg-green-700 relative' 
                     : 'bg-green-500 hover:bg-green-600'} 
-                  text-white py-3 rounded-lg font-bold transition duration-300 transform hover:scale-105 flex flex-col h-auto
+                  text-white py-3 px-2 rounded-lg transition duration-300 transform hover:scale-105 h-auto
+                  ${amount === 950 ? 'col-span-3' : ''}
                 `}
               >
                 {amount === 100 && (
@@ -82,14 +83,7 @@ export function FixedDonationButton() {
                     Mais usado
                   </span>
                 )}
-                <span className="text-lg">{formatCurrency(amount)}</span>
-                <span className="text-[10px] mt-0.5 font-normal opacity-90">
-                  {amount >= 300 
-                    ? "2 semanas de refeições"
-                    : amount >= 100 
-                      ? "1 semana de refeições"
-                      : "Refeições nutritivas"}
-                </span>
+                <span className="text-base font-bold">{formatCurrency(amount)}</span>
               </Button>
             ))}
           </div>
