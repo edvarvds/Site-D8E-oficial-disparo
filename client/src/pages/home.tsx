@@ -2,6 +2,7 @@ import { useState } from "react";
 import { useLocation } from "wouter";
 import { Dialog } from "@/components/ui/dialog";
 import { DonationModal } from "@/components/donation-modal";
+import { FixedDonationButton } from "@/components/fixed-donation-button";
 
 export default function Home() {
   const [_, navigate] = useLocation();
@@ -243,6 +244,7 @@ export default function Home() {
           </div>
         </footer>
       </div>
+      <FixedDonationButton />
     </>
   );
 }
