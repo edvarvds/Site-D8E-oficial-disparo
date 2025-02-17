@@ -90,7 +90,7 @@ export default function Checkout() {
               <img
                 src="https://i.postimg.cc/HLPbwDPf/foto-da-familia.png"
                 alt="Família beneficiária"
-                className="w-72 h-72 sm:w-80 sm:h-80 object-contain"
+                className="w-72 h-72 sm:w-80 sm:h-80 object-contain rounded-2xl"
               />
               <div className="absolute -top-2 -right-2 bg-red-500 text-white p-1 rounded-full animate-pulse">
                 <Heart className="w-4 h-4" />
