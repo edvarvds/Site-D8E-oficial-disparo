@@ -44,10 +44,11 @@ export function FixedDonationButton() {
               <Heart className="w-8 h-8 text-red-500 animate-pulse" />
             </div>
             <h3 className="text-lg font-bold text-red-600">
-              Que gesto incrível! 💚
+              URGENTE: Sua Ajuda é Necessária Agora!
             </h3>
             <p className="text-sm text-gray-700">
-              Escolha o valor da sua doação para ajudar esta família
+              A fome não espera. Neste momento, crianças estão indo dormir com fome.
+              Sua doação hoje pode mudar o destino desta família imediatamente.
             </p>
           </div>
 
