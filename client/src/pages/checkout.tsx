@@ -73,6 +73,14 @@ export default function Checkout() {
         </div>
       </header>
 
+      {/* Banner Message - Movido para após o header */}
+      <div className="bg-blue-50 border-y border-blue-100">
+        <div className="max-w-3xl mx-auto py-3 px-4 text-center">
+          <p className="text-blue-800 font-medium text-sm">
+            Você foi um escolhido(a) de Deus para ajudar na missão de cuidar desta Família
+          </p>
+        </div>
+      </div>
 
       <div className="max-w-md mx-auto bg-white min-h-screen p-6">
         {/* Cabeçalho */}
