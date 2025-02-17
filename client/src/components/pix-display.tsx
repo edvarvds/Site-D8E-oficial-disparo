@@ -2,9 +2,8 @@ import { useEffect, useState } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { Progress } from "@/components/ui/progress";
 import { QRCodeSVG } from "qrcode.react";
-import { Check, Copy, Timer, Heart, QrCode, Smartphone, ArrowRight } from "lucide-react";
+import { Check, Copy, Timer, Heart } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 
 interface PixDisplayProps {
@@ -33,7 +32,6 @@ export function PixDisplay({
   const [copied, setCopied] = useState(false);
   const [timeLeft, setTimeLeft] = useState("");
   const [qrError, setQrError] = useState(false);
-  const [progress, setProgress] = useState(0);
   const { toast } = useToast();
 
   const { data } = useQuery<PaymentStatus>({
@@ -43,7 +41,6 @@ export function PixDisplay({
 
   useEffect(() => {
     if (data?.status === "completed") {
-      setProgress(100);
       toast({
         title: "Que gesto incrível! 💚",
         description: "Sua doação foi confirmada. Obrigado por ajudar esta família!",
@@ -51,8 +48,6 @@ export function PixDisplay({
       });
       window.location.href = `/thank-you?amount=${amount}`;
       onSuccess();
-    } else if (data?.status === "pending") {
-      setProgress(25);
     }
   }, [data?.status, onSuccess, toast, amount]);
 
@@ -82,7 +77,6 @@ export function PixDisplay({
     try {
       await navigator.clipboard.writeText(pixCode);
       setCopied(true);
-      setProgress(prev => Math.min(prev + 25, 75));
       setTimeout(() => setCopied(false), 2000);
       toast({
         title: "Código PIX copiado!",
@@ -95,122 +89,86 @@ export function PixDisplay({
 
   return (
     <div className="space-y-4">
-      {/* Progress Steps */}
-      <div className="space-y-2">
-        <Progress value={progress} className="h-2 w-full" />
-        <div className="grid grid-cols-3 gap-1 text-xs text-gray-500">
-          <div className={`text-center ${progress >= 25 ? 'text-green-600 font-medium' : ''}`}>
-            Código Gerado
-          </div>
-          <div className={`text-center ${progress >= 75 ? 'text-green-600 font-medium' : ''}`}>
-            Código Copiado
-          </div>
-          <div className={`text-center ${progress === 100 ? 'text-green-600 font-medium' : ''}`}>
-            Pagamento Confirmado
-          </div>
-        </div>
-      </div>
-
       {/* Timer */}
       <div className="flex items-center justify-center gap-2 text-sm font-medium bg-yellow-50 text-yellow-800 px-4 py-2 rounded">
         <Timer className="h-4 w-4" />
         <span>Tempo restante: {timeLeft}</span>
       </div>
 
-      {/* Steps Progress */}
-      <div className="space-y-4">
-        {/* Step 1 */}
-        <div className="bg-gray-50 p-4 rounded-lg">
-          <div className="flex items-start space-x-3">
-            <div className="bg-green-100 p-2 rounded-full">
-              <QrCode className="h-5 w-5 text-green-600" />
-            </div>
-            <div className="flex-1">
-              <h3 className="text-sm font-medium text-gray-900">1. Escaneie o QR Code</h3>
-              <p className="text-xs text-gray-500 mt-1">
-                Abra o app do seu banco e escaneie o código abaixo
-              </p>
-
-              {!qrError ? (
-                <div className="mt-3 flex justify-center">
-                  <QRCodeSVG
-                    value={pixCode}
-                    size={200}
-                    onError={() => setQrError(true)}
-                    level="M"
-                    className="border-8 border-white shadow-lg rounded-lg"
-                  />
-                </div>
-              ) : (
-                <div className="text-sm text-red-500 bg-red-50 p-4 rounded-lg mt-3">
-                  Erro ao gerar QR Code. Use o código PIX abaixo.
-                </div>
-              )}
-            </div>
-          </div>
+      {/* QR Code Section */}
+      <div className="bg-gray-50 p-6 rounded-lg flex flex-col items-center">
+        <div className="mb-3 text-center">
+          <Heart className="h-6 w-6 text-red-500 mb-2 mx-auto" />
+          <p className="text-sm text-gray-600">
+            Escaneie o QR Code ou use o código PIX abaixo
+          </p>
         </div>
 
-        {/* Step 2 */}
-        <div className="bg-gray-50 p-4 rounded-lg">
-          <div className="flex items-start space-x-3">
-            <div className="bg-blue-100 p-2 rounded-full">
-              <Smartphone className="h-5 w-5 text-blue-600" />
-            </div>
-            <div className="flex-1">
-              <h3 className="text-sm font-medium text-gray-900">2. Ou copie o código PIX</h3>
-              <p className="text-xs text-gray-500 mt-1">
-                Cole o código no seu aplicativo bancário
-              </p>
-
-              <div className="mt-3 space-y-2">
-                <Input
-                  value={pixCode}
-                  readOnly
-                  className="font-mono text-sm bg-gray-50 cursor-text"
-                />
-                <Button
-                  onClick={handleCopy}
-                  className="w-full bg-green-600 hover:bg-green-700 text-white"
-                  size="lg"
-                >
-                  {copied ? (
-                    <>
-                      <Check className="h-5 w-5 mr-2" />
-                      Copiado!
-                    </>
-                  ) : (
-                    <>
-                      <Copy className="h-5 w-5 mr-2" />
-                      Copiar Código PIX
-                    </>
-                  )}
-                </Button>
-              </div>
-            </div>
+        {!qrError ? (
+          <QRCodeSVG
+            value={pixCode}
+            size={200}
+            onError={() => setQrError(true)}
+            level="M"
+            className="border-8 border-white shadow-lg rounded-lg mb-4"
+          />
+        ) : (
+          <div className="text-sm text-red-500 bg-red-50 p-4 rounded-lg">
+            Erro ao gerar QR Code. Use o código PIX abaixo.
           </div>
-        </div>
+        )}
+      </div>
 
-        {/* Step 3 */}
-        <div className="bg-gray-50 p-4 rounded-lg">
-          <div className="flex items-start space-x-3">
-            <div className="bg-purple-100 p-2 rounded-full">
-              <ArrowRight className="h-5 w-5 text-purple-600" />
-            </div>
-            <div className="flex-1">
-              <h3 className="text-sm font-medium text-gray-900">3. Complete a doação</h3>
-              <p className="text-xs text-gray-500 mt-1">
-                Confirme o pagamento no seu aplicativo bancário
-              </p>
-
-              <div className="mt-3 text-center">
-                <div className="inline-flex items-center gap-2 text-sm font-medium text-gray-600">
-                  <Heart className="h-4 w-4 text-red-500" />
-                  Aguardando sua confirmação...
-                </div>
-              </div>
-            </div>
-          </div>
+      {/* PIX Code Section */}
+      <div className="bg-white border rounded-lg p-4">
+        <div className="mb-2">
+          <label className="text-sm font-medium text-gray-700">
+            Código PIX
+          </label>
         </div>
+        <div className="space-y-2">
+          <Input
+            value={pixCode}
+            readOnly
+            className="font-mono text-sm bg-gray-50 cursor-text"
+          />
+          <Button
+            onClick={handleCopy}
+            className="w-full bg-green-600 hover:bg-green-700 text-white"
+            size="lg"
+          >
+            {copied ? (
+              <>
+                <Check className="h-5 w-5 mr-2" />
+                Copiado!
+              </>
+            ) : (
+              <>
+                <Copy className="h-5 w-5 mr-2" />
+                Copiar Código PIX
+              </>
+            )}
+          </Button>
+        </div>
+      </div>
+
+      {/* Instructions */}
+      <div className="bg-green-50 p-4 rounded-lg">
+        <h3 className="font-semibold text-green-800 mb-2 text-sm">Como doar:</h3>
+        <ol className="text-sm text-green-700 space-y-2">
+          <li className="flex items-start gap-2">
+            <span className="font-bold">1.</span>
+            <span>Abra o app do seu banco</span>
+          </li>
+          <li className="flex items-start gap-2">
+            <span className="font-bold">2.</span>
+            <span>Escolha a opção "PIX" e selecione "Copia e Cola"</span>
+          </li>
+          <li className="flex items-start gap-2">
+            <span className="font-bold">3.</span>
+            <span>Cole o código PIX que você copiou e confirme a doação</span>
+          </li>
+        </ol>
       </div>
 
       <div className="text-center text-xs text-gray-500">
