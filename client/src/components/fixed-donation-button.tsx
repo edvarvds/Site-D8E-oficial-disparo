@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
-import { Heart } from "lucide-react";
+import { Heart, Clock, ShieldAlert } from "lucide-react";
 import { Dialog, DialogContent } from "@/components/ui/dialog";
 import { useLocation } from "wouter";
 
@@ -30,29 +30,53 @@ export function FixedDonationButton() {
       </div>
 
       <Dialog open={isModalOpen} onOpenChange={setIsModalOpen}>
-        <DialogContent className="bg-white rounded-lg max-w-md w-full p-6">
-          <div className="text-center">
-            <Heart className="w-8 h-8 text-red-500 mx-auto mb-4 animate-pulse" />
-            <h3 className="text-lg font-semibold mb-2">
-              Escolha o Valor da Sua Doação
+        <DialogContent className="bg-white rounded-lg max-w-2xl w-full p-6">
+          {/* Header com mensagem de urgência */}
+          <div className="text-center space-y-4 mb-6">
+            <div className="flex justify-center">
+              <Heart className="w-10 h-10 text-red-500 animate-pulse" />
+            </div>
+            <h3 className="text-2xl font-bold text-red-600 leading-tight">
+              URGENTE: Sua Ajuda é Necessária Agora!
             </h3>
-            <p className="text-sm text-gray-600">
-              Sua generosidade alimentará famílias necessitadas
+            <p className="text-gray-700 text-sm max-w-md mx-auto">
+              A fome não espera. Neste momento, crianças estão indo dormir com fome.
+              Sua doação hoje pode mudar o destino desta família imediatamente.
             </p>
           </div>
 
-          <div className="grid grid-cols-2 gap-3 mt-6">
+          {/* Alertas de urgência */}
+          <div className="grid grid-cols-2 gap-4 mb-6">
+            <div className="bg-red-50 p-3 rounded-lg border border-red-100">
+              <div className="flex items-center gap-2 text-red-700">
+                <Clock className="h-5 w-5" />
+                <p className="text-sm font-medium">Situação Crítica</p>
+              </div>
+              <p className="text-xs text-red-600 mt-1">
+                A geladeira está vazia há semanas
+              </p>
+            </div>
+            <div className="bg-yellow-50 p-3 rounded-lg border border-yellow-100">
+              <div className="flex items-center gap-2 text-yellow-700">
+                <ShieldAlert className="h-5 w-5" />
+                <p className="text-sm font-medium">Ação Imediata</p>
+              </div>
+              <p className="text-xs text-yellow-600 mt-1">
+                4 crianças precisam de alimentos
+              </p>
+            </div>
+          </div>
+
+          {/* Grid de valores de doação */}
+          <div className="grid grid-cols-2 sm:grid-cols-3 gap-3">
             {amounts.map((amount) => (
               <Button
                 key={amount}
                 onClick={() => handleDonationAmount(amount)}
-                variant="outline"
-                className="p-4 h-auto flex flex-col hover:bg-green-50 hover:border-green-500 transition-colors"
+                className="bg-green-500 text-white py-4 rounded-lg text-lg font-bold hover:bg-green-600 transition duration-300 transform hover:scale-105 flex flex-col h-auto"
               >
-                <span className="text-lg font-semibold text-green-600">
-                  R$ {amount}
-                </span>
-                <span className="text-xs text-gray-500 mt-1">
+                <span className="text-xl">R$ {amount}</span>
+                <span className="text-xs mt-1 font-normal">
                   {amount >= 300 
                     ? "2 semanas de refeições"
                     : amount >= 100 
@@ -61,6 +85,14 @@ export function FixedDonationButton() {
                 </span>
               </Button>
             ))}
+          </div>
+
+          {/* Mensagem motivacional */}
+          <div className="mt-6 text-center">
+            <p className="text-sm text-gray-600 italic">
+              "Cada minuto de espera é um momento de fome para estas crianças.
+              Sua doação agora é a esperança que eles precisam."
+            </p>
           </div>
         </DialogContent>
       </Dialog>
