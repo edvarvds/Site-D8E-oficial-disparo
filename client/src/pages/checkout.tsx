@@ -82,27 +82,30 @@ export default function Checkout() {
         </div>
       </div>
 
-      <div className="max-w-md mx-auto bg-white min-h-screen p-6">
-        {/* Cabeçalho */}
-        <div className="space-y-2 mb-4">
-          <div className="flex items-center justify-center">
-            <Heart className="w-6 h-6 text-red-500 animate-pulse" />
-          </div>
-          <h1 className="text-center text-xl font-bold text-gray-900">
-            {step === "form" 
-              ? "Sua Ajuda é Urgente!" 
-              : "Transforme Esperança em Realidade"}
-          </h1>
-          <p className="text-center text-sm text-gray-600">
-            {step === "form"
-              ? `${formatCurrency(amount)} = ${
-                  amount >= 300 
-                    ? "2 semanas de esperança" 
+      <div className="max-w-md mx-auto bg-white p-6">
+        {/* Resumo da Doação */}
+        <div className="bg-white rounded-lg shadow-sm border p-4 mb-4">
+          <div className="flex items-start space-x-4">
+            <img
+              src="https://i.postimg.cc/HLPbwDPf/foto-da-familia.png"
+              alt="Família beneficiária"
+              className="w-20 h-20 rounded-md object-cover"
+            />
+            <div className="flex-1">
+              <h2 className="font-semibold text-gray-900">Resumo da Doação</h2>
+              <div className="mt-1 space-y-1">
+                <p className="text-sm text-gray-600">Família beneficiária: Francivaldo e seus 4 filhos</p>
+                <p className="text-sm font-medium text-green-600">{formatCurrency(amount)}</p>
+                <p className="text-xs text-gray-500">
+                  {amount >= 300 
+                    ? "Garante 2 semanas de alimentação" 
                     : amount >= 100 
-                      ? "7 dias de alimento"
-                      : "Refeições urgentes"}`
-              : "Estamos quase lá! Complete sua doação."}
-          </p>
+                      ? "Garante 7 dias de alimentação"
+                      : "Garante refeições nutritivas"}
+                </p>
+              </div>
+            </div>
+          </div>
         </div>
 
         {/* Formulário ou PIX */}
