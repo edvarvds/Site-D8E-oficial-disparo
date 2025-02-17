@@ -73,7 +73,7 @@ export default function Checkout() {
         </div>
       </header>
 
-      {/* Banner Message - Movido para após o header */}
+      {/* Banner Message */}
       <div className="bg-blue-50 border-y border-blue-100">
         <div className="max-w-3xl mx-auto py-3 px-4 text-center">
           <p className="text-blue-800 font-medium text-sm">
@@ -84,34 +84,32 @@ export default function Checkout() {
 
       <div className="max-w-md mx-auto bg-white min-h-screen p-6">
         {/* Cabeçalho */}
-        <div className="space-y-2 pb-2">
+        <div className="space-y-2 mb-4">
           <div className="flex items-center justify-center">
             <Heart className="w-6 h-6 text-red-500 animate-pulse" />
           </div>
           <h1 className="text-center text-xl font-bold text-gray-900">
             {step === "form" 
-              ? "Você Está a Poucos Passos de Alimentar Uma Família" 
+              ? "Sua Ajuda é Urgente!" 
               : "Transforme Esperança em Realidade"}
           </h1>
           <p className="text-center text-sm text-gray-600">
             {step === "form"
-              ? `Sua doação de ${formatCurrency(amount)} é urgente e vital! ${
+              ? `${formatCurrency(amount)} = ${
                   amount >= 300 
-                    ? "Com este valor, você garantirá 2 semanas de alimentação, dando a esta família tempo para se reerguer." 
+                    ? "2 semanas de esperança" 
                     : amount >= 100 
-                      ? "Sua generosidade proporcionará uma semana de refeições nutritivas, aliviando o sofrimento imediato desta família."
-                      : "Cada centavo do seu apoio será transformado em alimento para estas crianças que tanto precisam."
-                }`
-              : "Estamos quase lá! Complete sua doação para ajudar imediatamente."}
+                      ? "7 dias de alimento"
+                      : "Refeições urgentes"}`
+              : "Estamos quase lá! Complete sua doação."}
           </p>
-
         </div>
 
         {/* Formulário ou PIX */}
         <div className="py-4">
           {step === "form" ? (
             <>
-              <div className="bg-blue-50 border-l-4 border-blue-500 p-3 rounded-r mb-6">
+              <div className="bg-blue-50 border-l-4 border-blue-500 p-3 rounded-r mb-4">
                 <div className="flex">
                   <div className="flex-shrink-0">
                     <Shield className="h-5 w-5 text-blue-400" />
@@ -119,7 +117,6 @@ export default function Checkout() {
                   <div className="ml-3">
                     <p className="text-xs text-blue-700">
                       Seus dados estão protegidos com criptografia de ponta a ponta.
-                      Não compartilhamos informações sensíveis.
                     </p>
                   </div>
                 </div>
@@ -133,15 +130,14 @@ export default function Checkout() {
           ) : (
             paymentDetails && (
               <>
-                <div className="bg-yellow-50 border-l-4 border-yellow-400 p-3 rounded-r mb-6">
+                <div className="bg-yellow-50 border-l-4 border-yellow-400 p-3 rounded-r mb-4">
                   <div className="flex">
                     <div className="flex-shrink-0">
                       <Clock className="h-5 w-5 text-yellow-400" />
                     </div>
                     <div className="ml-3">
                       <p className="text-xs text-yellow-800">
-                        O código PIX tem validade de 10 minutos. Após este período,
-                        você precisará gerar um novo código.
+                        O código PIX expira em 10 minutos.
                       </p>
                     </div>
                   </div>
@@ -161,10 +157,8 @@ export default function Checkout() {
         </div>
 
         {/* Footer com Selos */}
-        <footer className="mt-8 pt-6 border-t">
-          <div className="flex justify-center space-x-4">
-          </div>
-          <p className="text-center text-xs text-gray-500 mt-4">
+        <footer className="mt-4 pt-4 border-t">
+          <p className="text-center text-xs text-gray-500">
             © 2024 Vakinha Online - CNPJ 22.831.673/0001-26
           </p>
         </footer>
