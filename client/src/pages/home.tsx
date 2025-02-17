@@ -140,7 +140,7 @@ export default function Home() {
             Junte-se a Centenas de Heróis Anônimos
           </h2>
           <p className="text-gray-700 mb-6">
-            Mais de 150 pessoas já se uniram a esta causa. Cada doação, não importa o tamanho, está fazendo a diferença. Seja parte desta onda de solidariedade e ajude a escrever um final feliz para esta história.
+            Mais de 150 pessoas já se uniram a esta causa. Cada doação, não importa o tamanho, está fazendo a diferença. Seja parte desta onda de solidariedade e ajude a escrever um final feliz para a história desta familia.
           </p>
 
           {/* Comments Section */}
