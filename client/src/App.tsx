@@ -6,6 +6,7 @@ import NotFound from "@/pages/not-found";
 import Home from "@/pages/home";
 import ThankYou from "@/pages/thank-you";
 import Checkout from "@/pages/checkout";
+import { FixedDonationButton } from "@/components/fixed-donation-button";
 
 function Router() {
   return (
@@ -22,6 +23,7 @@ function App() {
   return (
     <QueryClientProvider client={queryClient}>
       <Router />
+      <FixedDonationButton />
       <Toaster />
     </QueryClientProvider>
   );
