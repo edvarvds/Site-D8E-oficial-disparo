@@ -82,7 +82,7 @@ export default function Checkout() {
         </div>
       </div>
 
-      <div className="max-w-md mx-auto bg-white p-6">
+      <div className="max-w-md mx-auto bg-white p-4"> {/* Reduced padding here */}
         {/* Resumo da Doação */}
         <div className="bg-white rounded-lg shadow-md border border-red-100 p-3">
           <div className="flex flex-col sm:flex-row sm:items-start gap-3">
@@ -90,7 +90,7 @@ export default function Checkout() {
               <img
                 src="https://i.postimg.cc/HLPbwDPf/foto-da-familia.png"
                 alt="Família beneficiária"
-                className="w-72 h-72 sm:w-80 sm:h-80 object-contain rounded-2xl"
+                className="w-full h-48 sm:w-52 sm:h-52 object-cover rounded-lg"
               />
               <div className="absolute -top-2 -right-2 bg-red-500 text-white p-1 rounded-full animate-pulse">
                 <Heart className="w-4 h-4" />
