@@ -44,8 +44,11 @@ export function FixedDonationButton() {
               <Heart className="w-8 h-8 text-red-500 animate-pulse" />
             </div>
             <h3 className="text-lg font-bold text-red-600">
-              Ajuda Urgente para Família em Necessidade
+              Que gesto incrível! 💚
             </h3>
+            <p className="text-sm text-gray-700">
+              Escolha o valor da sua doação para ajudar esta família
+            </p>
           </div>
 
           {/* Informação de urgência mais compacta */}
@@ -65,26 +68,22 @@ export function FixedDonationButton() {
           </div>
 
           {/* Grid de valores de doação */}
-          <div className="grid grid-cols-3 gap-2">
+          <div className="grid grid-cols-2 gap-4 mb-6">
             {amounts.map((amount) => (
-              <Button
+              <button
                 key={amount}
                 onClick={() => handleDonationAmount(amount)}
-                className={`
-                  ${amount === 100 
-                    ? 'bg-green-600 hover:bg-green-700 relative' 
-                    : 'bg-green-500 hover:bg-green-600'} 
-                  text-white py-3 px-2 rounded-lg transition duration-300 transform hover:scale-105 h-auto
-                  ${amount === 950 ? 'col-span-3' : ''}
-                `}
+                className={`bg-green-500 text-white py-3 rounded-lg text-lg font-bold hover:bg-green-600 transition duration-300 transform hover:scale-105 text-center ${
+                  amount === 950 ? 'col-span-2' : ''
+                } ${amount === 100 ? 'bg-green-600 hover:bg-green-700 relative' : ''}`}
               >
                 {amount === 100 && (
                   <span className="absolute -top-2 -right-2 bg-yellow-400 text-yellow-800 text-[10px] px-2 py-0.5 rounded-full font-medium">
-                    Mais usado
+                    Mais doado
                   </span>
                 )}
-                <span className="text-base font-bold">{formatCurrency(amount)}</span>
-              </Button>
+                {formatCurrency(amount)}
+              </button>
             ))}
           </div>
 
