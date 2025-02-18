@@ -7,6 +7,7 @@ import { insertDonationSchema, type InsertDonation } from "@shared/schema";
 import { useMutation } from "@tanstack/react-query";
 import { apiRequest } from "@/lib/queryClient";
 import { Loader2 } from "lucide-react";
+import { useState } from "react";
 
 interface CheckoutFormProps {
   amount: number;
@@ -15,6 +16,8 @@ interface CheckoutFormProps {
 }
 
 export function CheckoutForm({ amount, onSuccess, onError }: CheckoutFormProps) {
+  const [isSubmitting, setIsSubmitting] = useState(false);
+
   const form = useForm<InsertDonation>({
     resolver: zodResolver(insertDonationSchema),
     defaultValues: {
@@ -32,12 +35,19 @@ export function CheckoutForm({ amount, onSuccess, onError }: CheckoutFormProps) 
       return res.json();
     },
     onSuccess,
-    onError: () => onError("Não foi possível processar sua doação. Por favor, tente novamente.")
+    onError: () => onError("Não foi possível processar sua doação. Por favor, tente novamente."),
+    onSettled: () => setIsSubmitting(false)
   });
+
+  const handleSubmit = async (data: InsertDonation) => {
+    if (isSubmitting) return;
+    setIsSubmitting(true);
+    mutate(data);
+  };
 
   return (
     <Form {...form}>
-      <form onSubmit={form.handleSubmit((data) => mutate(data))} className="space-y-3 px-1">
+      <form onSubmit={form.handleSubmit(handleSubmit)} className="space-y-3 px-1">
         <FormField
           control={form.control}
           name="name"
@@ -125,9 +135,9 @@ export function CheckoutForm({ amount, onSuccess, onError }: CheckoutFormProps) 
         <Button 
           type="submit" 
           className="w-full bg-green-600 hover:bg-green-700 text-white font-semibold h-10"
-          disabled={isPending}
+          disabled={isPending || isSubmitting}
         >
-          {isPending ? (
+          {(isPending || isSubmitting) ? (
             <>
               <Loader2 className="mr-2 h-4 w-4 animate-spin" />
               Processando...
