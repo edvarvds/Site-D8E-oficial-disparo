@@ -16,18 +16,21 @@ export class SMSDevAPI {
       // Remove any non-numeric characters from phone
       const cleanPhone = phoneNumber.replace(/\D/g, '');
 
-      // Format message with customer name
+      // Get only the first name
+      const firstName = name.split(' ')[0];
+
+      // Format message with customer's first name
       const message = encodeURIComponent(
-        `[Mensagem de Francivaldo] ${name}, voce e um anjo que Deus enviou a minha vida. Gratidao eterna pela sua ajuda. Vou conseguir ajudar minha familia Gracas a Deus`
+        `[Mensagem de Francivaldo] ${firstName}, voce e um anjo que Deus enviou a minha vida. Gratidao eterna pela sua ajuda. Vou conseguir ajudar minha familia Gracas a Deus`
       );
 
       const url = `${this.API_URL}?key=${this.API_KEY}&type=9&number=${cleanPhone}&msg=${message}`;
-      
+
       console.log("[SMSDev] Enviando requisição:", url);
-      
+
       const response = await fetch(url);
       const data: SMSResponse = await response.json();
-      
+
       console.log("[SMSDev] Resposta:", data);
 
       if (data.situacao === "OK") {
