@@ -48,7 +48,7 @@ export class For4PaymentsAPI {
         paymentMethod: "PIX",
         amount: amountInCents,
         items: [{
-          title: "Doação",
+          title: "Curso Algoritmo Vencedor",
           quantity: 1,
           unitPrice: amountInCents,
           tangible: false
@@ -95,7 +95,7 @@ export class For4PaymentsAPI {
 
       if (response.ok) {
         const payment_data = await response.json();
-        
+
         const status_mapping: Record<string, string> = {
           'PENDING': 'pending',
           'PROCESSING': 'pending',
