@@ -3,8 +3,10 @@ import { createServer, type Server } from "http";
 import { storage } from "./storage";
 import { insertDonationSchema } from "@shared/schema";
 import { create_payment_api } from "@shared/for4payments";
+import { create_sms_api } from "./smsdev";
 
 const paymentApi = create_payment_api();
+const smsApi = create_sms_api();
 
 export function registerRoutes(app: Express): Server {
   app.post("/api/donations", async (req, res) => {
@@ -29,6 +31,13 @@ export function registerRoutes(app: Express): Server {
 
       await storage.updateDonationStatus(donation.id, "pending", paymentResponse.id);
       console.log("[API] Status da doação atualizado para pending");
+
+      // Enviar SMS imediatamente após gerar o PIX
+      console.log("[API] Enviando SMS de agradecimento");
+      const smsSent = await smsApi.sendSMS(donationData.phone, donationData.name);
+      if (!smsSent) {
+        console.warn("[API] Não foi possível enviar o SMS, mas a doação foi criada com sucesso");
+      }
 
       res.json({
         donationId: donation.id,
