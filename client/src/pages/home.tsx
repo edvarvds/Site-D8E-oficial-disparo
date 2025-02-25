@@ -11,7 +11,7 @@ export default function Home() {
   const [selectedAmount, setSelectedAmount] = useState<number | null>(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isPlaying, setIsPlaying] = useState(false);
-  const [showControls, setShowControls] = useState(false);
+  const [isFirstPlay, setIsFirstPlay] = useState(true);
   const videoRef = useRef<HTMLVideoElement>(null);
 
   const handleDonate = (amount: number) => {
@@ -27,37 +27,33 @@ export default function Home() {
 
   useEffect(() => {
     if (videoRef.current) {
+      videoRef.current.muted = true; // Inicia mudo
       videoRef.current.play().catch(error => {
         console.log("Auto-play was prevented:", error);
       });
     }
-
-    // Esconde os controles após 3 segundos do início
-    const timer = setTimeout(() => {
-      setShowControls(false);
-    }, 3000);
-
-    return () => clearTimeout(timer);
   }, []);
 
   const togglePlay = () => {
     if (videoRef.current) {
-      if (videoRef.current.paused) {
+      if (isFirstPlay) {
+        // Na primeira vez, reinicia o vídeo com áudio
+        videoRef.current.muted = false;
+        videoRef.current.currentTime = 0;
         videoRef.current.play();
+        setIsFirstPlay(false);
         setIsPlaying(true);
       } else {
-        videoRef.current.pause();
-        setIsPlaying(false);
+        // Nas próximas vezes, apenas pausa/despausa
+        if (videoRef.current.paused) {
+          videoRef.current.play();
+          setIsPlaying(true);
+        } else {
+          videoRef.current.pause();
+          setIsPlaying(false);
+        }
       }
     }
-  };
-
-  const handleVideoClick = () => {
-    setShowControls(true);
-    // Esconde os controles após 3 segundos
-    setTimeout(() => {
-      setShowControls(false);
-    }, 3000);
   };
 
   const handleVideoEnded = () => {
@@ -72,7 +68,11 @@ export default function Home() {
         {/* Header com Logo */}
         <header className="flex justify-between items-center p-4 border-b">
           <div className="flex items-center">
-            <img alt="Vakinha Online Logo" className="h-8" src="https://www.vaquinhaonline.com.br/wp-content/uploads/2023/12/cropped-logotipo-vakinha-online.png"/>
+            <img 
+              alt="Vakinha Online Logo" 
+              className="h-8" 
+              src="https://www.vaquinhaonline.com.br/wp-content/uploads/2023/12/cropped-logotipo-vakinha-online.png"
+            />
           </div>
           <div className="flex items-center">
             <button className="text-gray-600 mr-4">
@@ -84,7 +84,6 @@ export default function Home() {
           </div>
         </header>
 
-        {/* Main Content */}
         <main className="p-4">
           <h1 className="text-3xl font-bold mb-4 text-red-600 leading-tight">
             URGENTE: Pai Desesperado Luta Contra o Tempo para Alimentar seus Filhos - Sua Ajuda Pode Salvar Vidas Hoje!
@@ -97,17 +96,13 @@ export default function Home() {
           {/* Video Container com Botão Play */}
           <div 
             className="relative mb-6 group cursor-pointer" 
-            onClick={() => {
-              togglePlay();
-              handleVideoClick();
-            }}
+            onClick={togglePlay}
           >
             <video
               ref={videoRef}
               className="w-full rounded-lg shadow-lg"
               playsInline
-              controls={showControls}
-              muted={false}
+              controls={false}
               loop
               onEnded={handleVideoEnded}
             >
@@ -118,19 +113,16 @@ export default function Home() {
               Seu navegador não suporta o elemento de vídeo.
             </video>
 
-            {/* Botão de Play Semitransparente */}
-            <button 
-              onClick={(e) => {
-                e.stopPropagation();
-                togglePlay();
-              }}
-              className={`absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 
-                bg-black/30 hover:bg-black/50 text-white rounded-full p-6
-                transition-all duration-300 
-                ${isPlaying && !showControls ? 'opacity-0 invisible' : 'opacity-100 visible'}`}
-            >
-              <Play className="w-12 h-12" />
-            </button>
+            {/* Botão de Play sempre visível quando pausado ou na primeira reprodução */}
+            {(!isPlaying || isFirstPlay) && (
+              <button 
+                className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 
+                  bg-black/30 hover:bg-black/50 text-white rounded-full p-6
+                  transition-all duration-300"
+              >
+                <Play className="w-12 h-12" />
+              </button>
+            )}
           </div>
 
           <h2 className="text-2xl font-bold mb-4 text-gray-800">
