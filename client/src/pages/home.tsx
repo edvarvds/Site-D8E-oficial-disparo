@@ -3,11 +3,15 @@ import { useLocation } from "wouter";
 import { Dialog } from "@/components/ui/dialog";
 import { DonationModal } from "@/components/donation-modal";
 import { FixedDonationButton } from "@/components/fixed-donation-button";
+import { Play } from "lucide-react";
+import { useRef, useEffect } from "react";
 
 export default function Home() {
   const [_, navigate] = useLocation();
   const [selectedAmount, setSelectedAmount] = useState<number | null>(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isPlaying, setIsPlaying] = useState(false);
+  const videoRef = useRef<HTMLVideoElement>(null);
 
   const handleDonate = (amount: number) => {
     navigate(`/checkout?amount=${amount}`);
@@ -18,6 +22,26 @@ export default function Home() {
       style: 'currency',
       currency: 'BRL'
     }).replace('R$', 'R$ ');
+  };
+
+  useEffect(() => {
+    if (videoRef.current) {
+      videoRef.current.play().catch(error => {
+        console.log("Auto-play was prevented:", error);
+      });
+    }
+  }, []);
+
+  const togglePlay = () => {
+    if (videoRef.current) {
+      if (videoRef.current.paused) {
+        videoRef.current.play();
+        setIsPlaying(true);
+      } else {
+        videoRef.current.pause();
+        setIsPlaying(false);
+      }
+    }
   };
 
   return (
@@ -48,18 +72,35 @@ export default function Home() {
             "Eu daria minha vida por eles, mas neste momento, nem isso é suficiente para encher seus estômagos vazios." - Francivaldo, pai de 4 crianças
           </p>
 
-          <div className="relative mb-6">
-            <img
-              alt="Francivaldo, um pai de aparência cansada e preocupada, abraçando seus quatro filhos pequenos que parecem magros e famintos"
+          {/* Video Container com Botão Play */}
+          <div className="relative mb-6 group">
+            <video
+              ref={videoRef}
               className="w-full rounded-lg shadow-lg"
-              src="https://i.postimg.cc/HLPbwDPf/foto-da-familia.png"
-            />
+              playsInline
+              controls={false}
+              muted={false}
+              loop
+            >
+              <source src="/Video Do3 02.mp4" type="video/mp4" />
+              Seu navegador não suporta o elemento de vídeo.
+            </video>
+
+            {/* Botão de Play Semitransparente */}
+            <button 
+              onClick={togglePlay}
+              className={`absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 
+                bg-black/30 hover:bg-black/50 text-white rounded-full p-6
+                transition-opacity duration-300 ${isPlaying ? 'opacity-0 group-hover:opacity-100' : 'opacity-100'}`}
+            >
+              <Play className="w-12 h-12" />
+            </button>
+
             <button className="absolute top-2 right-2 text-white bg-red-600 rounded-full p-2 transition duration-300 hover:bg-red-700">
               <i className="far fa-heart"></i>
             </button>
           </div>
 
-          {/* Problem Statement */}
           <h2 className="text-2xl font-bold mb-4 text-gray-800">
             A Realidade Cruel de Uma Família à Beira do Colapso
           </h2>
@@ -67,7 +108,6 @@ export default function Home() {
             Imagine o som devastador do choro de uma criança faminta ecoando em uma casa vazia. Para Francivaldo, este não é um pesadelo - é sua realidade diária. Com quatro filhos pequenos e nenhuma renda, ele enfrenta o desafio mais doloroso que um pai pode enfrentar: ver seus filhos definharem de fome diante de seus olhos.
           </p>
 
-          {/* Emotional Appeal */}
           <div className="bg-yellow-100 border-l-4 border-yellow-500 p-4 mb-6">
             <p className="text-sm text-yellow-700">
               <strong>A situação é crítica:</strong><br/>
@@ -77,7 +117,6 @@ export default function Home() {
             </p>
           </div>
 
-          {/* Solution and Call to Action */}
           <h2 className="text-2xl font-bold mb-4 text-green-600">
             Você Pode Ser o Herói Que Esta Família Precisa!
           </h2>
@@ -90,7 +129,6 @@ export default function Home() {
             <li>R$300 = Garantia de alimentação por 2 semanas</li>
           </ul>
 
-          {/* Progress Bar */}
           <div className="mb-6">
             <div className="flex justify-between items-center mb-2">
               <span className="text-sm font-semibold text-gray-700">
@@ -108,7 +146,6 @@ export default function Home() {
             </div>
           </div>
 
-          {/* Donation Buttons */}
           <p className="text-lg mb-4 font-bold text-red-600 text-center">
             Escolha Seu Nível de Impacto - Cada Doação é Um Milagre!
           </p>
@@ -126,7 +163,6 @@ export default function Home() {
             ))}
           </div>
 
-          {/* Testimonial */}
           <div className="bg-gray-100 p-4 rounded-lg mb-6">
             <p className="text-gray-700 italic mb-2">
               "Nunca pensei que chegaria a este ponto. Ver meus filhos dormirem com fome parte meu coração em mil pedaços. Sua ajuda não é apenas comida, é esperança para continuarmos lutando."
@@ -136,7 +172,6 @@ export default function Home() {
             </p>
           </div>
 
-          {/* Social Proof */}
           <h2 className="text-xl font-bold mb-4 text-gray-800">
             Junte-se a Centenas de Heróis Anônimos
           </h2>
@@ -144,7 +179,6 @@ export default function Home() {
             Mais de 150 pessoas já se uniram a esta causa. Cada doação, não importa o tamanho, está fazendo a diferença. Seja parte desta onda de solidariedade e ajude a escrever um final feliz para a história desta familia.
           </p>
 
-          {/* Comments Section */}
           <div className="mt-8">
             <h2 className="text-2xl font-bold mb-4 text-gray-800">
               Mensagens de Apoio (4 recentes)
