@@ -31,6 +31,13 @@ export default function Home() {
         console.log("Auto-play was prevented:", error);
       });
     }
+
+    // Esconde os controles após 3 segundos do início
+    const timer = setTimeout(() => {
+      setShowControls(false);
+    }, 3000);
+
+    return () => clearTimeout(timer);
   }, []);
 
   const togglePlay = () => {
@@ -62,7 +69,7 @@ export default function Home() {
   return (
     <>
       <div className="max-w-md mx-auto bg-white min-h-screen">
-        {/* Header */}
+        {/* Header com Logo */}
         <header className="flex justify-between items-center p-4 border-b">
           <div className="flex items-center">
             <img alt="Vakinha Online Logo" className="h-8" src="https://www.vaquinhaonline.com.br/wp-content/uploads/2023/12/cropped-logotipo-vakinha-online.png"/>
@@ -90,7 +97,10 @@ export default function Home() {
           {/* Video Container com Botão Play */}
           <div 
             className="relative mb-6 group cursor-pointer" 
-            onClick={handleVideoClick}
+            onClick={() => {
+              togglePlay();
+              handleVideoClick();
+            }}
           >
             <video
               ref={videoRef}
