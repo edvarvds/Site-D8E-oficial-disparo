@@ -121,10 +121,6 @@ export default function Home() {
             >
               <Play className="w-12 h-12" />
             </button>
-
-            <button className="absolute top-2 right-2 text-white bg-red-600 rounded-full p-2 transition duration-300 hover:bg-red-700">
-              <i className="far fa-heart"></i>
-            </button>
           </div>
 
           <h2 className="text-2xl font-bold mb-4 text-gray-800">
