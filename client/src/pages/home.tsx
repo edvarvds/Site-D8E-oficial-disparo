@@ -116,8 +116,8 @@ export default function Home() {
               }}
               className={`absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 
                 bg-black/30 hover:bg-black/50 text-white rounded-full p-6
-                transition-all duration-300 ${isPlaying ? 'opacity-0' : 'opacity-100'} 
-                ${showControls ? 'opacity-100' : ''}`}
+                transition-all duration-300 
+                ${isPlaying && !showControls ? 'opacity-0 invisible' : 'opacity-100 visible'}`}
             >
               <Play className="w-12 h-12" />
             </button>
