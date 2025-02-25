@@ -11,6 +11,7 @@ export default function Home() {
   const [selectedAmount, setSelectedAmount] = useState<number | null>(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isPlaying, setIsPlaying] = useState(false);
+  const [showControls, setShowControls] = useState(false);
   const videoRef = useRef<HTMLVideoElement>(null);
 
   const handleDonate = (amount: number) => {
@@ -44,6 +45,20 @@ export default function Home() {
     }
   };
 
+  const handleVideoClick = () => {
+    setShowControls(true);
+    // Esconde os controles após 3 segundos
+    setTimeout(() => {
+      setShowControls(false);
+    }, 3000);
+  };
+
+  const handleVideoEnded = () => {
+    if (videoRef.current) {
+      videoRef.current.play(); // Reinicia o vídeo automaticamente
+    }
+  };
+
   return (
     <>
       <div className="max-w-md mx-auto bg-white min-h-screen">
@@ -73,25 +88,36 @@ export default function Home() {
           </p>
 
           {/* Video Container com Botão Play */}
-          <div className="relative mb-6 group">
+          <div 
+            className="relative mb-6 group cursor-pointer" 
+            onClick={handleVideoClick}
+          >
             <video
               ref={videoRef}
               className="w-full rounded-lg shadow-lg"
               playsInline
-              controls={false}
+              controls={showControls}
               muted={false}
               loop
+              onEnded={handleVideoEnded}
             >
               <source src="/Video Do3 02.mp4" type="video/mp4" />
+              <source src="/Video Do3 02.mp4?quality=720p" type="video/mp4" />
+              <source src="/Video Do3 02.mp4?quality=480p" type="video/mp4" />
+              <source src="/Video Do3 02.mp4?quality=360p" type="video/mp4" />
               Seu navegador não suporta o elemento de vídeo.
             </video>
 
             {/* Botão de Play Semitransparente */}
             <button 
-              onClick={togglePlay}
+              onClick={(e) => {
+                e.stopPropagation();
+                togglePlay();
+              }}
               className={`absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 
                 bg-black/30 hover:bg-black/50 text-white rounded-full p-6
-                transition-opacity duration-300 ${isPlaying ? 'opacity-0 group-hover:opacity-100' : 'opacity-100'}`}
+                transition-all duration-300 ${isPlaying ? 'opacity-0' : 'opacity-100'} 
+                ${showControls ? 'opacity-100' : ''}`}
             >
               <Play className="w-12 h-12" />
             </button>
