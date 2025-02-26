@@ -106,10 +106,10 @@ export default function Home() {
               loop
               onEnded={handleVideoEnded}
             >
-              <source src="/Video Do3 02.mp4" type="video/mp4" />
-              <source src="/Video Do3 02.mp4?quality=720p" type="video/mp4" />
-              <source src="/Video Do3 02.mp4?quality=480p" type="video/mp4" />
-              <source src="/Video Do3 02.mp4?quality=360p" type="video/mp4" />
+              <source src="/Vídeo Vsl 01.mp4" type="video/mp4" />
+              <source src="/Vídeo Vsl 01.mp4?quality=720p" type="video/mp4" />
+              <source src="/Vídeo Vsl 01.mp4?quality=480p" type="video/mp4" />
+              <source src="/Vídeo Vsl 01.mp4?quality=360p" type="video/mp4" />
               Seu navegador não suporta o elemento de vídeo.
             </video>
 
