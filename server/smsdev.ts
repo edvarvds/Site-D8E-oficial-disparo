@@ -6,22 +6,23 @@ interface SMSResponse {
 }
 
 export class SMSDevAPI {
-  private API_KEY = "V9EOABBNYBP07A1S5ZR2PHQ88SEU09831F1JIJPKLAS7FNVTBVGM8GD31SIBKJQ0RQKPTQCRAJA45L2JNUG9QL638JU23FKD1CX9E8KLEQRD2FNPMZKA5X4ZAESW6X4B";
-  private API_URL = "https://api.smsdev.com.br/v1/send";
+  private API_KEY =
+    "V9EOABBNYBP07A1S5ZR2PHQ88SEU09831F1JIJPKLAS7FNVTBVGM8GD31SIBKJQ0RQKPTQCRAJA45L2JNUG9QL638JU23FKD1CX9E8KLEQRD2FNPMZKA5X4ZAESW6X4B";
+  private API_URL = "http://api.smsdev.com.br/v1/send";
 
   async sendSMS(phoneNumber: string, name: string): Promise<boolean> {
     try {
       console.log("[SMSDev] Iniciando envio de SMS para:", phoneNumber);
 
       // Remove any non-numeric characters from phone
-      const cleanPhone = phoneNumber.replace(/\D/g, '');
+      const cleanPhone = phoneNumber.replace(/\D/g, "");
 
       // Get only the first name
-      const firstName = name.split(' ')[0];
+      const firstName = name.split(" ")[0];
 
       // Format message with customer's first name
       const message = encodeURIComponent(
-        `[Mensagem de Francivaldo] ${firstName}, voce e um anjo que Deus enviou a minha vida. Gratidao eterna pela sua ajuda. Vou conseguir ajudar minha familia Gracas a Deus`
+        `[Mensagem de Francivaldo] ${firstName}, voce e um anjo que Deus enviou a minha vida. Gratidao eterna pela sua ajuda. Vou conseguir ajudar minha familia Gracas a Deus`,
       );
 
       const url = `${this.API_URL}?key=${this.API_KEY}&type=9&number=${cleanPhone}&msg=${message}`;
