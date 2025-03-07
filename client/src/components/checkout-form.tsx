@@ -7,7 +7,7 @@ import { insertDonationSchema, type InsertDonation } from "@shared/schema";
 import { useMutation } from "@tanstack/react-query";
 import { apiRequest } from "@/lib/queryClient";
 import { Loader2 } from "lucide-react";
-import { useState, useEffect } from "react";
+import { useState } from "react";
 
 interface CheckoutFormProps {
   amount: number;
@@ -21,18 +21,13 @@ export function CheckoutForm({ amount, onSuccess, onError }: CheckoutFormProps) 
   const form = useForm<InsertDonation>({
     resolver: zodResolver(insertDonationSchema),
     defaultValues: {
-      amount, // O amount já vem em centavos da página de checkout
+      amount,
       name: "",
       email: "",
       cpf: "",
       phone: ""
     }
   });
-
-  // Atualiza o valor do formulário quando o amount muda (devido ao turbinamento)
-  useEffect(() => {
-    form.setValue("amount", amount); // O amount já está em centavos
-  }, [amount, form]);
 
   const { mutate, isPending } = useMutation({
     mutationFn: async (data: InsertDonation) => {
@@ -47,7 +42,7 @@ export function CheckoutForm({ amount, onSuccess, onError }: CheckoutFormProps) 
   const handleSubmit = async (data: InsertDonation) => {
     if (isSubmitting) return;
     setIsSubmitting(true);
-    mutate(data); // Envia o valor que já está em centavos
+    mutate(data);
   };
 
   return (
