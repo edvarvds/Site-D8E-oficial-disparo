@@ -21,7 +21,7 @@ export function CheckoutForm({ amount, onSuccess, onError }: CheckoutFormProps) 
   const form = useForm<InsertDonation>({
     resolver: zodResolver(insertDonationSchema),
     defaultValues: {
-      amount,
+      amount: Math.round(amount * 100), // Converte para centavos
       name: "",
       email: "",
       cpf: "",
@@ -31,7 +31,7 @@ export function CheckoutForm({ amount, onSuccess, onError }: CheckoutFormProps) 
 
   // Atualiza o valor do formulário quando o amount muda (devido ao turbinamento)
   useEffect(() => {
-    form.setValue("amount", amount);
+    form.setValue("amount", Math.round(amount * 100)); // Converte para centavos
   }, [amount, form]);
 
   const { mutate, isPending } = useMutation({
@@ -48,7 +48,7 @@ export function CheckoutForm({ amount, onSuccess, onError }: CheckoutFormProps) 
     if (isSubmitting) return;
     setIsSubmitting(true);
     // Garante que o amount está atualizado antes de enviar
-    mutate({ ...data, amount });
+    mutate({ ...data, amount: Math.round(amount * 100) }); // Converte para centavos
   };
 
   return (
