@@ -168,7 +168,7 @@ export default function Checkout() {
                 </div>
               </div>
               <CheckoutForm
-                amount={amount}
+                amount={amount} // Passando o valor total incluindo turbinamento
                 onSuccess={handlePaymentCreated}
                 onError={handleError}
               />
@@ -196,9 +196,9 @@ export default function Checkout() {
                 pixCode={paymentDetails.pixCode}
                 pixQrCode={paymentDetails.pixQrCode}
                 expiresAt={paymentDetails.expiresAt}
-                onSuccess={() => navigate(`/thank-you?amount=${amount}`)}
+                onSuccess={() => navigate(`/thank-you?amount=${amount}`)} // Passando o valor total para a página de agradecimento
                 onError={handleError}
-                amount={amount}
+                amount={amount} // Passando o valor total incluindo turbinamento
               />
             </>
           )}
