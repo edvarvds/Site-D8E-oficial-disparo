@@ -7,7 +7,7 @@ import { insertDonationSchema, type InsertDonation } from "@shared/schema";
 import { useMutation } from "@tanstack/react-query";
 import { apiRequest } from "@/lib/queryClient";
 import { Loader2 } from "lucide-react";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 interface CheckoutFormProps {
   amount: number;
@@ -29,6 +29,11 @@ export function CheckoutForm({ amount, onSuccess, onError }: CheckoutFormProps) 
     }
   });
 
+  // Atualiza o valor do formulário quando o amount muda (devido ao turbinamento)
+  useEffect(() => {
+    form.setValue("amount", amount);
+  }, [amount, form]);
+
   const { mutate, isPending } = useMutation({
     mutationFn: async (data: InsertDonation) => {
       const res = await apiRequest("POST", "/api/donations", data);
@@ -42,7 +47,8 @@ export function CheckoutForm({ amount, onSuccess, onError }: CheckoutFormProps) 
   const handleSubmit = async (data: InsertDonation) => {
     if (isSubmitting) return;
     setIsSubmitting(true);
-    mutate(data);
+    // Garante que o amount está atualizado antes de enviar
+    mutate({ ...data, amount });
   };
 
   return (
