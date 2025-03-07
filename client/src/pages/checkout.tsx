@@ -148,7 +148,7 @@ export default function Checkout() {
                     Turbinar doação por +{formatCurrency(14.99)}
                   </label>
                   <p className="text-xs text-gray-600 mt-1">
-                    Esta vaquinha ganha destaque e você ainda ajuda a garantir medicamentos e cuidados de saúde para o Sr. Francivaldo e sua Familia.
+                    Esta vaquinha ganha destaque e você ainda ajuda a garantir um futuro mais saudável para centenas de crianças
                   </p>
                 </div>
               </div>
