@@ -5,6 +5,7 @@ import { useToast } from "@/hooks/use-toast";
 import { Heart, Shield, Lock, CheckCircle2, Clock } from "lucide-react";
 import { useState } from "react";
 import Facebook from "@/components/Facebook";
+import { Checkbox } from "@/components/ui/checkbox";
 
 type CheckoutStep = "form" | "pix";
 
@@ -27,13 +28,17 @@ export default function Checkout() {
   const [paymentDetails, setPaymentDetails] = useState<PaymentDetails | null>(null);
   const { toast } = useToast();
   const [_, navigate] = useLocation();
+  const [turbineChecked, setTurbineChecked] = useState(false);
 
   // Pegar o valor da URL
   const searchParams = new URLSearchParams(window.location.search);
-  const amount = Number(searchParams.get("amount") || 0);
+  const baseAmount = Number(searchParams.get("amount") || 0);
+
+  // Calcular valor total com turbinamento
+  const amount = turbineChecked ? baseAmount + 14.99 : baseAmount;
 
   // Se não tiver valor, redirecionar para home
-  if (amount === 0) {
+  if (baseAmount === 0) {
     navigate("/");
     return null;
   }
@@ -122,6 +127,29 @@ export default function Checkout() {
                       </p>
                     </div>
                   </div>
+                </div>
+              </div>
+            </div>
+
+            {/* Opção de Turbinar */}
+            <div className="mt-4 p-4 bg-gradient-to-r from-yellow-50 to-orange-50 rounded-lg border border-yellow-100">
+              <div className="flex items-start space-x-3">
+                <Checkbox 
+                  id="turbine" 
+                  checked={turbineChecked}
+                  onCheckedChange={(checked) => setTurbineChecked(checked as boolean)}
+                  className="mt-1"
+                />
+                <div>
+                  <label 
+                    htmlFor="turbine" 
+                    className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70 cursor-pointer"
+                  >
+                    Turbinar doação por +{formatCurrency(14.99)}
+                  </label>
+                  <p className="text-xs text-gray-600 mt-1">
+                    Esta vaquinha ganha destaque e você ainda ajuda a garantir medicamentos e cuidados de saúde para o Sr. Francivaldo e sua Familia.
+                  </p>
                 </div>
               </div>
             </div>
