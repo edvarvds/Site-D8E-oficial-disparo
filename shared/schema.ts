@@ -20,7 +20,7 @@ export const insertDonationSchema = createInsertSchema(donations).omit({
   status: true,
   createdAt: true,
 }).extend({
-  amount: z.number().min(1),
+  amount: z.number().int().min(1), // Garante que o valor é um número inteiro
   name: z.string().min(3),
   email: z.string().email(),
   cpf: z.string().min(11).max(14),
