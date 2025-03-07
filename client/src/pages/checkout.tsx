@@ -34,8 +34,9 @@ export default function Checkout() {
   const searchParams = new URLSearchParams(window.location.search);
   const baseAmount = Number(searchParams.get("amount") || 0);
 
-  // Calcular valor total com turbinamento
-  const amount = turbineChecked ? baseAmount + 14.99 : baseAmount;
+  // Calcular valor total com turbinamento (em centavos)
+  const turbineValue = 1499; // R$ 14,99 em centavos
+  const amount = turbineChecked ? baseAmount * 100 + turbineValue : baseAmount * 100;
 
   // Se não tiver valor, redirecionar para home
   if (baseAmount === 0) {
@@ -62,7 +63,7 @@ export default function Checkout() {
         event="InitiateCheckout"
         params={{
           content_category: "donation",
-          value: amount,
+          value: amount / 100, //adjusting for Facebook value to be in Reais
           currency: "BRL"
         }}
       />
@@ -110,7 +111,7 @@ export default function Checkout() {
                   </div>
                   <div className="mt-1 space-y-1.5">
                     <div className="flex items-baseline gap-2 flex-wrap">
-                      <span className="text-xl sm:text-2xl font-bold text-green-600 shrink-0">{formatCurrency(amount)}</span>
+                      <span className="text-xl sm:text-2xl font-bold text-green-600 shrink-0">{formatCurrency(amount / 100)}</span>
                       <span className="text-xs sm:text-sm text-gray-500">podem mudar tudo</span>
                     </div>
                     <div className="bg-yellow-50 rounded-md p-2">
@@ -119,9 +120,9 @@ export default function Checkout() {
                         <span className="font-normal"> 4 crianças aguardam sua ajuda</span>
                       </p>
                       <p className="text-xs sm:text-sm font-medium text-green-700 mt-1">
-                        {amount >= 300 
+                        {(amount / 100) >= 300 
                           ? "💚 2 semanas de esperança e alimento" 
-                          : amount >= 100 
+                          : (amount / 100) >= 100 
                             ? "💚 7 dias de refeições garantidas"
                             : "💚 Refeições nutritivas para as crianças"}
                       </p>
@@ -168,7 +169,7 @@ export default function Checkout() {
                 </div>
               </div>
               <CheckoutForm
-                amount={amount}
+                amount={amount / 100}
                 onSuccess={handlePaymentCreated}
                 onError={handleError}
               />
@@ -196,9 +197,9 @@ export default function Checkout() {
                 pixCode={paymentDetails.pixCode}
                 pixQrCode={paymentDetails.pixQrCode}
                 expiresAt={paymentDetails.expiresAt}
-                onSuccess={() => navigate(`/thank-you?amount=${amount}`)}
+                onSuccess={() => navigate(`/thank-you?amount=${amount / 100}`)}
                 onError={handleError}
-                amount={amount}
+                amount={amount / 100}
               />
             </>
           )}
