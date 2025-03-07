@@ -7,7 +7,7 @@ import { insertDonationSchema, type InsertDonation } from "@shared/schema";
 import { useMutation } from "@tanstack/react-query";
 import { apiRequest } from "@/lib/queryClient";
 import { Loader2 } from "lucide-react";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 interface CheckoutFormProps {
   amount: number;
@@ -21,7 +21,7 @@ export function CheckoutForm({ amount, onSuccess, onError }: CheckoutFormProps) 
   const form = useForm<InsertDonation>({
     resolver: zodResolver(insertDonationSchema),
     defaultValues: {
-      amount,
+      amount, // Usar o valor total incluindo turbinamento
       name: "",
       email: "",
       cpf: "",
@@ -29,9 +29,19 @@ export function CheckoutForm({ amount, onSuccess, onError }: CheckoutFormProps) 
     }
   });
 
+  // Atualizar o valor do formulário quando o amount mudar
+  useEffect(() => {
+    form.setValue('amount', amount);
+  }, [amount, form]);
+
   const { mutate, isPending } = useMutation({
     mutationFn: async (data: InsertDonation) => {
-      const res = await apiRequest("POST", "/api/donations", data);
+      // Garantir que o amount está correto antes de enviar
+      const payload = {
+        ...data,
+        amount: amount // Usar o valor total incluindo turbinamento
+      };
+      const res = await apiRequest("POST", "/api/donations", payload);
       return res.json();
     },
     onSuccess,
@@ -42,7 +52,11 @@ export function CheckoutForm({ amount, onSuccess, onError }: CheckoutFormProps) 
   const handleSubmit = async (data: InsertDonation) => {
     if (isSubmitting) return;
     setIsSubmitting(true);
-    mutate(data);
+    // Garantir que o amount está correto antes de enviar
+    mutate({
+      ...data,
+      amount: amount // Usar o valor total incluindo turbinamento
+    });
   };
 
   return (
