@@ -43,7 +43,7 @@ export default function Checkout() {
 
   // Recalculate amount when turbineChecked changes - usando useEffect para garantir a atualização correta
   const [amount, setAmount] = useState(calculateAmount(baseAmount, turbineChecked));
-  
+
   // Atualiza o valor quando turbineChecked mudar
   useEffect(() => {
     const newAmount = calculateAmount(baseAmount, turbineChecked);
@@ -91,9 +91,9 @@ export default function Checkout() {
   console.log("Valor base:", baseAmount);
   console.log("Valor total calculado:", amount);
   console.log("============================");
-  
+
   return (
-    <div className="min-h-screen bg-gradient-to-b from-gray-50 to-white">
+    <div className="min-h-screen bg-gradient-to-b from-gray-50 to-white scroll-container">
       <Facebook 
         event="InitiateCheckout"
         params={{
@@ -104,12 +104,13 @@ export default function Checkout() {
       />
 
       {/* Header com Logo */}
-      <header className="border-b bg-white shadow-sm">
+      <header className="border-b bg-white shadow-sm sticky top-0 z-50">
         <div className="max-w-md mx-auto p-4">
           <img 
             src="https://www.vaquinhaonline.com.br/wp-content/uploads/2023/12/cropped-logotipo-vakinha-online.png" 
             alt="Vakinha Online" 
             className="h-8"
+            loading="eager"
           />
         </div>
       </header>
@@ -119,7 +120,7 @@ export default function Checkout() {
           {/* Banner Message */}
           <div className="bg-blue-50 border-y border-blue-100">
             <div className="max-w-3xl mx-auto py-3 px-4 text-center">
-              <p className="text-blue-800 font-medium text-sm">
+              <p className="text-blue-800 font-medium text-base">
                 Você foi um escolhido(a) de Deus para ajudar na missão de cuidar desta Família
               </p>
             </div>
@@ -134,6 +135,7 @@ export default function Checkout() {
                     src="https://i.postimg.cc/HLPbwDPf/foto-da-familia.png"
                     alt="Família beneficiária"
                     className="w-full h-48 sm:w-52 sm:h-52 object-cover rounded-lg"
+                    loading="eager"
                   />
                   <div className="absolute -top-2 -right-2 bg-red-500 text-white p-1 rounded-full animate-pulse">
                     <Heart className="w-4 h-4" />
@@ -141,20 +143,20 @@ export default function Checkout() {
                 </div>
                 <div className="flex-1 min-w-0">
                   <div className="flex items-center gap-2 flex-wrap">
-                    <h2 className="font-bold text-red-600 text-sm sm:text-base">Sua Doação Salvará Vidas</h2>
+                    <h2 className="font-bold text-red-600 text-base sm:text-lg">Sua Doação Salvará Vidas</h2>
                     <Clock className="w-4 h-4 text-yellow-500 shrink-0" />
                   </div>
                   <div className="mt-1 space-y-1.5">
                     <div className="flex items-baseline gap-2 flex-wrap">
                       <span className="text-xl sm:text-2xl font-bold text-green-600 shrink-0">{formatCurrency(amount)}</span>
-                      <span className="text-xs sm:text-sm text-gray-500">podem mudar tudo</span>
+                      <span className="text-sm sm:text-base text-gray-500">podem mudar tudo</span>
                     </div>
                     <div className="bg-yellow-50 rounded-md p-2">
-                      <p className="text-xs sm:text-sm font-medium text-yellow-800">
+                      <p className="text-sm sm:text-base font-medium text-yellow-800">
                         Família de Francivaldo:
                         <span className="font-normal"> 4 crianças aguardam sua ajuda</span>
                       </p>
-                      <p className="text-xs sm:text-sm font-medium text-green-700 mt-1">
+                      <p className="text-sm sm:text-base font-medium text-green-700 mt-1">
                         {amount >= 300 
                           ? "💚 2 semanas de esperança e alimento" 
                           : amount >= 100 
@@ -173,30 +175,17 @@ export default function Checkout() {
                 <Checkbox 
                   id="turbine" 
                   checked={turbineChecked}
-                  onCheckedChange={(checked) => {
-                    console.log("%c CHECKBOX MUDOU ", "background: #ff0000; color: white; font-size: 20px");
-                    console.log("Valor anterior:", turbineChecked);
-                    console.log("Novo valor:", checked);
-                    console.log("Valor base:", baseAmount);
-                    console.log("Valor atual:", amount);
-                    
-                    // Atualizar o estado
-                    setTurbineChecked(checked as boolean);
-                  }}
+                  onCheckedChange={(checked) => setTurbineChecked(checked as boolean)}
                   className="mt-1"
                 />
                 <div>
                   <label 
                     htmlFor="turbine" 
-                    className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70 cursor-pointer"
-                    onClick={() => {
-                      console.log("%c LABEL CLICADO ", "background: #00ff00; color: black; font-size: 16px");
-                      console.log("Estado atual da checkbox:", turbineChecked);
-                    }}
+                    className="text-base font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70 cursor-pointer"
                   >
                     Turbinar doação por +{formatCurrency(14.99)}
                   </label>
-                  <p className="text-xs text-gray-600 mt-1">
+                  <p className="text-sm text-gray-600 mt-1">
                     Esta vaquinha ganha destaque e você ainda ajuda a garantir medicamentos e cuidados de saúde para o Sr. Francivaldo e sua Familia.
                   </p>
                 </div>
@@ -210,7 +199,7 @@ export default function Checkout() {
                     <Shield className="h-5 w-5 text-blue-400" />
                   </div>
                   <div className="ml-3">
-                    <p className="text-xs text-blue-700">
+                    <p className="text-sm text-blue-700">
                       Seus dados estão protegidos com criptografia de ponta a ponta.
                     </p>
                   </div>
@@ -256,7 +245,7 @@ export default function Checkout() {
 
       {/* Footer com Selos */}
       <footer className="mt-4 pt-4 border-t">
-        <p className="text-center text-xs text-gray-500">
+        <p className="text-center text-sm text-gray-500">
           © 2024 Vakinha Online - CNPJ 22.831.673/0001-26
         </p>
       </footer>
