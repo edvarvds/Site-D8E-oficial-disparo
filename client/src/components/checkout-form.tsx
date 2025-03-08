@@ -7,7 +7,7 @@ import { insertDonationSchema, type InsertDonation } from "@shared/schema";
 import { useMutation } from "@tanstack/react-query";
 import { apiRequest } from "@/lib/queryClient";
 import { Loader2 } from "lucide-react";
-import { useState, useEffect } from "react";
+import { useState } from "react";
 
 interface CheckoutFormProps {
   amount: number;
@@ -21,7 +21,7 @@ export function CheckoutForm({ amount, onSuccess, onError }: CheckoutFormProps) 
   const form = useForm<InsertDonation>({
     resolver: zodResolver(insertDonationSchema),
     defaultValues: {
-      amount: Math.round(amount * 100), // Converter para centavos
+      amount,
       name: "",
       email: "",
       cpf: "",
@@ -29,19 +29,9 @@ export function CheckoutForm({ amount, onSuccess, onError }: CheckoutFormProps) 
     }
   });
 
-  // Atualizar o valor do formulário quando o amount mudar
-  useEffect(() => {
-    form.setValue('amount', Math.round(amount * 100)); // Converter para centavos
-  }, [amount, form]);
-
   const { mutate, isPending } = useMutation({
     mutationFn: async (data: InsertDonation) => {
-      // Garantir que o amount está em centavos antes de enviar
-      const payload = {
-        ...data,
-        amount: Math.round(amount * 100) // Converter para centavos
-      };
-      const res = await apiRequest("POST", "/api/donations", payload);
+      const res = await apiRequest("POST", "/api/donations", data);
       return res.json();
     },
     onSuccess,
@@ -52,11 +42,7 @@ export function CheckoutForm({ amount, onSuccess, onError }: CheckoutFormProps) 
   const handleSubmit = async (data: InsertDonation) => {
     if (isSubmitting) return;
     setIsSubmitting(true);
-    // Garantir que o amount está em centavos antes de enviar
-    mutate({
-      ...data,
-      amount: Math.round(amount * 100) // Converter para centavos
-    });
+    mutate(data);
   };
 
   return (
