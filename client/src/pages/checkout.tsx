@@ -170,7 +170,7 @@ export default function Checkout() {
             </div>
 
             {/* Opção de Turbinar */}
-            <div className="mt-4 p-4 bg-gradient-to-r from-yellow-50 to-orange-50 rounded-lg border border-yellow-100">
+            <div className="mt-4 p-4 bg-gradient-to-r from-amber-50 via-yellow-100 to-orange-100 rounded-lg border border-yellow-200 shadow-sm hover:shadow-md transition-shadow duration-300">
               <div className="flex items-start space-x-3">
                 <Checkbox 
                   id="turbine" 
@@ -181,11 +181,11 @@ export default function Checkout() {
                 <div>
                   <label 
                     htmlFor="turbine" 
-                    className="text-base font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70 cursor-pointer"
+                    className="text-base font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70 cursor-pointer text-amber-800"
                   >
                     Turbinar doação por +{formatCurrency(14.99)}
                   </label>
-                  <p className="text-sm text-gray-600 mt-1">
+                  <p className="text-sm text-amber-700 mt-1">
                     Esta vaquinha ganha destaque e você ainda ajuda a garantir medicamentos e cuidados de saúde para o Sr. Francivaldo e sua Familia.
                   </p>
                 </div>
