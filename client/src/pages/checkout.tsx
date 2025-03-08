@@ -83,6 +83,13 @@ export default function Checkout() {
     });
   };
 
+  // Adicionar logs imediatos para debug
+  console.log("====== CHECKOUT RENDER ======");
+  console.log("Estado atual do turbineChecked:", turbineChecked);
+  console.log("Valor base:", baseAmount);
+  console.log("Valor total calculado:", amount);
+  console.log("============================");
+  
   return (
     <div className="min-h-screen bg-gradient-to-b from-gray-50 to-white">
       <Facebook 
@@ -165,7 +172,13 @@ export default function Checkout() {
                   id="turbine" 
                   checked={turbineChecked}
                   onCheckedChange={(checked) => {
-                    console.log("Checkbox mudou para:", checked);
+                    console.log("%c CHECKBOX MUDOU ", "background: #ff0000; color: white; font-size: 20px");
+                    console.log("Valor anterior:", turbineChecked);
+                    console.log("Novo valor:", checked);
+                    console.log("Valor base:", baseAmount);
+                    console.log("Valor atual:", amount);
+                    
+                    // Atualizar o estado
                     setTurbineChecked(checked as boolean);
                   }}
                   className="mt-1"
@@ -174,6 +187,10 @@ export default function Checkout() {
                   <label 
                     htmlFor="turbine" 
                     className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70 cursor-pointer"
+                    onClick={() => {
+                      console.log("%c LABEL CLICADO ", "background: #00ff00; color: black; font-size: 16px");
+                      console.log("Estado atual da checkbox:", turbineChecked);
+                    }}
                   >
                     Turbinar doação por +{formatCurrency(14.99)}
                   </label>
