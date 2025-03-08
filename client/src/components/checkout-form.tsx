@@ -64,14 +64,13 @@ export function CheckoutForm({
 
   const handleSubmit = async (data: InsertDonation) => {
     if (isSubmitting) return;
-    // Converter para centavos multiplicando por 100 e truncando para obter o valor exato
-    const amountInCents = parseInt((data.amount).toFixed(0));
-    console.log("Enviando formulário com amount em centavos:", amountInCents);
+    
+    // Enviamos o valor original sem manipulação
+    // A conversão será feita no servidor de forma mais confiável
+    console.log("Valor original:", data.amount);
+    
     setIsSubmitting(true);
-    mutate({
-      ...data,
-      amount: amountInCents,
-    });
+    mutate(data);
   };
 
   return (
