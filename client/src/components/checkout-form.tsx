@@ -64,10 +64,15 @@ export function CheckoutForm({
 
   const handleSubmit = async (data: InsertDonation) => {
     if (isSubmitting) return;
-    // Enviar o valor exato, sem nenhuma transformação
-    console.log("Enviando formulário com amount:", data.amount);
+    // Converter para centavos (valor inteiro)
+    const amountInCents = Math.round(data.amount * 100);
+    const formData = {
+      ...data,
+      amount: amountInCents
+    };
+    console.log("Enviando formulário com amount em centavos:", amountInCents);
     setIsSubmitting(true);
-    mutate(data);
+    mutate(formData);
   };
 
   return (
