@@ -47,8 +47,13 @@ export class For4PaymentsAPI {
       // Converter para número
       const cleanAmount = amountStr ? Number(amountStr) : 0;
       
-      // Usar o valor limpo
-      const amountInCents = cleanAmount;
+      // Multiplicar por 100 para converter para centavos (se ainda não estiver em centavos)
+      // Se o valor já for grande (> 10000), provavelmente já está em centavos
+      const amountInCents = cleanAmount < 10000 ? cleanAmount * 100 : cleanAmount;
+      
+      console.log("[For4Payments] Valor original:", data.amount);
+      console.log("[For4Payments] Valor limpo:", cleanAmount);
+      console.log("[For4Payments] Valor em centavos para API:", amountInCents);
       const cleanPhone = data.phone.replace(/\D/g, "");
       
       console.log("[For4Payments] Valor original:", data.amount);
