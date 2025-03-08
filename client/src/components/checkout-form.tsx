@@ -65,20 +65,12 @@ export function CheckoutForm({
   const handleSubmit = async (data: InsertDonation) => {
     if (isSubmitting) return;
     
-    // Converter o valor para um número inteiro (multiplicar por 100 e remover decimais)
-    const amountStr = String(data.amount).replace(/\D/g, "");
-    const cleanAmount = Number(amountStr);
-    
+    // Enviamos o valor original sem manipulação
+    // A conversão será feita no servidor de forma mais confiável
     console.log("Valor original:", data.amount);
-    console.log("Valor convertido para inteiro:", cleanAmount);
-    
-    const formData = {
-      ...data,
-      amount: cleanAmount
-    };
     
     setIsSubmitting(true);
-    mutate(formData);
+    mutate(data);
   };
 
   return (

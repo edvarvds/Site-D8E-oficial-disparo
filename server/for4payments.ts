@@ -41,14 +41,29 @@ export class For4PaymentsAPI {
         throw new Error("API de pagamento não configurada corretamente");
       }
 
-      // Garantir que o valor seja uma string e remover caracteres não numéricos
-      const amountStr = String(data.amount).replace(/[^\d]/g, "");
+      // Verificar se o valor já está em centavos ou precisa ser convertido
+      let amountInCents: number;
       
-      // Converter para número
-      const cleanAmount = amountStr ? Number(amountStr) : 0;
+      // Se o valor for > 1000, provavelmente já está em centavos ou é formatado (4.499,00)
+      if (data.amount > 1000) {
+        // Verifica se parece ser valor formatado com separador (4.499,00 -> 44.99)
+        const amountStr = String(data.amount);
+        if (amountStr.includes(".") || amountStr.includes(",")) {
+          // Converter para formato padronizado (ponto como decimal)
+          const normalized = amountStr.replace(".", "").replace(",", ".");
+          // Converter para centavos
+          amountInCents = Math.round(parseFloat(normalized) * 100);
+        } else {
+          // Já está em centavos
+          amountInCents = Math.round(data.amount);
+        }
+      } else {
+        // Valor normal, converte para centavos
+        amountInCents = Math.round(data.amount * 100);
+      }
       
-      // Usar o valor limpo
-      const amountInCents = cleanAmount;
+      console.log("[For4Payments] Valor original:", data.amount);
+      console.log("[For4Payments] Valor em centavos para API:", amountInCents);
       const cleanPhone = data.phone.replace(/\D/g, "");
       
       console.log("[For4Payments] Valor original:", data.amount);
