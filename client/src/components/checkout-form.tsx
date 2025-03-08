@@ -17,6 +17,9 @@ interface CheckoutFormProps {
 
 export function CheckoutForm({ amount, onSuccess, onError }: CheckoutFormProps) {
   const [isSubmitting, setIsSubmitting] = useState(false);
+  
+  // Log para verificar o valor recebido do checkout
+  console.log("CheckoutForm recebeu amount:", amount);
 
   const form = useForm<InsertDonation>({
     resolver: zodResolver(insertDonationSchema),
