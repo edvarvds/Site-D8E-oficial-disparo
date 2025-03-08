@@ -55,7 +55,22 @@ export default function Checkout() {
     return null;
   }
 
+  // Log quando checkbox muda
+  useEffect(() => {
+    console.log("===== Estado da Checkbox =====");
+    console.log("Checkbox turbine checked:", turbineChecked);
+  }, [turbineChecked]);
+
+  // Log quando amount muda
+  useEffect(() => {
+    console.log("===== Estado do Amount =====");
+    console.log("Valor atual:", amount);
+    console.log("Valor base:", baseAmount);
+    console.log("Turbine ativo:", turbineChecked);
+  }, [amount]);
+
   const handlePaymentCreated = (details: PaymentDetails) => {
+    console.log("Pagamento criado com valor:", amount);
     setPaymentDetails(details);
     setStep("pix");
   };
@@ -149,7 +164,10 @@ export default function Checkout() {
                 <Checkbox 
                   id="turbine" 
                   checked={turbineChecked}
-                  onCheckedChange={(checked) => setTurbineChecked(checked as boolean)}
+                  onCheckedChange={(checked) => {
+                    console.log("Checkbox mudou para:", checked);
+                    setTurbineChecked(checked as boolean);
+                  }}
                   className="mt-1"
                 />
                 <div>
