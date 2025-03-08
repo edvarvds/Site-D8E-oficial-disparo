@@ -170,24 +170,51 @@ export default function Checkout() {
             </div>
 
             {/* Opção de Turbinar */}
-            <div className="mt-4 p-4 bg-gradient-to-r from-yellow-50 to-orange-50 rounded-lg border border-yellow-100">
-              <div className="flex items-start space-x-3">
-                <Checkbox 
-                  id="turbine" 
-                  checked={turbineChecked}
-                  onCheckedChange={(checked) => setTurbineChecked(checked as boolean)}
-                  className="mt-1"
-                />
-                <div>
-                  <label 
-                    htmlFor="turbine" 
-                    className="text-base font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70 cursor-pointer"
-                  >
-                    Turbinar doação por +{formatCurrency(14.99)}
-                  </label>
-                  <p className="text-sm text-gray-600 mt-1">
-                    Esta vaquinha ganha destaque e você ainda ajuda a garantir medicamentos e cuidados de saúde para o Sr. Francivaldo e sua Familia.
-                  </p>
+            <div className="mt-4 p-4 bg-gradient-to-br from-amber-50 via-yellow-50 to-orange-50 rounded-lg border border-yellow-200 shadow-sm hover:shadow-md transition-all duration-300 relative overflow-hidden">
+              {/* Efeito de destaque */}
+              <div className="absolute -top-6 -right-6 w-24 h-24 bg-yellow-400/10 rounded-full blur-2xl"></div>
+              <div className="absolute -bottom-6 -left-6 w-24 h-24 bg-orange-400/10 rounded-full blur-2xl"></div>
+
+              <div className="relative">
+                {/* Badge de destaque */}
+                <div className="absolute -top-6 -right-2 bg-yellow-400 text-yellow-800 text-xs px-2 py-1 rounded-full font-medium transform rotate-2">
+                  Recomendado
+                </div>
+
+                <div className="flex items-start space-x-3">
+                  <Checkbox 
+                    id="turbine" 
+                    checked={turbineChecked}
+                    onCheckedChange={(checked) => setTurbineChecked(checked as boolean)}
+                    className="mt-1.5 h-5 w-5 rounded-md border-2 border-yellow-500 text-yellow-500"
+                  />
+                  <div className="flex-1">
+                    <label 
+                      htmlFor="turbine" 
+                      className="text-base font-semibold text-yellow-800 cursor-pointer flex items-center gap-2"
+                    >
+                      Turbinar doação por +{formatCurrency(14.99)}
+                      <span className="inline-block animate-pulse">
+                        ⭐
+                      </span>
+                    </label>
+
+                    {/* Lista de benefícios */}
+                    <div className="mt-2 space-y-2">
+                      <p className="text-sm text-yellow-800 flex items-center gap-2">
+                        <span className="text-yellow-600 text-lg">✓</span>
+                        Esta vaquinha ganha destaque especial
+                      </p>
+                      <p className="text-sm text-yellow-800 flex items-center gap-2">
+                        <span className="text-yellow-600 text-lg">✓</span>
+                        Ajuda com medicamentos e cuidados de saúde
+                      </p>
+                      <p className="text-sm text-yellow-800 flex items-center gap-2">
+                        <span className="text-yellow-600 text-lg">✓</span>
+                        Alcance mais pessoas necessitadas
+                      </p>
+                    </div>
+                  </div>
                 </div>
               </div>
             </div>
