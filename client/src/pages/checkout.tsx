@@ -3,7 +3,7 @@ import { CheckoutForm } from "@/components/checkout-form";
 import { PixDisplay } from "@/components/pix-display";
 import { useToast } from "@/hooks/use-toast";
 import { Heart, Shield, Lock, CheckCircle2, Clock } from "lucide-react";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Facebook from "@/components/Facebook";
 import { Checkbox } from "@/components/ui/checkbox";
 
