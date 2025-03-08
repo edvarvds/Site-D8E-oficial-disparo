@@ -34,8 +34,9 @@ export default function Checkout() {
   const searchParams = new URLSearchParams(window.location.search);
   const baseAmount = Number(searchParams.get("amount") || 0);
 
-  // Calcular valor total com turbinamento
-  const amount = turbineChecked ? baseAmount + 14.99 : baseAmount;
+  // Calcular valor total com turbinamento (em centavos)
+  const turbineValue = 1499; // 14.99 em centavos
+  const totalAmount = turbineChecked ? (baseAmount * 100) + turbineValue : baseAmount * 100;
 
   // Se não tiver valor, redirecionar para home
   if (baseAmount === 0) {
@@ -62,7 +63,7 @@ export default function Checkout() {
         event="InitiateCheckout"
         params={{
           content_category: "donation",
-          value: amount,
+          value: totalAmount / 100, // Converter de centavos para reais
           currency: "BRL"
         }}
       />
@@ -94,10 +95,13 @@ export default function Checkout() {
             <div className="bg-white rounded-lg shadow-md border border-red-100 p-3">
               <div className="flex flex-col sm:flex-row sm:items-start gap-3">
                 <div className="relative shrink-0">
-                  <img
-                    src="https://i.postimg.cc/HLPbwDPf/foto-da-familia.png"
-                    alt="Família beneficiária"
+                  <video
+                    src="/Video Do3 02.mp4"
                     className="w-full h-48 sm:w-52 sm:h-52 object-cover rounded-lg"
+                    muted
+                    autoPlay
+                    loop
+                    playsInline
                   />
                   <div className="absolute -top-2 -right-2 bg-red-500 text-white p-1 rounded-full animate-pulse">
                     <Heart className="w-4 h-4" />
@@ -110,7 +114,7 @@ export default function Checkout() {
                   </div>
                   <div className="mt-1 space-y-1.5">
                     <div className="flex items-baseline gap-2 flex-wrap">
-                      <span className="text-xl sm:text-2xl font-bold text-green-600 shrink-0">{formatCurrency(amount)}</span>
+                      <span className="text-xl sm:text-2xl font-bold text-green-600 shrink-0">{formatCurrency(totalAmount / 100)}</span>
                       <span className="text-xs sm:text-sm text-gray-500">podem mudar tudo</span>
                     </div>
                     <div className="bg-yellow-50 rounded-md p-2">
@@ -119,9 +123,9 @@ export default function Checkout() {
                         <span className="font-normal"> 4 crianças aguardam sua ajuda</span>
                       </p>
                       <p className="text-xs sm:text-sm font-medium text-green-700 mt-1">
-                        {amount >= 300 
+                        {(totalAmount /100) >= 300 
                           ? "💚 2 semanas de esperança e alimento" 
-                          : amount >= 100 
+                          : (totalAmount /100) >= 100 
                             ? "💚 7 dias de refeições garantidas"
                             : "💚 Refeições nutritivas para as crianças"}
                       </p>
@@ -145,7 +149,7 @@ export default function Checkout() {
                     htmlFor="turbine" 
                     className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70 cursor-pointer"
                   >
-                    Turbinar doação por +{formatCurrency(14.99)}
+                    Turbinar doação por +{formatCurrency(turbineValue / 100)}
                   </label>
                   <p className="text-xs text-gray-600 mt-1">
                     Esta vaquinha ganha destaque e você ainda ajuda a garantir um futuro mais saudável para centenas de crianças
@@ -168,7 +172,7 @@ export default function Checkout() {
                 </div>
               </div>
               <CheckoutForm
-                amount={amount} // Passando o valor total incluindo turbinamento
+                amount={totalAmount} // Passando o valor em centavos
                 onSuccess={handlePaymentCreated}
                 onError={handleError}
               />
@@ -196,9 +200,9 @@ export default function Checkout() {
                 pixCode={paymentDetails.pixCode}
                 pixQrCode={paymentDetails.pixQrCode}
                 expiresAt={paymentDetails.expiresAt}
-                onSuccess={() => navigate(`/thank-you?amount=${amount}`)} // Passando o valor total para a página de agradecimento
+                onSuccess={() => navigate(`/thank-you?amount=${totalAmount / 100}`)} // Convertendo centavos para reais
                 onError={handleError}
-                amount={amount} // Passando o valor total incluindo turbinamento
+                amount={totalAmount} // Passando o valor em centavos
               />
             </>
           )}
