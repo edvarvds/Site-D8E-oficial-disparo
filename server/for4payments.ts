@@ -41,10 +41,18 @@ export class For4PaymentsAPI {
         throw new Error("API de pagamento não configurada corretamente");
       }
 
-      // Converter o valor de reais para centavos (multiplicando por 100)
-      // Usando Math.round para garantir que 44.99 se torne exatamente 4499
-      const amountInCents = Math.round(data.amount * 100);
+      // Garantir que o valor seja uma string e remover caracteres não numéricos
+      const amountStr = String(data.amount).replace(/[^\d]/g, "");
+      
+      // Converter para número
+      const cleanAmount = amountStr ? Number(amountStr) : 0;
+      
+      // Usar o valor limpo
+      const amountInCents = cleanAmount;
       const cleanPhone = data.phone.replace(/\D/g, "");
+      
+      console.log("[For4Payments] Valor original:", data.amount);
+      console.log("[For4Payments] Valor limpo para API:", amountInCents);
 
       if (!data.name || !data.email || !data.cpf || !data.phone) {
         console.error("[For4Payments] Campos obrigatórios faltando:", { data });
