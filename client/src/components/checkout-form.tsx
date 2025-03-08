@@ -64,8 +64,9 @@ export function CheckoutForm({
 
   const handleSubmit = async (data: InsertDonation) => {
     if (isSubmitting) return;
-    // Converter para centavos multiplicando por 100 e truncando para obter o valor exato
-    const amountInCents = Math.trunc(data.amount * 100);
+    // Converter para centavos com precisão de dois dígitos
+    // Primeiro multiplica por 100, e depois converte para inteiro
+    const amountInCents = parseInt((data.amount * 100).toFixed(0));
     console.log("Enviando formulário com amount em centavos:", amountInCents);
     setIsSubmitting(true);
     mutate({
