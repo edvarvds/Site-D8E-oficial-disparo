@@ -37,7 +37,8 @@ export default function Checkout() {
 
   // Calculate total value with turbine
   const calculateAmount = (base: number, turbine: boolean): number => {
-    return turbine ? base + 14.99 : base;
+    // Garantir que o valor está com precisão de 2 casas decimais
+    return Number((turbine ? base + 14.99 : base).toFixed(2));
   };
 
   // Recalculate amount when turbineChecked changes - usando useEffect para garantir a atualização correta
