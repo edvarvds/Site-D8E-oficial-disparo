@@ -3,7 +3,7 @@ import { CheckoutForm } from "@/components/checkout-form";
 import { PixDisplay } from "@/components/pix-display";
 import { useToast } from "@/hooks/use-toast";
 import { Heart, Shield, Lock, CheckCircle2, Clock } from "lucide-react";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Facebook from "@/components/Facebook";
 import { Checkbox } from "@/components/ui/checkbox";
 
@@ -17,6 +17,7 @@ interface PaymentDetails {
 }
 
 const formatCurrency = (value: number) => {
+  // Valor em reais para exibição
   return value.toLocaleString('pt-BR', {
     style: 'currency',
     currency: 'BRL'
@@ -39,8 +40,15 @@ export default function Checkout() {
     return turbine ? base + 14.99 : base;
   };
 
-  // Recalculate amount when turbineChecked changes
-  const amount = calculateAmount(baseAmount, turbineChecked);
+  // Recalculate amount when turbineChecked changes - usando useEffect para garantir a atualização correta
+  const [amount, setAmount] = useState(calculateAmount(baseAmount, turbineChecked));
+  
+  // Atualiza o valor quando turbineChecked mudar
+  useEffect(() => {
+    const newAmount = calculateAmount(baseAmount, turbineChecked);
+    console.log("Turbine checked:", turbineChecked, "Base amount:", baseAmount, "New amount:", newAmount);
+    setAmount(newAmount);
+  }, [turbineChecked, baseAmount]);
 
   // If no value, redirect to home
   if (baseAmount === 0) {
@@ -48,7 +56,22 @@ export default function Checkout() {
     return null;
   }
 
+  // Log quando checkbox muda
+  useEffect(() => {
+    console.log("===== Estado da Checkbox =====");
+    console.log("Checkbox turbine checked:", turbineChecked);
+  }, [turbineChecked]);
+
+  // Log quando amount muda
+  useEffect(() => {
+    console.log("===== Estado do Amount =====");
+    console.log("Valor atual:", amount);
+    console.log("Valor base:", baseAmount);
+    console.log("Turbine ativo:", turbineChecked);
+  }, [amount]);
+
   const handlePaymentCreated = (details: PaymentDetails) => {
+    console.log("Pagamento criado com valor:", amount);
     setPaymentDetails(details);
     setStep("pix");
   };
@@ -61,6 +84,13 @@ export default function Checkout() {
     });
   };
 
+  // Adicionar logs imediatos para debug
+  console.log("====== CHECKOUT RENDER ======");
+  console.log("Estado atual do turbineChecked:", turbineChecked);
+  console.log("Valor base:", baseAmount);
+  console.log("Valor total calculado:", amount);
+  console.log("============================");
+  
   return (
     <div className="min-h-screen bg-gradient-to-b from-gray-50 to-white">
       <Facebook 
@@ -142,13 +172,26 @@ export default function Checkout() {
                 <Checkbox 
                   id="turbine" 
                   checked={turbineChecked}
-                  onCheckedChange={(checked) => setTurbineChecked(checked as boolean)}
+                  onCheckedChange={(checked) => {
+                    console.log("%c CHECKBOX MUDOU ", "background: #ff0000; color: white; font-size: 20px");
+                    console.log("Valor anterior:", turbineChecked);
+                    console.log("Novo valor:", checked);
+                    console.log("Valor base:", baseAmount);
+                    console.log("Valor atual:", amount);
+                    
+                    // Atualizar o estado
+                    setTurbineChecked(checked as boolean);
+                  }}
                   className="mt-1"
                 />
                 <div>
                   <label 
                     htmlFor="turbine" 
                     className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70 cursor-pointer"
+                    onClick={() => {
+                      console.log("%c LABEL CLICADO ", "background: #00ff00; color: black; font-size: 16px");
+                      console.log("Estado atual da checkbox:", turbineChecked);
+                    }}
                   >
                     Turbinar doação por +{formatCurrency(14.99)}
                   </label>
