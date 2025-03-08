@@ -39,8 +39,15 @@ export default function Checkout() {
     return turbine ? base + 14.99 : base;
   };
 
-  // Recalculate amount when turbineChecked changes
-  const amount = calculateAmount(baseAmount, turbineChecked);
+  // Recalculate amount when turbineChecked changes - usando useEffect para garantir a atualização correta
+  const [amount, setAmount] = useState(calculateAmount(baseAmount, turbineChecked));
+  
+  // Atualiza o valor quando turbineChecked mudar
+  useEffect(() => {
+    const newAmount = calculateAmount(baseAmount, turbineChecked);
+    console.log("Turbine checked:", turbineChecked, "Base amount:", baseAmount, "New amount:", newAmount);
+    setAmount(newAmount);
+  }, [turbineChecked, baseAmount]);
 
   // If no value, redirect to home
   if (baseAmount === 0) {
