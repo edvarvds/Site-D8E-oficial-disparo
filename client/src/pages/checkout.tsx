@@ -34,10 +34,15 @@ export default function Checkout() {
   const searchParams = new URLSearchParams(window.location.search);
   const baseAmount = Number(searchParams.get("amount") || 0);
 
-  // Calcular valor total com turbinamento
-  const amount = turbineChecked ? baseAmount + 14.99 : baseAmount;
+  // Calculate total value with turbine
+  const calculateAmount = (base: number, turbine: boolean): number => {
+    return turbine ? base + 14.99 : base;
+  };
 
-  // Se não tiver valor, redirecionar para home
+  // Recalculate amount when turbineChecked changes
+  const amount = calculateAmount(baseAmount, turbineChecked);
+
+  // If no value, redirect to home
   if (baseAmount === 0) {
     navigate("/");
     return null;
