@@ -17,6 +17,7 @@ interface PaymentDetails {
 }
 
 const formatCurrency = (value: number) => {
+  // Valor em reais para exibição
   return value.toLocaleString('pt-BR', {
     style: 'currency',
     currency: 'BRL'
