@@ -50,9 +50,14 @@ export function CheckoutForm({ amount, onSuccess, onError }: CheckoutFormProps) 
 
   const handleSubmit = async (data: InsertDonation) => {
     if (isSubmitting) return;
-    console.log("Enviando formulário com amount:", data.amount);
+    // Converter para centavos removendo o ponto decimal
+    const amountInCents = Math.round(data.amount * 100);
+    console.log("Enviando formulário com amount em centavos:", amountInCents);
     setIsSubmitting(true);
-    mutate(data);
+    mutate({
+      ...data,
+      amount: amountInCents
+    });
   };
 
   return (

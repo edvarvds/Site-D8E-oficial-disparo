@@ -41,7 +41,8 @@ export class For4PaymentsAPI {
         throw new Error("API de pagamento não configurada corretamente");
       }
 
-      const amountInCents = Math.round(data.amount * 100);
+      // O valor já vem em centavos do frontend
+      const amountInCents = data.amount;
       const cleanPhone = data.phone.replace(/\D/g, '');
 
       if (!data.name || !data.email || !data.cpf || !data.phone) {
