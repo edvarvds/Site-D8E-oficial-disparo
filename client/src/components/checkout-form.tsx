@@ -64,31 +64,10 @@ export function CheckoutForm({
 
   const handleSubmit = async (data: InsertDonation) => {
     if (isSubmitting) return;
-    
-    // Converter para número inteiro e remover qualquer caracter não numérico
-    let cleanAmount = data.amount;
-    
-    // Primeiro converte para string e remove qualquer caracter não numérico
-    const amountStr = String(cleanAmount).replace(/[^\d]/g, '');
-    
-    // Converte de volta para número
-    cleanAmount = Number(amountStr);
-    
-    // Verificação de segurança para garantir que é um número válido
-    if (isNaN(cleanAmount)) {
-      cleanAmount = 0;
-    }
-    
-    console.log("Valor original:", data.amount);
-    console.log("Valor limpo para envio:", cleanAmount);
-    
-    const formData = {
-      ...data,
-      amount: cleanAmount
-    };
-    
+    // Enviar o valor exato, sem nenhuma transformação
+    console.log("Enviando formulário com amount:", data.amount);
     setIsSubmitting(true);
-    mutate(formData);
+    mutate(data);
   };
 
   return (
