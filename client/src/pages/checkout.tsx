@@ -56,11 +56,6 @@ export default function Checkout() {
     navigate("/");
     return null;
   }
-  
-  // Função para formatar centavos para exibição na tela
-  const formatAmountForDisplay = (amountInReais: number) => {
-    return formatCurrency(amountInReais);
-  };
 
   // Log quando checkbox muda
   useEffect(() => {
