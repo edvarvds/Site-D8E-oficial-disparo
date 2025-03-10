@@ -27,9 +27,9 @@ export class For4PaymentsAPI {
 
   private getHeaders(): Record<string, string> {
     return {
-      Authorization: `Bearer ${this.secretKey}`,
-      "Content-Type": "application/json",
-      Accept: "application/json",
+      'Authorization': `Bearer ${this.secretKey}`,
+      'Content-Type': 'application/json',
+      'Accept': 'application/json'
     };
   }
 
@@ -41,33 +41,8 @@ export class For4PaymentsAPI {
         throw new Error("API de pagamento não configurada corretamente");
       }
 
-      // Verificar se o valor já está em centavos ou precisa ser convertido
-      let amountInCents: number;
-      
-      // Se o valor for > 1000, provavelmente já está em centavos ou é formatado (4.499,00)
-      if (data.amount > 1000) {
-        // Verifica se parece ser valor formatado com separador (4.499,00 -> 44.99)
-        const amountStr = String(data.amount);
-        if (amountStr.includes(".") || amountStr.includes(",")) {
-          // Converter para formato padronizado (ponto como decimal)
-          const normalized = amountStr.replace(".", "").replace(",", ".");
-          // Converter para centavos
-          amountInCents = Math.round(parseFloat(normalized) * 100);
-        } else {
-          // Já está em centavos
-          amountInCents = Math.round(data.amount);
-        }
-      } else {
-        // Valor normal, converte para centavos
-        amountInCents = Math.round(data.amount * 100);
-      }
-      
-      console.log("[For4Payments] Valor original:", data.amount);
-      console.log("[For4Payments] Valor em centavos para API:", amountInCents);
-      const cleanPhone = data.phone.replace(/\D/g, "");
-      
-      console.log("[For4Payments] Valor original:", data.amount);
-      console.log("[For4Payments] Valor limpo para API:", amountInCents);
+      const amountInCents = Math.round(data.amount * 100);
+      const cleanPhone = data.phone.replace(/\D/g, '');
 
       if (!data.name || !data.email || !data.cpf || !data.phone) {
         console.error("[For4Payments] Campos obrigatórios faltando:", { data });
@@ -77,29 +52,24 @@ export class For4PaymentsAPI {
       const paymentData = {
         name: data.name,
         email: data.email,
-        cpf: data.cpf.replace(/\D/g, ""),
+        cpf: data.cpf.replace(/\D/g, ''),
         phone: cleanPhone,
         paymentMethod: "PIX",
         amount: amountInCents,
-        items: [
-          {
-            title: "Curso Algoritmo Vencedor",
-            quantity: 1,
-            unitPrice: amountInCents,
-            tangible: false,
-          },
-        ],
+        items: [{
+          title: "Curso Algoritmo Vencedor",
+          quantity: 1,
+          unitPrice: amountInCents,
+          tangible: false
+        }]
       };
 
-      console.log(
-        "[For4Payments] Enviando requisição:",
-        JSON.stringify(paymentData, null, 2),
-      );
+      console.log("[For4Payments] Enviando requisição:", JSON.stringify(paymentData, null, 2));
 
       const response = await fetch(`${this.API_URL}/transaction.purchase`, {
-        method: "POST",
+        method: 'POST',
         headers: this.getHeaders(),
-        body: JSON.stringify(paymentData),
+        body: JSON.stringify(paymentData)
       });
 
       const responseText = await response.text();
@@ -109,11 +79,9 @@ export class For4PaymentsAPI {
         console.error("[For4Payments] Erro na resposta:", {
           status: response.status,
           statusText: response.statusText,
-          response: responseText,
+          response: responseText
         });
-        throw new Error(
-          `Erro na API de pagamento (${response.status}): ${response.statusText}`,
-        );
+        throw new Error(`Erro na API de pagamento (${response.status}): ${response.statusText}`);
       }
 
       const responseData = JSON.parse(responseText);
@@ -128,7 +96,7 @@ export class For4PaymentsAPI {
         pixCode: responseData.pixCode,
         pixQrCode: responseData.pixQrCode,
         expiresAt: responseData.expiresAt,
-        status: responseData.status || "pending",
+        status: responseData.status || 'pending'
       };
     } catch (error) {
       console.error("[For4Payments] Erro detalhado:", error);
@@ -138,17 +106,14 @@ export class For4PaymentsAPI {
 
   async check_payment_status(payment_id: string): Promise<{ status: string }> {
     try {
-      console.log(
-        "[For4Payments] Verificando status do pagamento:",
-        payment_id,
-      );
+      console.log("[For4Payments] Verificando status do pagamento:", payment_id);
 
       const url = new URL(`${this.API_URL}/transaction.getPayment`);
-      url.searchParams.append("id", payment_id);
+      url.searchParams.append('id', payment_id);
 
       const response = await fetch(url.toString(), {
-        method: "GET",
-        headers: this.getHeaders(),
+        method: 'GET',
+        headers: this.getHeaders()
       });
 
       const responseText = await response.text();
@@ -158,23 +123,23 @@ export class For4PaymentsAPI {
         const payment_data = JSON.parse(responseText);
 
         const status_mapping: Record<string, string> = {
-          PENDING: "pending",
-          PROCESSING: "pending",
-          APPROVED: "completed",
-          COMPLETED: "completed",
-          PAID: "completed",
-          EXPIRED: "failed",
-          FAILED: "failed",
-          CANCELED: "cancelled",
-          CANCELLED: "cancelled",
+          'PENDING': 'pending',
+          'PROCESSING': 'pending',
+          'APPROVED': 'completed',
+          'COMPLETED': 'completed',
+          'PAID': 'completed',
+          'EXPIRED': 'failed',
+          'FAILED': 'failed',
+          'CANCELED': 'cancelled',
+          'CANCELLED': 'cancelled'
         };
 
-        const current_status = payment_data.status || "PENDING";
-        const mapped_status = status_mapping[current_status] || "pending";
+        const current_status = payment_data.status || 'PENDING';
+        const mapped_status = status_mapping[current_status] || 'pending';
 
         console.log("[For4Payments] Status mapeado:", {
           original: current_status,
-          mapped: mapped_status,
+          mapped: mapped_status
         });
 
         return { status: mapped_status };
@@ -182,16 +147,13 @@ export class For4PaymentsAPI {
         console.error("[For4Payments] Erro ao verificar status:", {
           status: response.status,
           statusText: response.statusText,
-          response: responseText,
+          response: responseText
         });
-        return { status: "pending" };
+        return { status: 'pending' };
       }
     } catch (error) {
-      console.error(
-        "[For4Payments] Erro ao verificar status do pagamento:",
-        error,
-      );
-      return { status: "pending" };
+      console.error("[For4Payments] Erro ao verificar status do pagamento:", error);
+      return { status: 'pending' };
     }
   }
 }
@@ -199,9 +161,7 @@ export class For4PaymentsAPI {
 export function create_payment_api(): For4PaymentsAPI {
   const secret_key = process.env.FOR4PAYMENTS_SECRET_KEY || "";
   if (!secret_key) {
-    console.warn(
-      "[For4Payments] Atenção: FOR4PAYMENTS_SECRET_KEY não está definida!",
-    );
+    console.warn("[For4Payments] Atenção: FOR4PAYMENTS_SECRET_KEY não está definida!");
   }
   return new For4PaymentsAPI(secret_key);
 }
