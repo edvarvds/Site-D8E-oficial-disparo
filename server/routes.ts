@@ -16,19 +16,7 @@ export function registerRoutes(app: Express): Server {
       const donationData = insertDonationSchema.parse(req.body);
       console.log("[API] Dados validados com sucesso");
 
-      // Garantir que amount seja um número inteiro antes de salvar no banco
-      const amountStr = String(donationData.amount);
-      const cleanAmount = parseInt(amountStr.replace(/\D/g, ""));
-      console.log("[API] Amount original:", donationData.amount);
-      console.log("[API] Amount limpo para salvar no banco:", cleanAmount);
-      
-      // Atualizar o valor com o valor limpo
-      const cleanedDonationData = {
-        ...donationData,
-        amount: cleanAmount
-      };
-
-      const donation = await storage.createDonation(cleanedDonationData);
+      const donation = await storage.createDonation(donationData);
       console.log("[API] Doação criada no banco:", donation);
 
       console.log("[API] Iniciando criação do pagamento PIX");
